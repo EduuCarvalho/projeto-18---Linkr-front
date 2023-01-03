@@ -46,7 +46,7 @@ export const InputsContainer = styled.div`
     align-items:center;
     flex-direction:column;
     background-color:#515151;
-    padding-top:30vh;
+    padding-top:27vh;
 
 
     input {

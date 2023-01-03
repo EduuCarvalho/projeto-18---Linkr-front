@@ -1,4 +1,4 @@
-import { Container, LogoContainer, InputsContainer, Tittle, SubTittle, StyledLink } from "./Sign-InStyle"
+import { Container, LogoContainer, InputsContainer, Tittle, SubTittle, StyledLink } from "./SignIn-SignUpStyle"
 
 export default function SignIn(){
 
