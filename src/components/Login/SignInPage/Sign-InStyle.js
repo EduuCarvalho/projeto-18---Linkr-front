@@ -10,12 +10,12 @@ export const Container = styled.div`
 
 `
 export const LogoContainer = styled.div`
-    width:70vw;
+    width:60vw;
     min-height:100vh;
     display:flex;
     flex-direction:column;
     background-color:#151515;
-    padding: 20vh 60vw 60vh 10vw;
+    padding: 20vh 55vw 60vh 10vw;
 
 `
 export const Tittle = styled.h1`
@@ -40,7 +40,7 @@ export const SubTittle = styled.h1`
 `    
 
 export const InputsContainer = styled.div`
-    width:30vw;
+    width:40vw;
     min-height:100vh;
     display:flex;
     align-items:center;
@@ -50,7 +50,7 @@ export const InputsContainer = styled.div`
 
 
     input {
-        width:25vw;
+        width:30vw;
         height:65px;
         background: #FFFFFF;
         border-radius: 6px;
@@ -67,7 +67,7 @@ export const InputsContainer = styled.div`
     }
 
     button {
-        width:25vw;
+        width:30vw;
         height:65px;
         background:#1877F2;
         border-radius:6px;
