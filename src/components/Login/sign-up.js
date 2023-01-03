@@ -15,7 +15,7 @@ export default function SignUp (){
             <input placeholder="username" type="text" name="username" required></input>
             <input placeholder="picture url" type="text" name="pictureUrl" required></input>
             <button type="submit"> Sign Up </button>
-            <StyledLink><h1>Switch back to log in</h1></StyledLink>
+            <StyledLink to={"/"}><h1>Switch back to log in</h1></StyledLink>
             </InputsContainer>
     </Container>
     )
