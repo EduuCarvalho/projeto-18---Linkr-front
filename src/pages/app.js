@@ -4,6 +4,7 @@ import { UserProvider } from "../global/userContext";
 /* import Home from "./home/home"; // A pagina "/" é a rota signIn */
 import SignIn from "../components/Login/Sign-in.js";
 import SignUp from "../components/Login/sign-up.js";
+import UserInfoProvider from "../contexts/userInfo";
 
 export default function App() {
   return (
@@ -11,10 +12,12 @@ export default function App() {
       <GlobalStyle />
       <UserProvider>
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<SignIn/>} />
-            <Route path="/sign-up" element={<SignUp/>}/>
-          </Routes>
+          <UserInfoProvider>
+            <Routes>
+              <Route path="/" element={<SignIn />} />
+              <Route path="/sign-up" element={<SignUp />} />
+            </Routes>
+          </UserInfoProvider>
         </BrowserRouter>
       </UserProvider>
     </>
