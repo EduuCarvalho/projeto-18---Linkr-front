@@ -8,14 +8,28 @@ export const Container = styled.div`
     display:flex;
     justify-content:center;
 
+    @media (max-width: 600px) {
+        display:flex;
+        flex-direction:column;
+    }
+
 `
 export const LogoContainer = styled.div`
     width:60vw;
-    min-height:100vh;
+    height:100vh;
     display:flex;
     flex-direction:column;
     background-color:#151515;
     padding: 20vh 55vw 60vh 10vw;
+
+
+    @media (max-width:600px){
+        max-height:175px;
+        width:100vw;
+        padding:0px 0px 0px 0px;
+        align-items:center;
+        justify-content:center;
+    }
 
 `
 export const Tittle = styled.h1`
@@ -25,6 +39,15 @@ export const Tittle = styled.h1`
             line-height: 117px;
             font-style: normal;
             font-family: 'Passion One';
+
+            @media (max-width: 600px){
+                font-style: normal;
+                font-weight: 700;
+                font-size: 76px;
+                line-height: 84px;
+                font-family: 'Passion One';
+            }
+
     `
 export const SubTittle = styled.h1`
             width:25vw;
@@ -37,6 +60,15 @@ export const SubTittle = styled.h1`
             font-family: 'Oswald';
             color:#FFFFFF;
 
+            @media (max-width: 600px){
+                width:70vw;
+                font-style: normal;
+                font-weight: 700;
+                font-size: 23px;
+                line-height: 34px;
+                text-align: center;
+                font-family: 'Oswald';
+            }
 `    
 
 export const InputsContainer = styled.div`
@@ -45,9 +77,13 @@ export const InputsContainer = styled.div`
     display:flex;
     align-items:center;
     flex-direction:column;
-    background-color:#515151;
+    background-color:#373737;
     padding-top:27vh;
 
+    @media (max-width:600px){
+        width:100vw;
+        padding-top:15vh;
+    }
 
     input {
         width:30vw;
@@ -64,6 +100,11 @@ export const InputsContainer = styled.div`
         font-style: normal;
         padding-left:16px;
         margin-bottom:13px;
+
+        @media (max-width:600px){
+        width:90vw;
+      
+    }
     }
 
     button {
@@ -81,6 +122,9 @@ export const InputsContainer = styled.div`
         line-height: 40px;
         font-family: 'Oswald';
         color:#FFFFFF;
+        @media (max-width:600px){
+        width:90vw;
+    }
     }
 
 `
