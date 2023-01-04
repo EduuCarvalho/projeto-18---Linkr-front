@@ -3,6 +3,9 @@ import { Container, LogoContainer, InputsContainer, Tittle, SubTittle, StyledLin
 
 export default function SignUp (){
 
+
+    
+
     return(
     <Container>
        <LogoContainer>
