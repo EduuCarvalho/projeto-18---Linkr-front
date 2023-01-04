@@ -1,7 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import GlobalStyle from "../global/globalStyle";
-import SignIn from "../components/Login/Sign-in.js";
-import SignUp from "../components/Login/sign-up.js";
+/* import { UserProvider } from "../global/userContext"; */
+/* import Home from "./home/home"; // A pagina "/" é a rota signIn */
+import SignIn from "./Login/Sign-in.js"
+import SignUp from "./Login/sign-up.js"
 import UserInfoProvider from "../contexts/userInfo";
 import Home from "./home/home";
 import HashtagPage from "./HashtagPage/HashtagPage";

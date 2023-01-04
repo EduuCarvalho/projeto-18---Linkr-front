@@ -1,6 +1,6 @@
 import React from "react"
 import { useNavigate } from "react-router-dom"
-import { UserInfoContext } from "../../contexts/userInfo"
+import { UserInfoContext } from "../../contexts/userInfo.js"
 import { Container, LogoContainer, InputsContainer, Tittle, SubTittle, StyledLink } from "./SignIn-SignUpStyle"
 import axios from "axios"
 import swal from "sweetalert";
