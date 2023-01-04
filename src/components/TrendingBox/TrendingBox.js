@@ -2,22 +2,31 @@ import { mainFont, titleFont } from "../../constants/fonts.js";
 import { BASE_URL } from "../../constants/urls.js";
 
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 
 export default function TrendingBox() {
     const [trending, setTrending] = useState(undefined);
 
+    const navigate = useNavigate();
+
     function handleTrending() {
         if (!trending) {
-            return "Loading...";
+            return "loading...";
         } else if (trending.length === 0) {
             return "there aren't any trending topics yet";
         } else {
             return (
                 <ul>
                     {trending.map(
-                        (hashtag, index) => <li key={index}>{hashtag.lower}</li>
+                        (hashtag, index) =>
+                            <li
+                                key={index}
+                                onClick={() => navigate(`/hashtag/${hashtag.name}`)}
+                            >
+                                {hashtag.name}
+                            </li>
                     )}
                 </ul>
             );
