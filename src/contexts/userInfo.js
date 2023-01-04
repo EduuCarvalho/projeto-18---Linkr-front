@@ -21,7 +21,7 @@ function UserInfoProvider ({children}) {
     })
 
     return(
-        <UserInfoContext.Provider valuer={{userInfo, setUserInfo, config, logInObj, setLogInObj}}>
+        <UserInfoContext.Provider value={{userInfo, setUserInfo, config, logInObj, setLogInObj}}>
             {children}
         </UserInfoContext.Provider>
     )
