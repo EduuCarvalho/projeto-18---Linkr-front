@@ -25,6 +25,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     width: 100vw;
     color: var(--black);
+    font-family: 'Lato', sans-serif;
     font-size: clamp(14px, 1.6rem, 2vw);
     background: var(--body-bg-color);
   }
