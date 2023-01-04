@@ -6,22 +6,22 @@ import SignIn from "./Login/Sign-in.js"
 import SignUp from "./Login/sign-up.js"
 import UserInfoProvider from "../contexts/userInfo";
 import Home from "./home/home";
+import HashtagPage from "./HashtagPage/HashtagPage";
 
 export default function App() {
   return (
     <>
       <GlobalStyle />
-      <UserProvider>
         <BrowserRouter>
           <UserInfoProvider>
             <Routes>
               <Route path="/" element={<SignIn />} />
               <Route path="/sign-up" element={<SignUp />} />
               <Route path="/home" element={<Home />} />
+              <Route path="/hashtag/:hashtag" element={<HashtagPage />} />
             </Routes>
           </UserInfoProvider>
         </BrowserRouter>
-      </UserProvider>
     </>
   );
 }
