@@ -5,6 +5,7 @@ import { UserProvider } from "../global/userContext";
 import SignIn from "../pages/Login/Sign-in.js"
 import SignUp from "../pages/Login/sign-up.js";
 import UserInfoProvider from "../contexts/userInfo";
+import Home from "./home/home";
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
             <Routes>
               <Route path="/" element={<SignIn />} />
               <Route path="/sign-up" element={<SignUp />} />
+              <Route path="/home" element={<Home />} />
             </Routes>
           </UserInfoProvider>
         </BrowserRouter>
