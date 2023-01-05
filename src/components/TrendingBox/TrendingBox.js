@@ -43,7 +43,7 @@ export default function TrendingBox() {
         };
         
         axios
-            .get(`${BASE_URL}/trending`, config)
+            .get(`${BASE_URL}trending`, config)
             .then(
                 res => setTrending(res.data)
             )
