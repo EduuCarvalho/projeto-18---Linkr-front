@@ -1,9 +1,34 @@
 import { useState } from "react";
-import styled from "styled-components";
-import { logoFont, mainFont } from "../../constants/fonts";
+import { DebounceInput } from "react-debounce-input";
+import axios from "axios";
+import { BASE_URL } from "../../constants/urls";
+import {
+  FormStyle,
+  HeaderStyle,
+  ProfileStyle,
+  ResultSearchDiv,
+} from "./headerStyles";
+
+const user_test = {
+  picture_url:
+    "https://guiaanimal.net/uploads/content/image/59550/Design_sem_nome__38_.png",
+};
 
 export default function Header() {
   const [searchName, setSearchName] = useState(null);
+  const [usersSearch, setUsersSearch] = useState(null);
+  const [showLogout, setShowLogout] = useState(false);
+  function handleForm(e) {
+    setSearchName(e.target.value);
+    axios
+      .get(`${BASE_URL}users?name=${e.target.value}`)
+      .then((res) => {
+        setUsersSearch(res.data);
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
+  }
   function submitSearch(e) {
     e.preventDefault();
   }
@@ -11,78 +36,34 @@ export default function Header() {
     <HeaderStyle>
       <h1>linkr</h1>
       <FormStyle onSubmit={submitSearch}>
-        <InputStyle
+        <DebounceInput
+          minLength={3}
+          debounceTimeout={300}
           placeholder="Search for people"
-          onChange={(e) => setSearchName(e.target.value.toLowerCase())}
-          value={searchName}
+          onChange={handleForm}
         />
         <button type="submit">
           <ion-icon name="search-outline"></ion-icon>
         </button>
+        <ResultSearchDiv
+          visible={searchName !== "" && searchName !== null ? "true" : "false"}
+        >
+          {usersSearch?.map((user) => (
+            <div key={user.id}>
+              <img src={user.picture_url} alt="avatar" />
+              <p>{user.name}</p>
+            </div>
+          ))}
+        </ResultSearchDiv>
       </FormStyle>
-      <div>
-        <ion-icon name="chevron-down-outline"></ion-icon>
-        <p>Imagem</p>
-      </div>
+      <ProfileStyle>
+        <ion-icon
+          name="chevron-down-outline"
+          onClick={() => setShowLogout(!showLogout)}
+        ></ion-icon>
+        <img src={user_test.picture_url} alt="avatar" />
+        {showLogout && <div>Logout</div>}
+      </ProfileStyle>
     </HeaderStyle>
   );
 }
-
-const HeaderStyle = styled.header`
-  width: 100vw;
-  height: 5vw;
-  background-color: #151515;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 1.18vw 0 1.94vw;
-  h1 {
-    font-family: ${logoFont};
-    font-size: 3.4vw;
-    color: #ffffff;
-  }
-  div {
-    color: #ffffff;
-    width: 6.26vw;
-    height: 3.68vw;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    ion-icon {
-      width: 1.28vw;
-      height: 0.86vw;
-    }
-  }
-`;
-
-const FormStyle = styled.form`
-  position: relative;
-  button {
-    width: 2.36vw;
-    height: 2.36vw;
-    position: absolute;
-    top: 0.39vw;
-    right: 0.52vw;
-    border: none;
-    background-color: #ffffff;
-  }
-  ion-icon {
-    width: 1.46vw;
-    height: 1.46vw;
-    color: #c6c6c6;
-  }
-`;
-
-const InputStyle = styled.input`
-  width: 39.1vw;
-  height: 3.13vw;
-  border: none;
-  border-radius: 0.56vw;
-  padding-left: 0.97vw;
-  ::placeholder {
-    color: #c6c6c6;
-    opacity: 1;
-    font-size: 1.32vw;
-    font-family: ${mainFont};
-  }
-`;
