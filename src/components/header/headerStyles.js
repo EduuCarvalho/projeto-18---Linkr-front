@@ -14,37 +14,59 @@ export const HeaderStyle = styled.header`
     font-size: 3.4vw;
     color: #ffffff;
   }
+  @media (max-width: 700px) {
+    height: 19.2vw;
+    padding: 0 4vw 0 4.5vw;
+    h1{
+      font-size: 12vw;
+    } 
+  }
 `;
 
 export const FormStyle = styled.form`
-  position: relative;
   input {
     width: 39.1vw;
     height: 3.13vw;
     border: none;
-    border-radius: 0.56vw;
-    padding-left: 0.97vw;
+    border-radius: 8px;
+    padding-left: 14px;
     ::placeholder {
       color: #c6c6c6;
       opacity: 1;
-      font-size: 1.32vw;
+      font-size: 17px;
       font-weight: 400;
       font-family: ${mainFont};
     }
   }
   button {
-    width: 2.36vw;
-    height: 2.36vw;
     position: absolute;
-    top: 0.39vw;
-    right: 0.52vw;
+    top: 1.7vw;
+    right: 30.7vw;
     border: none;
     background-color: #ffffff;
+    ion-icon {
+      width: 1.7vw;
+      height: 1.7vw;
+      color: #c6c6c6;
+    }
   }
-  ion-icon {
-    width: 1.46vw;
-    height: 1.46vw;
-    color: #c6c6c6;
+  @media (max-width: 700px) {
+    height: 19.2vw;
+    position: absolute;
+    top: 21.9vw;
+    input {
+      width: 93.3vw;
+      height: 12vw;
+    }
+    button {
+      top: 3vw;
+      right: 4.5vw;
+      ion-icon {
+        width: 5vw;
+        height: 5vw;
+        color: #c6c6c6;
+      }
+    }
   }
 `;
 
@@ -85,12 +107,12 @@ export const ProfileStyle = styled.div`
     height: 2vw;
     cursor: pointer;
   }
-  img{
+  img {
     width: 3.68vw;
     height: 3.68vw;
     border-radius: 1.84vw;
   }
-  div{
+  div {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -104,5 +126,25 @@ export const ProfileStyle = styled.div`
     font-weight: 700;
     font-family: ${mainFont};
     border-radius: 0 0 0 1.39vw;
+  }
+  @media (max-width: 700px) {
+    width: 17vw;
+    height: 11vw;
+    ion-icon {
+      width: 16vw;
+      height: 12vw;
+    }
+    img {
+      width: 11vw;
+      height: 11vw;
+      border-radius: 7.05vw;
+    }
+    div {
+      top: 19.2vw;
+      width: 34.7vw;
+      height: 11.5vw;
+      font-size: 4vw;
+      border-radius: 0 0 0 5.33vw;
+    }
   }
 `;
