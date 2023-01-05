@@ -102,6 +102,7 @@ const TrendingBoxList = styled.div`
     }
       
     li {
+        cursor: pointer;
         padding-left: 1em;
         text-indent: -1em;
     }
@@ -119,6 +120,7 @@ const TrendingBoxTitle = styled.div`
     display: flex;
     font-family: ${titleFont};
     font-size: 27px;
+    font-weight: 700;
     height: 60px;
     padding-left: 15px;
     width: 300px;
