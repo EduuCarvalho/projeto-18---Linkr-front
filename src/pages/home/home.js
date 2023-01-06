@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import Header from "../../components/header/header";
 import { titleFont } from "../../constants/fonts";
 import CreatePost from "./createPost";
 import Post from "./post";
 import { UserInfoContext } from "../../contexts/userInfo";
+import Header from "../../components/Header/Header";
 import TrendingBox from "../../components/TrendingBox/TrendingBox";
 import Loading from "../../components/loading/loading";
 
