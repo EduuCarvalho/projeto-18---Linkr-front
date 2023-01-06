@@ -6,7 +6,8 @@ export const UserInfoContext = createContext ({});
 function UserInfoProvider ({children}) {
     const [ userInfo, setUserInfo] = useState({
         token:localStorage.getItem("token"),
-        name:localStorage.getItem("name")
+        name: 'gui'
+        /* name:localStorage.getItem("name") */
     });
 
     const header = { headers: { "Authorization": `Bearer 123` } };
