@@ -1,14 +1,14 @@
-import PostBox from '../../components/posts/posts';
-import { HiHeart } from 'react-icons/hi2';
-import { BiHeart } from 'react-icons/bi';
+import PostBox from "../../components/posts/posts";
+import { HiHeart } from "react-icons/hi2";
+import { BiHeart } from "react-icons/bi";
 import { useContext, useEffect, useState } from "react";
-import axios from 'axios';
-import { UserInfoContext } from '../../contexts/userInfo';
-import { styled } from '@mui/material/styles';
-import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
+import axios from "axios";
+import { UserInfoContext } from "../../contexts/userInfo";
+import { styled } from "@mui/material/styles";
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import editIcon from "../../assets/images/edit.png";
 
-
-export default function Post({ postId, userName, userImg, description, linkTitle, linkDescription, linkImg, link, likes }) {
+export default function Post({ postId, userName, userImg, description, linkTitle, linkDescription, linkImg, link, likes, setIsOpen }) {
     const { header, userInfo } = useContext(UserInfoContext);
     const URL = "http://localhost:4000/like"
     const likeURL = `http://localhost:4000/like/post/${postId}`;
@@ -32,11 +32,11 @@ export default function Post({ postId, userName, userImg, description, linkTitle
                     likesArr.push(likes[i]);
                 }
 
-                if(likesArr.length === 3){
+                if (likesArr.length === 3) {
                     break
                 }
             }
-        }else{
+        } else {
             if (liked) {
                 likesArr.push('você');
             }
@@ -52,13 +52,13 @@ export default function Post({ postId, userName, userImg, description, linkTitle
                 break;
 
             case 3:
-                if(!likes.includes(userInfo.name) && likesArr.includes('Você')){
+                if (!likes.includes(userInfo.name) && likesArr.includes('Você')) {
                     setPersonsWhoLiked(`${likesArr[0]}, ${likesArr[1]} and other ${likes.length - 1} people`);
-                }else{
+                } else {
                     setPersonsWhoLiked(`${likesArr[0]}, ${likesArr[1]} and other ${likes.length - 2} people`);
                 }
                 break;
-        
+
             default:
                 setPersonsWhoLiked(``);
                 break;
@@ -119,18 +119,20 @@ export default function Post({ postId, userName, userImg, description, linkTitle
                         </LikeTooltip>
                     )
                 }
-
             </div>
-            <div id='test' className="postInformations">
-
-                <a href={link} target={'_blank'}>
+            <div id="test" className="postInformations">
+                <div>
+                    <img src={editIcon} alt="edit" />
+                    <ion-icon name="trash-outline" onClick={() => setIsOpen(true)}></ion-icon>
+                </div>
 
                     <h3>{userName}</h3>
 
                     <p>{description}</p>
 
-                    <div className="linkData">
+                <a href={link} target={"_blank"}>
 
+                    <div className="linkData">
                         <div className="linkInformations">
                             <p className="linkTitle">{linkTitle}</p>
 
@@ -139,10 +141,9 @@ export default function Post({ postId, userName, userImg, description, linkTitle
                             <p className="link">{link}</p>
                         </div>
 
-                        <div className='linkImg'>
+                        <div className="linkImg">
                             <img src={linkImg} alt="Imagem do link" />
                         </div>
-
                     </div>
                 </a>
             </div>
