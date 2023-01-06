@@ -13,27 +13,58 @@ export default function Post({ postId, userName, userImg, description, linkTitle
     const URL = "http://localhost:4000/like"
     const likeURL = `http://localhost:4000/like/post/${postId}`;
     const [liked, setLiked] = useState(likes.includes(userName));
-    const [personsWhoLiked, setPersonsWhoLiked] = useState([]);
+    const [personsWhoLiked, setPersonsWhoLiked] = useState('');
 
     useEffect(() => {
         getLikes(liked);
     }, []);
 
-    function getLikes(liked){
+    function getLikes(liked) {
         const likesArr = [];
-        for (let i = 0; i < likes.length || likesArr.length === 3; i++) {
-            if (liked && !likes.includes('você')) {
-                likesArr.push('você');
+
+        if (likes.length > 0) {
+            for (let i = 0; i < likes.length; i++) {
+                if (liked && i === 0) {
+                    likesArr.push('Você');
+                }
+
+                if (likes[i] !== userInfo.name) {
+                    likesArr.push(likes[i]);
+                }
+
+                if(likesArr.length === 3){
+                    break
+                }
             }
-    
-            if (personsWhoLiked.length < 3 && userName !== userInfo.name) {
-                likesArr.push(likes[i]);
+        }else{
+            if (liked) {
+                likesArr.push('você');
             }
         }
 
-        setPersonsWhoLiked([...likesArr]);
-    }
+        switch (likesArr.length) {
+            case 1:
+                setPersonsWhoLiked(`${likesArr[0]}`);
+                break;
 
+            case 2:
+                setPersonsWhoLiked(`${likesArr[0]} and ${likesArr[1]}`);
+                break;
+
+            case 3:
+                if(!likes.includes(userInfo.name) && likesArr.includes('Você')){
+                    setPersonsWhoLiked(`${likesArr[0]}, ${likesArr[1]} and other ${likes.length - 1} people`);
+                }else{
+                    setPersonsWhoLiked(`${likesArr[0]}, ${likesArr[1]} and other ${likes.length - 2} people`);
+                }
+                break;
+        
+            default:
+                setPersonsWhoLiked(``);
+                break;
+        }
+
+    }
 
     const LikeTooltip = styled(({ className, ...props }) => (
         <Tooltip {...props} classes={{ popper: className }} />
@@ -50,16 +81,15 @@ export default function Post({ postId, userName, userImg, description, linkTitle
         if (!liked) {
             axios.post(URL, { postId }, header)
                 .then(response => {
-                    console.log(response);
-                    setLiked(!liked);
                     getLikes(!liked);
+                    setLiked(true);
                 })
                 .catch(err => console.log(err));
         } else {
             axios.delete(likeURL, header)
                 .then(response => {
                     setLiked(!liked);
-                    getLikes(!liked);
+                    getLikes(false);
                 })
                 .catch(err => console.log(err));
         }
@@ -84,7 +114,7 @@ export default function Post({ postId, userName, userImg, description, linkTitle
                             <p>{!liked ? likes.length - 1 : likes.length} likes</p>
                         </LikeTooltip>
                     ) : (
-                        <LikeTooltip title={personsWhoLiked.length > 0 ? personsWhoLiked : null}>
+                        <LikeTooltip title={personsWhoLiked}>
                             <p>{!liked ? likes.length : likes.length + 1} likes</p>
                         </LikeTooltip>
                     )
