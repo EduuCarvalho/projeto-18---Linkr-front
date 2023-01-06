@@ -12,16 +12,16 @@ export default function App() {
   return (
     <>
       <GlobalStyle />
-        <BrowserRouter>
-          <UserInfoProvider>
-            <Routes>
-              <Route path="/" element={<SignIn />} />
-              <Route path="/sign-up" element={<SignUp />} />
-              <Route path="/home" element={<Home />} />
-              <Route path="/hashtag/:hashtag" element={<HashtagPage />} />
-            </Routes>
-          </UserInfoProvider>
-        </BrowserRouter>
+      <BrowserRouter>
+        <UserInfoProvider>
+          <Routes>
+            <Route path="/" element={<SignIn />} />
+            <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/hashtag/:hashtag" element={<HashtagPage />} />
+          </Routes>
+        </UserInfoProvider>
+      </BrowserRouter>
     </>
   );
 }
