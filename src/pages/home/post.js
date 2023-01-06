@@ -110,11 +110,11 @@ export default function Post({ postId, userName, userImg, description, linkTitle
 
                 {
                     likes.includes(userName) ? (
-                        <LikeTooltip title={personsWhoLiked}>
+                        <LikeTooltip title={personsWhoLiked} arrow>
                             <p>{!liked ? likes.length - 1 : likes.length} likes</p>
                         </LikeTooltip>
                     ) : (
-                        <LikeTooltip title={personsWhoLiked}>
+                        <LikeTooltip title={personsWhoLiked} arrow>
                             <p>{!liked ? likes.length : likes.length + 1} likes</p>
                         </LikeTooltip>
                     )
