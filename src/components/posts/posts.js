@@ -53,6 +53,25 @@ const PostBox = styled.div`
             color: #B7B7B7;
         }
 
+        > div{
+            position: absolute;
+            right: 0.5vw;
+            top: 0.5vw;
+            display: flex;
+            gap: 1vw;
+            img{
+                width: 1.6vw;
+                height: 1.6vw;
+                cursor: pointer;
+            }
+            ion-icon{
+                width: 1.6vw;
+                height: 1.6vw;
+                color: #ffffff;
+                cursor: pointer;
+            }
+        }
+
         .linkData{
             margin-top: 1rem;
             padding: 2.4rem 0 2.3rem 2rem;
