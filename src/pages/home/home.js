@@ -90,6 +90,7 @@ export default function Home() {
                 link={item.url}
                 likes={item.likes}
                 openModal={openModal}
+                reloadPosts={reloadPosts}
               />
             ))
           ) : (
