@@ -6,7 +6,8 @@ export const UserInfoContext = createContext ({});
 function UserInfoProvider ({children}) {
     const [ userInfo, setUserInfo] = useState({
         token:localStorage.getItem("token"),
-        name:localStorage.getItem("name")
+        name:localStorage.getItem("name"),
+        picture_url :localStorage.getItem("picture_url ")
     })
 
     const config = {
