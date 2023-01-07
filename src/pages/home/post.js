@@ -23,7 +23,7 @@ export default function Post({
   openModal,
   reloadPosts,
 }) {
-  const { header, userInfo } = useContext(UserInfoContext);
+  const { header, userInfo, setPageIName } = useContext(UserInfoContext);
   const URL = "http://localhost:4000/like";
   const likeURL = `http://localhost:4000/like/post/${postId}`;
   const [liked, setLiked] = useState(likes.includes(userName));

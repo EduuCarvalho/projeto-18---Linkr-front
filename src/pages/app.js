@@ -17,8 +17,9 @@ export default function App() {
           <Routes>
             <Route path="/" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
-            <Route path="/home" element={<Home />} />
+            <Route path="/home" element={<Home isMyPage={true} />} />
             <Route path="/hashtag/:hashtag" element={<HashtagPage />} />
+            <Route path="/users/:id" element={<Home isMyPage={false} />} />
           </Routes>
         </UserInfoProvider>
       </BrowserRouter>
