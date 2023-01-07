@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { mainFont } from "../../constants/fonts";
 
 const PostBox = styled.div`
     width: 100%;
@@ -111,3 +112,13 @@ const PostBox = styled.div`
 `;
 
 export default PostBox;
+
+export const UpdateArea = styled.textarea`
+    width: 503px;
+    min-height: 22px;
+    border-radius: 7px;
+    padding: 4px 0 0 9px;
+    font-size: 14px;
+    color: #4c4c4c;
+    box-sizing: border-box;
+`
