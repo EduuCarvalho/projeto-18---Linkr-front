@@ -31,6 +31,17 @@ export default function Home() {
   const [posts, setPosts] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [postIdClicked, setClicked] = useState(null);
+  const [switchReload, setReload] = useState(false);
+
+  function openModal(postId){
+    setIsOpen(true);
+    setClicked(postId);
+  }
+
+  function reloadPosts(){
+    setReload(!switchReload);
+  }
 
   useEffect(() => {
     axios
@@ -45,7 +56,7 @@ export default function Home() {
         );
         console.log(err.response.data.message);
       });
-  }, []);
+  }, [reloadPosts]);
 
   return (
     <Page>
@@ -56,7 +67,7 @@ export default function Home() {
         style={customStyles}
         contentLabel="Example Modal"
       >
-        <DeleteConfirmation setIsOpen={setIsOpen} />
+        <DeleteConfirmation setIsOpen={setIsOpen} postIdClicked={postIdClicked} reloadPosts={reloadPosts} />
       </Modal>
       <main>
         <div id="timeline">
@@ -78,7 +89,7 @@ export default function Home() {
                 linkImg={item.linkImg}
                 link={item.url}
                 likes={item.likes}
-                setIsOpen={setIsOpen}
+                openModal={openModal}
               />
             ))
           ) : (

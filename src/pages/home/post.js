@@ -8,7 +8,7 @@ import { styled } from "@mui/material/styles";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import editIcon from "../../assets/images/edit.png";
 
-export default function Post({ postId, userName, userImg, description, linkTitle, linkDescription, linkImg, link, likes, setIsOpen }) {
+export default function Post({ postId, userName, userImg, description, linkTitle, linkDescription, linkImg, link, likes, openModal }) {
     const { header, userInfo } = useContext(UserInfoContext);
     const URL = "http://localhost:4000/like"
     const likeURL = `http://localhost:4000/like/post/${postId}`;
@@ -123,7 +123,7 @@ export default function Post({ postId, userName, userImg, description, linkTitle
             <div id="test" className="postInformations">
                 <div>
                     <img src={editIcon} alt="edit" />
-                    <ion-icon name="trash-outline" onClick={() => setIsOpen(true)}></ion-icon>
+                    <ion-icon name="trash-outline" onClick={() => openModal(postId)}></ion-icon>
                 </div>
 
                     <h3>{userName}</h3>
