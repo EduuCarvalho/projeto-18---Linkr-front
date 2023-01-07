@@ -1,7 +1,34 @@
+import { useState, useContext } from "react";
+import { UserInfoContext } from "../../contexts/userInfo";
 import styled from "styled-components";
 import { mainFont } from "../../constants/fonts";
+import { BASE_URL } from "../../constants/urls";
+import swal from "sweetalert";
+import LoadingData from "../LoadingData/LoadingData";
+import axios from "axios";
 
-export default function DeleteConfirmation({setIsOpen}) {
+export default function DeleteConfirmation({ setIsOpen, postIdClicked, reloadPosts }) {
+  const [isLoading, setLoading] = useState(false);
+  const { header } = useContext(UserInfoContext);
+  function deletePost() {
+    setLoading(true);
+    axios
+      .delete(`${BASE_URL}timeline/${postIdClicked}`, header)
+      .then((response) => {
+        swal(response.data.message);
+        setIsOpen(false);
+        setLoading(false);
+        reloadPosts();
+      })
+      .catch((err) => {
+        setLoading(false);
+        setIsOpen(false);
+        swal(err.response.data.message);
+      });
+  }
+  if(isLoading){
+    return <LoadingData />
+  }
   return (
     <ConfirmationContainer>
       <p>
@@ -17,7 +44,11 @@ export default function DeleteConfirmation({setIsOpen}) {
         >
           No, go back
         </ButtonStyle>
-        <ButtonStyle color="#ffffff" background="#1877f2" onClick={() => setIsOpen(false)}>
+        <ButtonStyle
+          color="#ffffff"
+          background="#1877f2"
+          onClick={deletePost}
+        >
           Yes, delete it
         </ButtonStyle>
       </div>
