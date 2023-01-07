@@ -9,6 +9,8 @@ import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import editIcon from "../../assets/images/edit.png";
 import swal from "sweetalert";
 import { BASE_URL } from "../../constants/urls";
+import { ReactTagify } from "react-tagify";
+import { useNavigate } from "react-router-dom";
 
 export default function Post({
   postId,
@@ -31,6 +33,8 @@ export default function Post({
   const [updatePost, setUpdate] = useState(false);
   const [loading, setLoading] = useState(false);
   //const textAreaRef = useRef();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     getLikes(liked);
@@ -193,7 +197,12 @@ export default function Post({
         <h3>{userName}</h3>
 
         {!updatePost ? (
-          <p>{description}</p>
+          <ReactTagify
+            colors = "#ffffff"
+            tagClicked = {tag => tag[0] === "#" && navigate(`/hashtag/${tag.substring(1)}`)}
+          >
+            <p>{description}</p>
+          </ReactTagify>
         ) : (
           <UpdateArea
             cols="70"
