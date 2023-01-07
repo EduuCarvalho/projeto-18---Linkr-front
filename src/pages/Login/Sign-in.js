@@ -13,6 +13,7 @@ export default function SignIn() {
     function handleLogIn(e) {
         const { name, value } = e.target;
         setLogInObj({ ...logInObj, [name]: value })
+
     }
 
     function logIn(e) {
@@ -20,7 +21,6 @@ export default function SignIn() {
         console.log("clicou submit")
         axios.post(`http://localhost:4000/signin`, logInObj)
             .then((res) => {
-              
                 setUserInfo({
                     token: (res.data.token),
                     name: (res.data.name),

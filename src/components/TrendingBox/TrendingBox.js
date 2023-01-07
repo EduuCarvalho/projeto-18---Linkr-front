@@ -1,12 +1,15 @@
 import { mainFont, titleFont } from "../../constants/fonts.js";
 import { BASE_URL } from "../../constants/urls.js";
+import { UserInfoContext } from "../../contexts/userInfo.js";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 
 export default function TrendingBox() {
+    const { config } = useContext(UserInfoContext);
+    
     const [trending, setTrending] = useState(undefined);
 
     const navigate = useNavigate();
@@ -34,16 +37,8 @@ export default function TrendingBox() {
     }
 
     useEffect(() => {
-        // TODO: get token/config by provider
-
-        const config = {
-            headers: {
-                "Authorization": `Bearer 1`
-            }
-        };
-        
         axios
-            .get(`${BASE_URL}/trending`, config)
+            .get(`${BASE_URL}trending`, config)
             .then(
                 res => setTrending(res.data)
             )
@@ -102,6 +97,7 @@ const TrendingBoxList = styled.div`
     }
       
     li {
+        cursor: pointer;
         padding-left: 1em;
         text-indent: -1em;
     }
@@ -119,6 +115,7 @@ const TrendingBoxTitle = styled.div`
     display: flex;
     font-family: ${titleFont};
     font-size: 27px;
+    font-weight: 700;
     height: 60px;
     padding-left: 15px;
     width: 300px;
