@@ -71,7 +71,7 @@ export const SubTittle = styled.h1`
             }
 `    
 
-export const InputsContainer = styled.div`
+export const InputsContainer = styled.form`
     width:40vw;
     min-height:100vh;
     display:flex;

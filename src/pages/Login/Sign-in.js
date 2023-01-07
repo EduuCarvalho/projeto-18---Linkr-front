@@ -18,16 +18,18 @@ export default function SignIn() {
 
     function logIn(e) {
         e.preventDefault();
-        axios.post(`https://linkr-afmx.onrender.com/signin`, logInObj)
+        console.log("clicou submit")
+        axios.post(`http://localhost:4000/signin`, logInObj)
             .then((res) => {
                 setUserInfo({
                     token: (res.data.token),
-                    name: (res.data.name)
+                    name: (res.data.name),
+                    picture_url : (res.data.picture_url)
                 })
                 localStorage.setItem("token", res.data.token);
-                localStorage.setItem("name", res.data.name)
-
-                navigate("/timeline");
+                localStorage.setItem("name", res.data.name);
+                localStorage.setItem("picture_url ",res.data.picture_url )
+                navigate("/home");
             })
             .catch((err) => swal({
                 title: err.response.data,
