@@ -98,7 +98,7 @@ export default function Home() {
           )}
         </div>
 
-        <TrendingBox />
+        <TrendingBox posts={posts} />
       </main>
     </Page>
   );

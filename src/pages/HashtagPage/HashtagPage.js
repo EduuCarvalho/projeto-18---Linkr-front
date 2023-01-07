@@ -3,6 +3,7 @@ import { titleFont } from "../../constants/fonts";
 
 import { UserInfoContext } from "../../contexts/userInfo";
 
+import DeleteConfirmation from "../../components/DeleteConfirmation/DeleteConfirmation";
 import Header from "../../components/Header/Header";
 import Loading from "../../components/loading/loading";
 import TrendingBox from "../../components/TrendingBox/TrendingBox";
@@ -13,12 +14,40 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
+import Modal from "react-modal";
+
+Modal.setAppElement("#root");
+
+const customStyles = {
+    content: {
+        top: "50%",
+        left: "50%",
+        right: "auto",
+        bottom: "auto",
+        marginRight: "-50%",
+        background: null,
+        border: "none",
+        transform: "translate(-50%, -50%)",
+    },
+};
 
 export default function HashtagPage() {
     const { config } = useContext(UserInfoContext);
     const { hashtag } = useParams();
     const [loaded, setLoaded] = useState(false);
+    const [modalIsOpen, setIsOpen] = useState(false);
+    const [postIdClicked, setClicked] = useState(null);
     const [posts, setPosts] = useState([]);
+    const [switchReload, setReload] = useState(false);
+
+    function openModal(postId){
+        setIsOpen(true);
+        setClicked(postId);
+    }
+
+    function reloadPosts(){
+        setReload(!switchReload);
+    }
 
     useEffect(() => {
         axios.get(`${BASE_URL}hashtag/${hashtag}`, config)
@@ -30,14 +59,27 @@ export default function HashtagPage() {
                 alert('An error occured while trying to fetch the posts, please refresh the page');
                 console.log(err.response.data.message);
             });
-    }, [hashtag]);
+    }, [hashtag, switchReload]);
 
     return (
         <HashtagPageContainer>
             <Header />
 
+            <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={() => setIsOpen(false)}
+                style={customStyles}
+                contentLabel="Example Modal"
+            >
+                <DeleteConfirmation
+                    setIsOpen={setIsOpen}
+                    postIdClicked={postIdClicked}
+                    reloadPosts={reloadPosts}
+                />
+            </Modal>
+
             <main>
-                <div id="timeline">
+                <div id="hashtag">
                     <h1 id="title"># {hashtag}</h1>
 
                     {!loaded ? (
@@ -45,10 +87,23 @@ export default function HashtagPage() {
                     ) : (
                         posts.length > 0 ? (
                             posts.map((item) => (
-                                <Post postId={item.id} userName={item.name} userImg={item.picture_url} description={item.description} linkTitle={item.linkTitle} linkDescription={item.linkDescription} linkImg={item.linkImg} link={item.url} likes={item.likes} />
+                                <Post
+                                    description={item.description}
+                                    key={item.id}
+                                    likes={item.likes}
+                                    link={item.url}
+                                    linkDescription={item.linkDescription}
+                                    linkImg={item.linkImg}
+                                    linkTitle={item.linkTitle}
+                                    openModal={openModal}
+                                    postId={item.id}
+                                    reloadPosts={reloadPosts}
+                                    userImg={item.picture_url}
+                                    userName={item.name}
+                                />                               
                             ))
                         ) : (
-                            <h1 id="noPosts">There are no posts yet</h1>
+                            <h1 id="noPosts">There are no posts for this '#' yet</h1>
                         )
                     )}
 
