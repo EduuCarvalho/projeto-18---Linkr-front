@@ -52,7 +52,7 @@ export default function HashtagPage() {
     useEffect(() => {
         axios.get(`${BASE_URL}hashtag/${hashtag}`, config)
             .then(response => {
-                setPosts([...response.data]);
+                setPosts([...response.data.posts]);
                 setLoaded(true);
             })
             .catch(err => {

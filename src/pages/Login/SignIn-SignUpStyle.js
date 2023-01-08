@@ -102,9 +102,8 @@ export const InputsContainer = styled.form`
         margin-bottom:13px;
 
         @media (max-width:600px){
-        width:90vw;
-      
-    }
+            width:90vw;
+        }
     }
 
     button {
@@ -122,9 +121,15 @@ export const InputsContainer = styled.form`
         line-height: 40px;
         font-family: 'Oswald';
         color:#FFFFFF;
+        
         @media (max-width:600px){
-        width:90vw;
-    }
+            width:90vw;
+        }
+
+        &:hover{
+            cursor: pointer;
+            filter: brightness(1.4);
+        }
     }
 
 `

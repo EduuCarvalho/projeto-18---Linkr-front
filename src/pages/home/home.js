@@ -47,6 +47,8 @@ export default function Home({ isMyPage }) {
     setReload(!switchReload);
   }
 
+  console.log(header);
+
   useEffect(() => {
     axios
       .get(URL, header)
@@ -59,7 +61,6 @@ export default function Home({ isMyPage }) {
         alert(
           "An error occured while trying to fetch the posts, please refresh the page"
         );
-        console.log(err.response.data.message);
       });
   }, [header, URL, switchReload]);
 
