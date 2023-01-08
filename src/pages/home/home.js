@@ -8,24 +8,9 @@ import { UserInfoContext } from "../../contexts/userInfo";
 import Header from "../../components/Header/Header";
 import TrendingBox from "../../components/TrendingBox/TrendingBox";
 import Loading from "../../components/loading/loading";
-import Modal from "react-modal";
-import DeleteConfirmation from "../../components/DeleteConfirmation/DeleteConfirmation";
 import { BASE_URL } from "../../constants/urls";
 import { useParams } from "react-router-dom";
-Modal.setAppElement("#root");
-
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    background: null,
-    border: "none",
-    transform: "translate(-50%, -50%)",
-  },
-};
+import { DeleteModal } from "../../components/ModalDeletePost/ModalDeletePost";
 
 export default function Home({ isMyPage }) {
   const { header } = useContext(UserInfoContext);
@@ -36,14 +21,14 @@ export default function Home({ isMyPage }) {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [postIdClicked, setClicked] = useState(null);
   const [switchReload, setReload] = useState(false);
-  const [ username, setUserName ]  = useState(undefined);
+  const [username, setUserName] = useState(undefined);
 
-  function openModal(postId){
+  function openModal(postId) {
     setIsOpen(true);
     setClicked(postId);
   }
 
-  function reloadPosts(){
+  function reloadPosts() {
     setReload(!switchReload);
   }
 
@@ -65,14 +50,12 @@ export default function Home({ isMyPage }) {
   return (
     <Page>
       <Header />
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={() => setIsOpen(false)}
-        style={customStyles}
-        contentLabel="Example Modal"
-      >
-        <DeleteConfirmation setIsOpen={setIsOpen} postIdClicked={postIdClicked} reloadPosts={reloadPosts} />
-      </Modal>
+      <DeleteModal
+        setIsOpen={setIsOpen}
+        postIdClicked={postIdClicked}
+        reloadPosts={reloadPosts}
+        modalIsOpen={modalIsOpen}
+      />
       <main>
         <div id="timeline">
           <h1 id="title">{isMyPage ? "timeline" : `${username}'s posts`}</h1>
