@@ -47,8 +47,6 @@ export default function Home({ isMyPage }) {
     setReload(!switchReload);
   }
 
-  console.log(header);
-
   useEffect(() => {
     axios
       .get(URL, header)

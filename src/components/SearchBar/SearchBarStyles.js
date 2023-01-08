@@ -70,6 +70,9 @@ export const ResultSearchDiv = styled.div`
       height: 2.71vw;
       border-radius: 5.9vw;
     }
+    p{
+      cursor: pointer;
+    }
   }
   @media (max-width: 700px) {
     min-width: 93.3vw;

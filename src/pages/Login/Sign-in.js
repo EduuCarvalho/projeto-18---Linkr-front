@@ -22,10 +22,12 @@ export default function SignIn() {
         axios.post(`http://localhost:4000/signin`, logInObj)
             .then((res) => {
                 setUserInfo({
+                    userId: (res.data.userId),
                     token: (res.data.token),
                     name: (res.data.name),
                     picture_url : (res.data.picture_url)
                 })
+                localStorage.setItem("user_id", res.data.userId);
                 localStorage.setItem("token", res.data.token);
                 localStorage.setItem("name", res.data.name);
                 localStorage.setItem("picture_url ",res.data.picture_url )

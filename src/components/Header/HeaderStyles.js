@@ -13,6 +13,7 @@ export const HeaderStyle = styled.header`
     font-family: ${logoFont};
     font-size: 3.4vw;
     color: #ffffff;
+    cursor: pointer;
   }
   @media (max-width: 700px) {
     height: 19.2vw;
@@ -54,6 +55,7 @@ export const ProfileStyle = styled.div`
     font-weight: 700;
     font-family: ${mainFont};
     border-radius: 0 0 0 1.39vw;
+    cursor: pointer;
   }
   @media (max-width: 700px) {
     width: 17vw;
