@@ -1,28 +1,35 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {
   HeaderStyle,
   ProfileStyle,
 } from "./HeaderStyles";
 import SearchBar from "../SearchBar/SearchBar";
-
-const user_test = {
-  picture_url:
-    "https://guiaanimal.net/uploads/content/image/59550/Design_sem_nome__38_.png",
-};
+import { UserInfoContext } from "../../contexts/userInfo";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
   const [showLogout, setShowLogout] = useState(false);
+  const { userInfo } = useContext(UserInfoContext);
+  const navigate = useNavigate();
+
+  function logout(){
+    localStorage.removeItem("token");
+    localStorage.removeItem("name");
+    localStorage.removeItem("picture_url ");
+    localStorage.removeItem("user_id");
+    navigate("/");
+  }
   return (
     <HeaderStyle>
-      <h1>linkr</h1>
+      <h1 onClick={() => navigate("/home")}>linkr</h1>
       <SearchBar />
       <ProfileStyle>
         <ion-icon
           name="chevron-down-outline"
           onClick={() => setShowLogout(!showLogout)}
         ></ion-icon>
-        <img src={user_test.picture_url} alt="avatar" />
-        {showLogout && <div>Logout</div>}
+        <img src={userInfo.picture_url} alt="avatar" />
+        {showLogout && <div onClick={logout}>Logout</div>}
       </ProfileStyle>
     </HeaderStyle>
   );

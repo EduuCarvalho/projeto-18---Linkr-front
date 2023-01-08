@@ -25,7 +25,7 @@ export default function Post({
   openModal,
   reloadPosts,
 }) {
-  const { header, userInfo, setPageIName } = useContext(UserInfoContext);
+  const { header, userInfo } = useContext(UserInfoContext);
   const URL = "http://localhost:4000/like";
   const likeURL = `http://localhost:4000/like/post/${postId}`;
   const [liked, setLiked] = useState(likes.includes(userName));
@@ -194,7 +194,7 @@ export default function Post({
           ></ion-icon>
         </div>
 
-        <h3>{userName}</h3>
+        <h3 onClick={() => navigate(`/users/${userInfo.userId}`)}>{userName}</h3>
 
         {!updatePost ? (
           <ReactTagify
