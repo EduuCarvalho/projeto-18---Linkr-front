@@ -43,18 +43,19 @@ export default function Home() {
     setReload(!switchReload);
   }
 
+  console.log(header);
+
   useEffect(() => {
     axios
       .get(URL, header)
       .then((response) => {
-        setPosts([...response.data]);
+        setPosts([...response.data.posts]);
         setLoaded(true);
       })
       .catch((err) => {
         alert(
           "An error occured while trying to fetch the posts, please refresh the page"
         );
-        console.log(err.response.data.message);
       });
   }, [reloadPosts]);
 
