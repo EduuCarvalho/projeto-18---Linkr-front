@@ -1,22 +1,22 @@
+import Loading from "../../components/loading/loading";
+
 import { mainFont, titleFont } from "../../constants/fonts.js";
 import { BASE_URL } from "../../constants/urls.js";
 import { UserInfoContext } from "../../contexts/userInfo.js";
 
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 
 export function TrendingBox({ posts }) {
-    const { config } = useContext(UserInfoContext);
+    const { header } = useContext(UserInfoContext);
     
     const [trending, setTrending] = useState(undefined);
 
-    const navigate = useNavigate();
-
     function handleTrending() {
         if (!trending) {
-            return "loading...";
+            return <Loading />;
         } else if (trending.length === 0) {
             return "there aren't any trending topics yet";
         } else {
@@ -24,12 +24,13 @@ export function TrendingBox({ posts }) {
                 <ul>
                     {trending.map(
                         (hashtag, index) =>
-                            <li
-                                key={index}
-                                onClick={() => navigate(`/hashtag/${hashtag.name}`)}
-                            >
-                                {hashtag.name}
-                            </li>
+                            <Link to={`/hashtag/${hashtag.name}`}>
+                                <li
+                                    key={index}
+                                >
+                                    {hashtag.name}
+                                </li>
+                            </Link>
                     )}
                 </ul>
             );
@@ -38,7 +39,7 @@ export function TrendingBox({ posts }) {
 
     useEffect(() => {
         axios
-            .get(`${BASE_URL}trending`, config)
+            .get(`${BASE_URL}trending`, header)
             .then(
                 res => setTrending(res.data)
             )
@@ -49,7 +50,7 @@ export function TrendingBox({ posts }) {
                     );
                 }
             );
-    }, [config, posts]);
+    }, [header, posts]);
 
     return (
         <TrendingBoxContainer>

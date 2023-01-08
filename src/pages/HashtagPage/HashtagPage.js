@@ -16,7 +16,7 @@ import axios from "axios";
 import styled from "styled-components";
 
 export default function HashtagPage() {
-    const { config } = useContext(UserInfoContext);
+    const { header } = useContext(UserInfoContext);
     const { hashtag } = useParams();
     const [loaded, setLoaded] = useState(false);
     const [modalIsOpen, setIsOpen] = useState(false);
@@ -34,7 +34,7 @@ export default function HashtagPage() {
     }
 
     useEffect(() => {
-        axios.get(`${BASE_URL}hashtag/${hashtag}`, config)
+        axios.get(`${BASE_URL}hashtag/${hashtag}`, header)
             .then(response => {
                 setPosts([...response.data.posts]);
                 setLoaded(true);
@@ -43,7 +43,7 @@ export default function HashtagPage() {
                 alert('An error occured while trying to fetch the posts, please refresh the page');
                 console.log(err.response.data.message);
             });
-    }, [config, hashtag, switchReload]);
+    }, [header, hashtag, switchReload]);
 
     return (
         <HashtagPageContainer>
@@ -58,7 +58,7 @@ export default function HashtagPage() {
 
             <main>
                 <div id="hashtag">
-                    <h1 id="title"># {hashtag}</h1>
+                    <h1 id="title"># {hashtag.toLowerCase()}</h1>
 
                     {!loaded ? (
                         <Loading />
