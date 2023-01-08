@@ -6,7 +6,7 @@ import { UserInfoContext } from "../../contexts/userInfo";
 import Header from "../../components/Header/Header";
 import Loading from "../../components/loading/loading";
 import { DeleteModal } from "../../components/ModalDeletePost/ModalDeletePost";
-import TrendingBox from "../../components/TrendingBox/TrendingBox";
+import { TrendingBox } from "../../components/TrendingBox/TrendingBox";
 
 import Post from "../home/post";
 

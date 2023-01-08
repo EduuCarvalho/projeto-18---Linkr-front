@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 
-export default function TrendingBox({ posts }) {
+export function TrendingBox({ posts }) {
     const { config } = useContext(UserInfoContext);
     
     const [trending, setTrending] = useState(undefined);
@@ -49,7 +49,7 @@ export default function TrendingBox({ posts }) {
                     );
                 }
             );
-    }, [posts]);
+    }, [config, posts]);
 
     return (
         <TrendingBoxContainer>
