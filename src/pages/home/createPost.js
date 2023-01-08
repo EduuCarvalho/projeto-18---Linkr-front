@@ -35,7 +35,7 @@ export default function CreatePost({setPosts}) {
 
     function reload(){
         axios.get(URL, header)
-            .then(response => setPosts([...response.data]))
+            .then(response => setPosts([...response.data.posts]))
             .catch(err => console.log(err.response.data.message));
     }
 
