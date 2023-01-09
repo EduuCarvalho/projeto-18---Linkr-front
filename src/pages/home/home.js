@@ -45,7 +45,7 @@ export default function Home({ isMyPage }) {
           "An error occured while trying to fetch the posts, please refresh the page"
         );
       });
-  }, [header, URL, switchReload]);
+  }, [header, URL, switchReload, posts]);
 
   return (
     <Page>

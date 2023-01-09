@@ -13,15 +13,13 @@ function UserInfoProvider ({children}) {
 
     const header = { headers: { "Authorization": `Bearer ${userInfo.token}` } };
 
-    const [userImage, setUserImage] = useState("https://akamai.sscdn.co/letras/215x215/fotos/f/b/e/7/fbe7f6e0f613d2121a31a68fdd7963cf.jpg");
-
     const [logInObj, setLogInObj] = useState({
         email:"",
         password:""
     });
 
     return(
-        <UserInfoContext.Provider value={{userInfo, setUserInfo, logInObj, setLogInObj, userImage, setUserImage, header}}>
+        <UserInfoContext.Provider value={{userInfo, setUserInfo, logInObj, setLogInObj, header}}>
             {children}
         </UserInfoContext.Provider>
     );

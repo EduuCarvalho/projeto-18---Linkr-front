@@ -11,6 +11,7 @@ import swal from "sweetalert";
 import { BASE_URL } from "../../constants/urls";
 import { ReactTagify } from "react-tagify";
 import { useNavigate } from "react-router-dom";
+import imageNotFound from "../../assets/images/imageNotFound.webp"
 
 export default function Post({
   postId,
@@ -29,17 +30,19 @@ export default function Post({
   const { header, userInfo } = useContext(UserInfoContext);
   const URL = "http://localhost:4000/like";
   const likeURL = `http://localhost:4000/like/post/${postId}`;
-  const [liked, setLiked] = useState(likes.includes(userName));
+  const [liked, setLiked] = useState(likes.includes(userInfo.name));
   const [personsWhoLiked, setPersonsWhoLiked] = useState("");
   const [updatePost, setUpdate] = useState(false);
   const [loading, setLoading] = useState(false);
-  //const textAreaRef = useRef();
+
+  console.log(linkImg)
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    getLikes(liked);
-  }, []);
+    setLiked(likes.includes(userInfo.name));
+    getLikes(likes.includes(userInfo.name));
+  }, [liked, likes]);
 
   function getLikes(liked) {
     const likesArr = [];
@@ -76,14 +79,12 @@ export default function Post({
       case 3:
         if (!likes.includes(userInfo.name) && likesArr.includes("Você")) {
           setPersonsWhoLiked(
-            `${likesArr[0]}, ${likesArr[1]} and other ${
-              likes.length - 1
+            `${likesArr[0]}, ${likesArr[1]} and other ${likes.length - 1
             } people`
           );
         } else {
           setPersonsWhoLiked(
-            `${likesArr[0]}, ${likesArr[1]} and other ${
-              likes.length - 2
+            `${likesArr[0]}, ${likesArr[1]} and other ${likes.length - 2
             } people`
           );
         }
@@ -149,6 +150,7 @@ export default function Post({
         });
     }
   }
+
   return (
     <PostBox linkImg={linkImg}>
       <div className="imageAndLikes">
@@ -172,7 +174,7 @@ export default function Post({
           />
         )}
 
-        {likes.includes(userName) ? (
+        {likes.includes(userInfo.name) ? (
           <LikeTooltip title={personsWhoLiked} arrow>
             <p>{!liked ? likes.length - 1 : likes.length} likes</p>
           </LikeTooltip>
@@ -183,24 +185,29 @@ export default function Post({
         )}
       </div>
       <div id="test" className="postInformations">
-        <div>
-          <img
-            src={editIcon}
-            alt="edit"
-            onClick={() => setUpdate(!updatePost)}
-          />
-          <ion-icon
-            name="trash-outline"
-            onClick={() => openModal(postId)}
-          ></ion-icon>
-        </div>
+
+        {
+          ownerId === parseInt(userInfo.userId) ? (
+            <div>
+              <img
+                src={editIcon}
+                alt="edit"
+                onClick={() => setUpdate(!updatePost)}
+              />
+              <ion-icon
+                name="trash-outline"
+                onClick={() => openModal(postId)}
+              ></ion-icon>
+            </div>
+          ) : null
+        }
 
         <h3 onClick={() => navigate(`/users/${ownerId}`)}>{userName}</h3>
 
         {!updatePost ? (
           <ReactTagify
-            colors = "#ffffff"
-            tagClicked = {tag => tag[0] === "#" && navigate(`/hashtag/${tag.substring(1)}`)}
+            colors="#ffffff"
+            tagClicked={tag => tag[0] === "#" && navigate(`/hashtag/${tag.substring(1)}`)}
           >
             <p>{description}</p>
           </ReactTagify>
@@ -224,7 +231,7 @@ export default function Post({
             </div>
 
             <div className="linkImg">
-              <img src={linkImg} alt="Imagem do link" />
+              <img src={linkImg === '' ? imageNotFound : linkImg} alt="Imagem do link" />
             </div>
           </div>
         </a>
