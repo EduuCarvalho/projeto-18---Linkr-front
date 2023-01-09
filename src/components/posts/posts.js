@@ -45,6 +45,7 @@ const PostBox = styled.div`
             font-size: 20px;
             font-weight: 400;
             color: var(--white);
+            cursor: pointer;
         }
         
         p{

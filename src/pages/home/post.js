@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Post({
   postId,
+  ownerId,
   userName,
   userImg,
   description,
@@ -194,7 +195,7 @@ export default function Post({
           ></ion-icon>
         </div>
 
-        <h3 onClick={() => navigate(`/users/${userInfo.userId}`)}>{userName}</h3>
+        <h3 onClick={() => navigate(`/users/${ownerId}`)}>{userName}</h3>
 
         {!updatePost ? (
           <ReactTagify

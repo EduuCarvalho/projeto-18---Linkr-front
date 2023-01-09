@@ -68,6 +68,7 @@ export default function Home({ isMyPage }) {
             posts.map((item) => (
               <Post
                 postId={item.id}
+                ownerId={item.ownerId}
                 userName={item.name}
                 userImg={item.picture_url}
                 description={item.description}
