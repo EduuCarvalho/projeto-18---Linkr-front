@@ -24,7 +24,6 @@ const PostBox = styled.div`
         p{
             margin-left: .85rem;
         }
-
     }
 
     .userImage{
@@ -59,7 +58,7 @@ const PostBox = styled.div`
             color: #B7B7B7;
         }
 
-        > div{
+        & > div{
             position: absolute;
             right: 0.5vw;
             top: 0.5vw;
@@ -89,6 +88,7 @@ const PostBox = styled.div`
 
             .linkInformations{
                 width: 30rem;
+                word-break: break-all;
 
                 .linkTitle, .link{
                     color: #CECECE !important;
@@ -113,6 +113,62 @@ const PostBox = styled.div`
                 border-radius: 0 15px 15px 0;
             }
         }
+    }
+
+    @media (max-width: 700px) {
+        border-radius: 0;
+        margin-top: 0;
+        margin-bottom: 1.6rem;
+
+        .imageAndLikes{
+            font-size: 9px;
+
+            p{
+                margin-left: .85rem;
+            }
+
+            svg{
+                margin: 1.7rem 2.6rem 1.2rem 2.6rem;
+            }
+        }
+
+        .userImage{
+            height: 4rem;
+            width: 4rem;
+            margin-right: 1.4rem;
+        }
+
+        .postInformations{
+            h3{
+                font-size: 17px;
+            }
+            
+            p{
+                font-size: 15px;
+            }
+
+            .editPost{
+                display: none;
+            }
+
+            .linkData{
+                padding: .7rem 1rem;
+                width: 100%;
+
+                .linkInformations{
+                    width: 65%;
+                    word-break: break-all;
+
+                    .linkDescription, .link{
+                        font-size: 10px;
+                    }
+                }
+
+                .linkImg{
+                    width: 35%;
+                }
+            }    
+    }
     }
 `;
 

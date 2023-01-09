@@ -4,6 +4,7 @@ import { UserInfoContext } from "../../contexts/userInfo.js"
 import { Container, LogoContainer, InputsContainer, Tittle, SubTittle, StyledLink } from "./SignIn-SignUpStyle"
 import axios from "axios"
 import swal from "sweetalert";
+import { BASE_URL } from "../../constants/urls.js"
 
 export default function SignIn() {
 
@@ -18,7 +19,7 @@ export default function SignIn() {
 
     function logIn(e) {
         e.preventDefault();
-        axios.post(`http://localhost:4000/signin`, logInObj)
+        axios.post(`${BASE_URL}/signin`, logInObj)
             .then((res) => {
                 setUserInfo({
                     userId: (res.data.userId),

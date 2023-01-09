@@ -1,10 +1,11 @@
 import axios from "axios";
 import { useContext, useState } from "react";
 import CreatePostBox from "../../components/posts/createPost";
+import { BASE_URL } from "../../constants/urls";
 import { UserInfoContext } from "../../contexts/userInfo";
 
 export default function CreatePost({setPosts}) {
-    const URL = "http://localhost:4000/timeline";
+    const URL = `${BASE_URL}/timeline`;
     const {userInfo, header} = useContext(UserInfoContext);
     const [link, setLink] = useState('');
     const [description, setDescription] = useState('');

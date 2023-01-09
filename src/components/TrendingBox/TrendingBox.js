@@ -65,6 +65,10 @@ export function TrendingBox({ posts }) {
 
 const TrendingBoxContainer = styled.div`
     color: #ffffff;
+
+    @media (max-width: 950px) {
+        display: none;
+    }
 `;
 
 const TrendingBoxLine = styled.div`
