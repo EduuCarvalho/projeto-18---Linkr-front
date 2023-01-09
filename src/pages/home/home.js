@@ -14,7 +14,7 @@ import Loading from "../../components/loading/loading";
 export default function Home({ isMyPage }) {
   const { header } = useContext(UserInfoContext);
   const { id } = useParams();
-  const URL = isMyPage ? `${BASE_URL}timeline` : `${BASE_URL}users/${id}`;
+  const URL = isMyPage ? `${BASE_URL}/timeline` : `${BASE_URL}/users/${id}`;
   const [posts, setPosts] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);

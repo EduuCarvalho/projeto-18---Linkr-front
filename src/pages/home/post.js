@@ -15,8 +15,8 @@ import imageNotFound from "../../assets/images/imageNotFound.webp"
 
 export default function Post({ postId, ownerId, userName, userImg, description, linkTitle, linkDescription, linkImg, link, likes, openModal, reloadPosts}) {
   const { header, userInfo } = useContext(UserInfoContext);
-  const URL = "http://localhost:4000/like";
-  const likeURL = `http://localhost:4000/like/post/${postId}`;
+  const URL = `${BASE_URL}/like`;
+  const likeURL = `${BASE_URL}/like/post/${postId}`;
   const [liked, setLiked] = useState('');
   const [personsWhoLiked, setPersonsWhoLiked] = useState("");
   const [updatePost, setUpdate] = useState(false);

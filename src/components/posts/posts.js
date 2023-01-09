@@ -88,6 +88,7 @@ const PostBox = styled.div`
 
             .linkInformations{
                 width: 30rem;
+                word-break: break-all;
 
                 .linkTitle, .link{
                     color: #CECECE !important;

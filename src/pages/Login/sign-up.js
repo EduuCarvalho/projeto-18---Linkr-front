@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import swal from "sweetalert";
 import axios from "axios";
+import { BASE_URL } from "../../constants/urls";
 
 export default function SignUp() {
 
@@ -22,7 +23,7 @@ export default function SignUp() {
 
     function signUp(e) {
         e.preventDefault();
-        axios.post(`http://localhost:4000/signup`, userSignUp)
+        axios.post(`${BASE_URL}/signup`, userSignUp)
             .then((res) => {
                 alert("Cadastro feito com sucesso!!!");
                 navigate("/");
