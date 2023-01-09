@@ -24,12 +24,8 @@ export function TrendingBox({ posts }) {
                 <ul>
                     {trending.map(
                         (hashtag, index) =>
-                            <Link to={`/hashtag/${hashtag.name}`}>
-                                <li
-                                    key={index}
-                                >
-                                    {hashtag.name}
-                                </li>
+                            <Link key={index} to={`/hashtag/${hashtag.name}`}>
+                                <li>{hashtag.name}</li>
                             </Link>
                     )}
                 </ul>

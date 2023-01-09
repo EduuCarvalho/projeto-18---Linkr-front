@@ -79,6 +79,7 @@ export default function Home({ isMyPage }) {
                 likes={item.likes}
                 openModal={openModal}
                 reloadPosts={reloadPosts}
+                key={item.id}
               />
             ))
           ) : (
