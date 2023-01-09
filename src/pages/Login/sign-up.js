@@ -45,7 +45,7 @@ export default function SignUp() {
                 <SubTittle>save, share and discover the best links on the web</SubTittle>
             </LogoContainer>
             <InputsContainer onSubmit={signUp}>
-                <input placeholder="e-maillll" type="email" name="email" value={userSignUp.email} onChange={handleSignUp} required ></input>
+                <input placeholder="e-mail" type="email" name="email" value={userSignUp.email} onChange={handleSignUp} required ></input>
                 <input placeholder="password" type="password" name="password" value={userSignUp.password} onChange={handleSignUp} required ></input>
                 <input placeholder="username" type="text" name="name" value={userSignUp.name} onChange={handleSignUp} required></input>
                 <input placeholder="picture url" type="text" name="pictureurl" value={userSignUp.pictureurl} onChange={handleSignUp} required></input>
