@@ -13,7 +13,7 @@ export default function DeleteConfirmation({ setIsOpen, postIdClicked, reloadPos
   function deletePost() {
     setLoading(true);
     axios
-      .delete(`${BASE_URL}timeline/${postIdClicked}`, header)
+      .delete(`${BASE_URL}/timeline/${postIdClicked}`, header)
       .then((response) => {
         swal(response.data.message);
         setIsOpen(false);

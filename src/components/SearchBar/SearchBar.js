@@ -14,7 +14,7 @@ export default function SearchBar() {
   function handleForm(e) {
     setSearchName(e.target.value);
     axios
-      .get(`${BASE_URL}users?name=${e.target.value}`, header)
+      .get(`${BASE_URL}/users?name=${e.target.value}`, header)
       .then((res) => {
         setUsersSearch(res.data);
       })
