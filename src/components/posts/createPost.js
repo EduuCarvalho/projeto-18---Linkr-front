@@ -16,6 +16,11 @@ const CreatePostBox = styled.div`
         border-radius: 100%;
         overflow: hidden;
         margin-right: 1.8rem;
+
+        img{
+            height: 100%;
+            width: 100%;
+        }
     }
 
     #postInformations{

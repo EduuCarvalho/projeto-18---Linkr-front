@@ -5,7 +5,7 @@ import { UserInfoContext } from "../../contexts/userInfo";
 
 export default function CreatePost({setPosts}) {
     const URL = "http://localhost:4000/timeline";
-    const {userImage, header} = useContext(UserInfoContext);
+    const {userInfo, header} = useContext(UserInfoContext);
     const [link, setLink] = useState('');
     const [description, setDescription] = useState('');
     const [loading, setLoading] = useState(false);
@@ -43,7 +43,7 @@ export default function CreatePost({setPosts}) {
         <CreatePostBox>
             <div>
                 <div id="userImage">
-                    <img src={userImage} alt='userImage' />
+                    <img src={userInfo.picture_url} alt='userImage' />
                 </div>
             </div>
             <div id="postInformations">

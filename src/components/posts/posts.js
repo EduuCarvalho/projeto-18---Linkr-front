@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { mainFont } from "../../constants/fonts";
 
 const PostBox = styled.div`
     width: 100%;
@@ -34,6 +33,11 @@ const PostBox = styled.div`
         border-radius: 100%;
         overflow: hidden;
         margin-right: 1.8rem;
+
+        img{
+            height: 100%;
+            width: 100%;
+        }
     }
 
     .postInformations{

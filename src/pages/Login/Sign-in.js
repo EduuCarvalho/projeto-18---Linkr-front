@@ -8,7 +8,7 @@ import swal from "sweetalert";
 export default function SignIn() {
 
     const { logInObj, setLogInObj, setUserInfo } = React.useContext(UserInfoContext)
-    let navigate = useNavigate();
+    const navigate = useNavigate();
 
     function handleLogIn(e) {
         const { name, value } = e.target;
@@ -18,7 +18,6 @@ export default function SignIn() {
 
     function logIn(e) {
         e.preventDefault();
-        console.log("clicou submit")
         axios.post(`http://localhost:4000/signin`, logInObj)
             .then((res) => {
                 setUserInfo({
