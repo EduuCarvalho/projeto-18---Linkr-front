@@ -35,8 +35,6 @@ export default function Post({
   const [updatePost, setUpdate] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  console.log(linkImg)
-
   const navigate = useNavigate();
 
   useEffect(() => {

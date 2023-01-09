@@ -74,6 +74,7 @@ export default function HashtagPage() {
                                     linkImg={item.linkImg}
                                     linkTitle={item.linkTitle}
                                     openModal={openModal}
+                                    ownerId={item.ownerId}
                                     postId={item.id}
                                     reloadPosts={reloadPosts}
                                     userImg={item.picture_url}
