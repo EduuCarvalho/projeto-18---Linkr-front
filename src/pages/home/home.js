@@ -6,7 +6,7 @@ import CreatePost from "./createPost";
 import Post from "./post";
 import { UserInfoContext } from "../../contexts/userInfo";
 import Header from "../../components/Header/Header";
-import TrendingBox from "../../components/TrendingBox/TrendingBox";
+import { TrendingBox } from "../../components/TrendingBox/TrendingBox";
 import Loading from "../../components/loading/loading";
 import { BASE_URL } from "../../constants/urls";
 import { useParams } from "react-router-dom";

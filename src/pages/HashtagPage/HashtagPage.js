@@ -3,10 +3,10 @@ import { titleFont } from "../../constants/fonts";
 
 import { UserInfoContext } from "../../contexts/userInfo";
 
-import DeleteConfirmation from "../../components/DeleteConfirmation/DeleteConfirmation";
 import Header from "../../components/Header/Header";
 import Loading from "../../components/loading/loading";
-import TrendingBox from "../../components/TrendingBox/TrendingBox";
+import { DeleteModal } from "../../components/ModalDeletePost/ModalDeletePost";
+import { TrendingBox } from "../../components/TrendingBox/TrendingBox";
 
 import Post from "../home/post";
 
@@ -14,25 +14,9 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
-import Modal from "react-modal";
-
-Modal.setAppElement("#root");
-
-const customStyles = {
-    content: {
-        top: "50%",
-        left: "50%",
-        right: "auto",
-        bottom: "auto",
-        marginRight: "-50%",
-        background: null,
-        border: "none",
-        transform: "translate(-50%, -50%)",
-    },
-};
 
 export default function HashtagPage() {
-    const { config } = useContext(UserInfoContext);
+    const { header } = useContext(UserInfoContext);
     const { hashtag } = useParams();
     const [loaded, setLoaded] = useState(false);
     const [modalIsOpen, setIsOpen] = useState(false);
@@ -40,17 +24,17 @@ export default function HashtagPage() {
     const [posts, setPosts] = useState([]);
     const [switchReload, setReload] = useState(false);
 
-    function openModal(postId){
+    function openModal(postId) {
         setIsOpen(true);
         setClicked(postId);
     }
 
-    function reloadPosts(){
+    function reloadPosts() {
         setReload(!switchReload);
     }
 
     useEffect(() => {
-        axios.get(`${BASE_URL}hashtag/${hashtag}`, config)
+        axios.get(`${BASE_URL}hashtag/${hashtag}`, header)
             .then(response => {
                 setPosts([...response.data.posts]);
                 setLoaded(true);
@@ -59,28 +43,22 @@ export default function HashtagPage() {
                 alert('An error occured while trying to fetch the posts, please refresh the page');
                 console.log(err.response.data.message);
             });
-    }, [hashtag, switchReload]);
+    }, [header, hashtag, switchReload]);
 
     return (
         <HashtagPageContainer>
             <Header />
 
-            <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={() => setIsOpen(false)}
-                style={customStyles}
-                contentLabel="Example Modal"
-            >
-                <DeleteConfirmation
-                    setIsOpen={setIsOpen}
-                    postIdClicked={postIdClicked}
-                    reloadPosts={reloadPosts}
-                />
-            </Modal>
+            <DeleteModal
+                setIsOpen={setIsOpen}
+                postIdClicked={postIdClicked}
+                reloadPosts={reloadPosts}
+                modalIsOpen={modalIsOpen}
+            />
 
             <main>
                 <div id="hashtag">
-                    <h1 id="title"># {hashtag}</h1>
+                    <h1 id="title"># {hashtag.toLowerCase()}</h1>
 
                     {!loaded ? (
                         <Loading />
