@@ -73,6 +73,46 @@ const CreatePostBox = styled.div`
             filter: brightness(1.4);
         }
     }
+
+    @media (max-width: 700px) {
+        border-radius: 0;
+        height: 16.5rem;
+        padding: 1rem 1.5rem;
+
+        #userImage{
+            display: none;
+        }
+
+        #postInformations{
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+
+            h3{
+                font-size: 17px;
+            }
+
+            input{
+                margin-top: 1rem !important;
+                font-size: 13px;
+            }
+            
+            textarea{
+                height: 5rem;
+                font-size: 13px;
+            }
+
+            input::placeholder, textarea::placeholder{
+                font-size: 13px;
+            }
+            
+            button{
+                height: 2.2rem;
+                width: 11rem;
+                font-size: 13px;
+            }
+        }
+    }
 `;
 
 export default CreatePostBox;

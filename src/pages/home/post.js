@@ -13,30 +13,14 @@ import { ReactTagify } from "react-tagify";
 import { useNavigate } from "react-router-dom";
 import imageNotFound from "../../assets/images/imageNotFound.webp"
 
-export default function Post({
-  postId,
-  ownerId,
-  userName,
-  userImg,
-  description,
-  linkTitle,
-  linkDescription,
-  linkImg,
-  link,
-  likes,
-  openModal,
-  reloadPosts,
-}) {
+export default function Post({ postId, ownerId, userName, userImg, description, linkTitle, linkDescription, linkImg, link, likes, openModal, reloadPosts}) {
   const { header, userInfo } = useContext(UserInfoContext);
   const URL = "http://localhost:4000/like";
   const likeURL = `http://localhost:4000/like/post/${postId}`;
-  const [liked, setLiked] = useState(likes.includes(userInfo.name));
+  const [liked, setLiked] = useState('');
   const [personsWhoLiked, setPersonsWhoLiked] = useState("");
   const [updatePost, setUpdate] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  console.log(linkImg)
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -159,45 +143,30 @@ export default function Post({
         </div>
 
         {!liked ? (
-          <BiHeart
-            color="white"
-            cursor={"pointer"}
-            size={30}
-            onClick={changeLike}
-          />
+          <BiHeart color="white" cursor={"pointer"} size={23} onClick={changeLike} />
         ) : (
-          <HiHeart
-            color="red"
-            cursor={"pointer"}
-            size={30}
-            onClick={changeLike}
-          />
+          <HiHeart color="red" cursor={"pointer"} size={23} onClick={changeLike} />
         )}
 
-        {likes.includes(userInfo.name) ? (
-          <LikeTooltip title={personsWhoLiked} arrow>
-            <p>{!liked ? likes.length - 1 : likes.length} likes</p>
-          </LikeTooltip>
-        ) : (
-          <LikeTooltip title={personsWhoLiked} arrow>
-            <p>{!liked ? likes.length : likes.length + 1} likes</p>
-          </LikeTooltip>
-        )}
+        {
+          likes.includes(userInfo.name) ? (
+            <LikeTooltip title={personsWhoLiked} arrow>
+              <p>{!liked ? likes.length - 1 : likes.length} likes</p>
+            </LikeTooltip>
+          ) : (
+            <LikeTooltip title={personsWhoLiked} arrow>
+              <p>{!liked ? likes.length : likes.length + 1} likes</p>
+            </LikeTooltip>
+          )
+        }
       </div>
-      <div id="test" className="postInformations">
+      <div className="postInformations">
 
         {
           ownerId === parseInt(userInfo.userId) ? (
-            <div>
-              <img
-                src={editIcon}
-                alt="edit"
-                onClick={() => setUpdate(!updatePost)}
-              />
-              <ion-icon
-                name="trash-outline"
-                onClick={() => openModal(postId)}
-              ></ion-icon>
+            <div className="editPost">
+              <img src={editIcon} alt="edit" onClick={() => setUpdate(!updatePost)} />
+              <ion-icon name="trash-outline" onClick={() => openModal(postId)} />
             </div>
           ) : null
         }
@@ -205,20 +174,11 @@ export default function Post({
         <h3 onClick={() => navigate(`/users/${ownerId}`)}>{userName}</h3>
 
         {!updatePost ? (
-          <ReactTagify
-            colors="#ffffff"
-            tagClicked={tag => tag[0] === "#" && navigate(`/hashtag/${tag.substring(1)}`)}
-          >
+          <ReactTagify colors="#ffffff" tagClicked={tag => tag[0] === "#" && navigate(`/hashtag/${tag.substring(1)}`)}>
             <p>{description}</p>
           </ReactTagify>
         ) : (
-          <UpdateArea
-            cols="70"
-            onKeyDown={handleKeyDown}
-            defaultValue={description}
-            disabled={loading}
-            autoFocus
-          ></UpdateArea>
+          <UpdateArea cols="70" onKeyDown={handleKeyDown} defaultValue={description} disabled={loading} autoFocus />
         )}
 
         <a href={link} target={"_blank"}>

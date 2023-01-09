@@ -1,16 +1,15 @@
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import styled from "styled-components";
-import { titleFont } from "../../constants/fonts";
-import CreatePost from "./createPost";
-import Post from "./post";
 import { UserInfoContext } from "../../contexts/userInfo";
 import Header from "../../components/Header/Header";
-import { TrendingBox } from "../../components/TrendingBox/TrendingBox";
-import Loading from "../../components/loading/loading";
 import { BASE_URL } from "../../constants/urls";
 import { useParams } from "react-router-dom";
 import { DeleteModal } from "../../components/ModalDeletePost/ModalDeletePost";
+import Page from "../../components/timeline/page";
+import CreatePost from "./createPost";
+import Post from "./post";
+import { TrendingBox } from "../../components/TrendingBox/TrendingBox";
+import Loading from "../../components/loading/loading";
 
 export default function Home({ isMyPage }) {
   const { header } = useContext(UserInfoContext);
@@ -50,12 +49,7 @@ export default function Home({ isMyPage }) {
   return (
     <Page>
       <Header />
-      <DeleteModal
-        setIsOpen={setIsOpen}
-        postIdClicked={postIdClicked}
-        reloadPosts={reloadPosts}
-        modalIsOpen={modalIsOpen}
-      />
+      <DeleteModal setIsOpen={setIsOpen} postIdClicked={postIdClicked} reloadPosts={reloadPosts} modalIsOpen={modalIsOpen} />
       <main>
         <div id="timeline">
           <h1 id="title">{isMyPage ? "timeline" : `${username}'s posts`}</h1>
@@ -66,20 +60,7 @@ export default function Home({ isMyPage }) {
             <Loading />
           ) : posts.length > 0 ? (
             posts.map((item) => (
-              <Post
-                postId={item.id}
-                ownerId={item.ownerId}
-                userName={item.name}
-                userImg={item.picture_url}
-                description={item.description}
-                linkTitle={item.linkTitle}
-                linkDescription={item.linkDescription}
-                linkImg={item.linkImg}
-                link={item.url}
-                likes={item.likes}
-                openModal={openModal}
-                reloadPosts={reloadPosts}
-              />
+              <Post postId={item.id} ownerId={item.ownerId} userName={item.name} userImg={item.picture_url} description={item.description} linkTitle={item.linkTitle} linkDescription={item.linkDescription} linkImg={item.linkImg} link={item.url} likes={item.likes} openModal={openModal} reloadPosts={reloadPosts}/>
             ))
           ) : (
             <h1 id="noPosts">There are no posts yet</h1>
@@ -91,44 +72,3 @@ export default function Home({ isMyPage }) {
     </Page>
   );
 }
-
-const Page = styled.div`
-  background-color: #333333;
-  max-width: 100vw;
-  min-height: 100vh;
-  overflow-x: hidden;
-  padding-bottom: 5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 5.3rem;
-
-  main {
-    display: flex;
-    justify-content: center;
-    gap: 2.5rem;
-
-    #timeline {
-      width: 61rem;
-      display: flex;
-      flex-direction: column;
-    }
-
-    #title {
-      font-size: 43px;
-      color: var(--white);
-      font-family: ${titleFont};
-      font-weight: 700;
-      margin-bottom: 4.3rem;
-    }
-
-    #noPosts {
-      margin-top: 10rem;
-      color: #9b9595;
-      align-self: center;
-    }
-
-    & > div:nth-child(2) {
-      margin-top: 10.7rem;
-    }
-  }
-`;

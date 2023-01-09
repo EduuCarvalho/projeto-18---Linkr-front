@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { logoFont, mainFont } from "../../constants/fonts";
 
 export const HeaderStyle = styled.header`
-  width: 100vw;
+  width: 100%;
   height: 5vw;
   background-color: #151515;
   display: flex;
