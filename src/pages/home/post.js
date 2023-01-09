@@ -217,6 +217,7 @@ export default function Post({
             onKeyDown={handleKeyDown}
             defaultValue={description}
             disabled={loading}
+            autoFocus
           ></UpdateArea>
         )}
 
