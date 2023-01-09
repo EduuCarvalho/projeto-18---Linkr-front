@@ -35,7 +35,7 @@ export function TrendingBox({ posts }) {
 
     useEffect(() => {
         axios
-            .get(`${BASE_URL}trending`, header)
+            .get(`${BASE_URL}/trending`, header)
             .then(
                 res => setTrending(res.data)
             )

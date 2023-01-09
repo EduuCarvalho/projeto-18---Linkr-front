@@ -34,7 +34,7 @@ export default function HashtagPage() {
     }
 
     useEffect(() => {
-        axios.get(`${BASE_URL}hashtag/${hashtag}`, header)
+        axios.get(`${BASE_URL}/hashtag/${hashtag}`, header)
             .then(response => {
                 setPosts([...response.data.posts]);
                 setLoaded(true);

@@ -119,7 +119,7 @@ export default function Post({ postId, ownerId, userName, userImg, description, 
       setLoading(true);
       axios
         .patch(
-          `${BASE_URL}timeline/${postId}`,
+          `${BASE_URL}/timeline/${postId}`,
           { description: e.target.value },
           header
         )
