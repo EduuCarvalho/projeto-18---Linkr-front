@@ -133,5 +133,19 @@ const HashtagPageContainer = styled.div`
         & > div:nth-child(2){
             margin-top: 10.7rem;
         }
+        
+        @media (max-width: 700px) {
+            margin-top: 10%;
+        
+            #timeline{
+              width: 100%;
+            }
+        
+            #title{
+              font-size: 33px;
+              margin-inline: 1.7rem;
+              margin-bottom: 2rem;
+            }
+        }
     }
 `;
