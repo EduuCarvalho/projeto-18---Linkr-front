@@ -60,7 +60,7 @@ export default function Home({ isMyPage }) {
             <Loading />
           ) : posts.length > 0 ? (
             posts.map((item) => (
-              <Post postId={item.id} ownerId={item.ownerId} userName={item.name} userImg={item.picture_url} description={item.description} linkTitle={item.linkTitle} linkDescription={item.linkDescription} linkImg={item.linkImg} link={item.url} likes={item.likes} openModal={openModal} reloadPosts={reloadPosts}/>
+              <Post postId={item.id} ownerId={item.ownerId} userName={item.name} userImg={item.picture_url} description={item.description} linkTitle={item.linkTitle} linkDescription={item.linkDescription} linkImg={item.linkImg} link={item.url} likes={item.likes} openModal={openModal} reloadPosts={reloadPosts} key={item.id} />
             ))
           ) : (
             <h1 id="noPosts">There are no posts yet</h1>
