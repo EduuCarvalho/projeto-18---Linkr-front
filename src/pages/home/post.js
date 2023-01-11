@@ -13,7 +13,8 @@ import { ReactTagify } from "react-tagify";
 import { useNavigate } from "react-router-dom";
 import imageNotFound from "../../assets/images/imageNotFound.webp"
 
-export default function Post({ postId, ownerId, userName, userImg, description, linkTitle, linkDescription, linkImg, link, likes, openModal, reloadPosts}) {
+export default function Post({ post, openModal, reloadPosts }) {
+  const { id: postId, ownerId, name: userName, picture_url: userImg, description, linkTitle, linkDescription, linkImg, url: link, likes} = post;
   const { header, userInfo } = useContext(UserInfoContext);
   const URL = `${BASE_URL}/like`;
   const likeURL = `${BASE_URL}/like/post/${postId}`;

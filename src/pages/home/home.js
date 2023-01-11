@@ -45,8 +45,8 @@ export default function Home({ isMyPage }) {
   function verifyRecentPosts() {
     let mostRecentPost = 0;
 
-    for(let i = 0; i < posts.length; i++){
-      if(posts[i].id > mostRecentPost){
+    for (let i = 0; i < posts.length; i++) {
+      if (posts[i].id > mostRecentPost) {
         mostRecentPost = posts[i].id;
       }
     }
@@ -81,7 +81,7 @@ export default function Home({ isMyPage }) {
     console.log("calma...");
     const ref = posts[posts.length - 1].id;
 
-    await axios.get(`${URL}?ref=${ref}`, header, {cancelToken: source.token})
+    await axios.get(`${URL}?ref=${ref}`, header, { cancelToken: source.token })
       .then((response) => {
         setPosts([...posts, ...response.data.posts]);
         setRecentPosts(0);
