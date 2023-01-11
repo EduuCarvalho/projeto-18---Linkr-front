@@ -78,7 +78,6 @@ const TrendingBoxLine = styled.div`
 `;
 
 const TrendingBoxList = styled.div`
-    align-items: center;
     background-color: #171717;
     border-radius: 0 0 16px 16px;
     display: flex;

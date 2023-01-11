@@ -4,7 +4,7 @@ import CreatePostBox from "../../components/posts/createPost";
 import { BASE_URL } from "../../constants/urls";
 import { UserInfoContext } from "../../contexts/userInfo";
 
-export default function CreatePost({setPosts}) {
+export default function CreatePost({reloadPosts}) {
     const URL = `${BASE_URL}/timeline`;
     const {userInfo, header} = useContext(UserInfoContext);
     const [link, setLink] = useState('');
@@ -22,7 +22,7 @@ export default function CreatePost({setPosts}) {
                     setLoading(false);
                     setDescription('');
                     setLink('');
-                    reload();
+                    reloadPosts()
                 })
                 .catch(err => {
                     setLoading(false);
@@ -32,12 +32,6 @@ export default function CreatePost({setPosts}) {
         } else {
             alert('Formato de link inválido');
         }
-    }
-
-    function reload(){
-        axios.get(URL, header)
-            .then(response => setPosts([...response.data.posts]))
-            .catch(err => console.log(err.response.data.message));
     }
 
     return (
