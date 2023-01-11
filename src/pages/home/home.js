@@ -86,13 +86,13 @@ export default function Home({ isMyPage }) {
                 </div>
                 {
                   posts.map((item) => (
-                    <Post postId={item.id} ownerId={item.ownerId} userName={item.name} userImg={item.picture_url} description={item.description} linkTitle={item.linkTitle} linkDescription={item.linkDescription} linkImg={item.linkImg} link={item.url} likes={item.likes} openModal={openModal} reloadPosts={reloadPosts} key={item.id} />
+                    <Post post={item} openModal={openModal} reloadPosts={reloadPosts} key={item.id} />
                   ))
                 }
               </>
             ) : (
               posts.map((item) => (
-                <Post postId={item.id} ownerId={item.ownerId} userName={item.name} userImg={item.picture_url} description={item.description} linkTitle={item.linkTitle} linkDescription={item.linkDescription} linkImg={item.linkImg} link={item.url} likes={item.likes} openModal={openModal} reloadPosts={reloadPosts} key={item.id} />
+                <Post post={item} openModal={openModal} reloadPosts={reloadPosts} key={item.id} />
               ))
             )
           ) : (
