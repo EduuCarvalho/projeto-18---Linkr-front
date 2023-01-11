@@ -35,6 +35,25 @@ main {
     align-self: center;
   }
 
+  #recentPosts{
+    width: 100%;
+    height: 6rem;
+    background-color: #1877F2;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 16px;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    color: var(--white);
+  }
+
+  #recentPosts:hover{
+    cursor: pointer;
+    filter: brightness(1.4);
+  }
+
   & > div:nth-child(2) {
     margin-top: 10.7rem;
   }
