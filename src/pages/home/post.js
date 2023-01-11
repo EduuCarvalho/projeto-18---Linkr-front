@@ -26,7 +26,7 @@ export default function Post({ postId, ownerId, userName, userImg, description, 
   useEffect(() => {
     setLiked(likes.includes(userInfo.name));
     getLikes(likes.includes(userInfo.name));
-  }, [liked, likes]);
+  }, [liked]);
 
   function getLikes(liked) {
     const likesArr = [];
@@ -125,7 +125,7 @@ export default function Post({ postId, ownerId, userName, userImg, description, 
         )
         .then((response) => {
           setLoading(false);
-          reloadPosts();
+          reloadPosts(false);
           setUpdate(!updatePost);
         })
         .catch((err) => {
