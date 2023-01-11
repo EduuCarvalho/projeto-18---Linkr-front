@@ -23,12 +23,13 @@ export default function Home({ isMyPage }) {
   const [postIdClicked, setClicked] = useState(null);
   const [username, setUserName] = useState(undefined);
   const [recentPosts, setRecentPosts] = useState(null);
+  const [loadPostsPhrase, setLoadPostsPhrase] = useState('new posts, load more!')
 
-  useEffect((update) => {
-    if (recentPosts > 0 || recentPosts === null || update) {
+  useEffect(() => {
+    if (recentPosts > 0 || recentPosts === null) {
       reloadPosts();
     }
-  }, [header, URL, posts]);
+  }, [posts]);
 
   useInterval(() => {
     verifyRecentPosts();
@@ -39,27 +40,29 @@ export default function Home({ isMyPage }) {
     setClicked(postId);
   }
 
-  function verifyRecentPosts(){
+  function verifyRecentPosts() {
     axios.get(`${URL}/${posts[0] ? posts[0].id : 0}`, header)
       .then(response => setRecentPosts(response.data.recentPosts))
       .catch(err => console.log(err.response.data.mesage))
   }
 
-  function reloadPosts() {
-    axios
-      .get(URL, header)
+  async function reloadPosts() {
+    setLoadPostsPhrase('Loading...');
+    setRecentPosts(0.5)
+
+    await axios.get(URL, header)
       .then((response) => {
         setPosts([...response.data.posts]);
         setUserName(response.data.username);
         setLoaded(true);
+        setLoadPostsPhrase('new posts, load more!');
+        setRecentPosts(0);
       })
       .catch((err) => {
         alert(
           "An error occured while trying to fetch the posts, please refresh the page"
         );
       });
-
-      verifyRecentPosts();
   }
 
   return (
@@ -70,7 +73,7 @@ export default function Home({ isMyPage }) {
         <div id="timeline">
           <h1 id="title">{isMyPage ? "timeline" : `${username}'s posts`}</h1>
 
-          {isMyPage && <CreatePost setPosts={setPosts} />}
+          {isMyPage && <CreatePost reloadPosts={reloadPosts} />}
 
           {!loaded ? (
             <Loading />
@@ -78,7 +81,7 @@ export default function Home({ isMyPage }) {
             recentPosts > 0 ? (
               <>
                 <div id="recentPosts" onClick={reloadPosts}>
-                  <p>{recentPosts} new posts, load more!</p>
+                  <p>{recentPosts === 0.5 ? '' : recentPosts} {loadPostsPhrase}</p>
                   <TfiReload />
                 </div>
                 {

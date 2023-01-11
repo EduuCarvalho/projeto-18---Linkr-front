@@ -88,7 +88,23 @@ const PostBox = styled.div`
 
             .linkInformations{
                 width: 30rem;
+                height: 120%;
                 word-break: break-all;
+                overflow-y: scroll;
+
+                ::-webkit-scrollbar{
+                    width: 3px;
+                    height: 3px;
+                }
+
+                ::-webkit-scrollbar-track{
+                    background: transparent;
+                }
+
+                ::-webkit-scrollbar-thumb{
+                    background: #4D4D4D;
+                    border-radius: 10px;
+                }
 
                 .linkTitle, .link{
                     color: #CECECE !important;
