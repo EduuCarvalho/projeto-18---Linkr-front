@@ -65,21 +65,7 @@ export default function HashtagPage() {
                     ) : (
                         posts.length > 0 ? (
                             posts.map((item) => (
-                                <Post
-                                    description={item.description}
-                                    key={item.id}
-                                    likes={item.likes}
-                                    link={item.url}
-                                    linkDescription={item.linkDescription}
-                                    linkImg={item.linkImg}
-                                    linkTitle={item.linkTitle}
-                                    openModal={openModal}
-                                    ownerId={item.ownerId}
-                                    postId={item.id}
-                                    reloadPosts={reloadPosts}
-                                    userImg={item.picture_url}
-                                    userName={item.name}
-                                />                               
+                                <Post post={item} openModal={openModal} reloadPosts={reloadPosts} key={item.id} />                             
                             ))
                         ) : (
                             <h1 id="noPosts">There are no posts for this '#' yet</h1>
