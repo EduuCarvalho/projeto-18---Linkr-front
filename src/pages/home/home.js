@@ -3,7 +3,6 @@ import axios from "axios";
 import { UserInfoContext } from "../../contexts/userInfo";
 import Header from "../../components/Header/Header";
 import { BASE_URL } from "../../constants/urls";
-import { useParams } from "react-router-dom";
 import { DeleteModal } from "../../components/ModalDeletePost/ModalDeletePost";
 import Page from "../../components/timeline/page";
 import CreatePost from "./createPost";
@@ -13,15 +12,13 @@ import Loading from "../../components/loading/loading";
 import useInterval from "use-interval";
 import { TfiReload } from "react-icons/tfi";
 
-export default function Home({ isMyPage }) {
+export default function Home() {
   const { header } = useContext(UserInfoContext);
-  const { id } = useParams();
-  const URL = isMyPage ? `${BASE_URL}/timeline` : `${BASE_URL}/users/${id}`;
+  const URL = `${BASE_URL}/timeline`;
   const [posts, setPosts] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [postIdClicked, setClicked] = useState(null);
-  const [username, setUserName] = useState(undefined);
   const [recentPosts, setRecentPosts] = useState(null);
   const [loadPostsPhrase, setLoadPostsPhrase] = useState('new posts, load more!')
 
@@ -31,7 +28,7 @@ export default function Home({ isMyPage }) {
     }
   }, [posts]);
 
-  useInterval(() => {
+ useInterval(() => {
     verifyRecentPosts();
   }, 15000);
 
@@ -43,17 +40,16 @@ export default function Home({ isMyPage }) {
   function verifyRecentPosts() {
     axios.get(`${URL}/${posts[0] ? posts[0].id : 0}`, header)
       .then(response => setRecentPosts(response.data.recentPosts))
-      .catch(err => console.log(err.response.data.mesage))
+      .catch(err => console.log(err.response.data.message))
   }
 
   async function reloadPosts() {
     setLoadPostsPhrase('Loading...');
     setRecentPosts(0.5)
 
-    await axios.get(URL, header)
+    await axios.get(`${BASE_URL}/timeline`, header)
       .then((response) => {
         setPosts([...response.data.posts]);
-        setUserName(response.data.username);
         setLoaded(true);
         setLoadPostsPhrase('new posts, load more!');
         setRecentPosts(0);
@@ -71,9 +67,9 @@ export default function Home({ isMyPage }) {
       <DeleteModal setIsOpen={setIsOpen} postIdClicked={postIdClicked} reloadPosts={reloadPosts} modalIsOpen={modalIsOpen} />
       <main>
         <div id="timeline">
-          <h1 id="title">{isMyPage ? "timeline" : `${username}'s posts`}</h1>
+          <h1 id="title">timeline</h1>
 
-          {isMyPage && <CreatePost reloadPosts={reloadPosts} />}
+          <CreatePost reloadPosts={reloadPosts} />
 
           {!loaded ? (
             <Loading />
