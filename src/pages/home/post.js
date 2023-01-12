@@ -193,7 +193,7 @@ export default function Post({ post, shares, openModal }) {
 
         {!updatePost ? (
           <ReactTagify colors="#ffffff" tagClicked={tag => tag[0] === "#" && navigate(`/hashtag/${tag.substring(1)}`)}>
-            <p>{description}</p>
+            <p className="description">{description}</p>
           </ReactTagify>
         ) : (
           <UpdateArea cols="70" onKeyDown={handleKeyDown} defaultValue={description} disabled={loading} autoFocus />

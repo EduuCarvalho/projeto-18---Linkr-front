@@ -62,6 +62,26 @@ const PostBox = styled.div`
             font-weight: 400;
             font-size: 17px;
             color: #B7B7B7;
+            word-break: break-all; 
+        }
+
+        .description{
+            max-height: 5rem;
+            overflow-y: scroll;
+
+            ::-webkit-scrollbar{
+                width: 3px;
+                height: 3px;
+            }
+
+            ::-webkit-scrollbar-track{
+                background: transparent;
+            }
+
+            ::-webkit-scrollbar-thumb{
+                background: #4D4D4D;
+                border-radius: 10px;
+            }
         }
 
         & > div{
