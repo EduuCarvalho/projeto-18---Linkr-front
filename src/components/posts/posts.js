@@ -10,19 +10,25 @@ const PostBox = styled.div`
     margin-top: 1.6rem;
     padding: 1.6rem 1.8rem 1.6rem 1.8rem;
 
-    .imageAndLikes{
+    .imageAndActivity{
         display: flex;
         flex-direction: column;
         height: 100%;
         color: var(--white);
         font-size: 11px;
-        
-        svg:nth-child(2){
-            margin: 2rem 0 .4rem .85rem;
+    }
+
+    .activity{
+        margin-left: -1.8rem;
+
+        svg{
+            margin: 2rem auto .4rem auto;
+            display: flex;
+            justify-content: center;
         }
 
         p{
-            margin-left: .85rem;
+            text-align: center;
         }
     }
 
@@ -136,12 +142,8 @@ const PostBox = styled.div`
         margin-top: 0;
         margin-bottom: 1.6rem;
 
-        .imageAndLikes{
+        .imageAndActivity{
             font-size: 9px;
-
-            p{
-                margin-left: .85rem;
-            }
 
             svg{
                 margin: 1.7rem 2.6rem 1.2rem 2.6rem;

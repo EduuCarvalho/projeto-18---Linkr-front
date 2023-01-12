@@ -1,6 +1,7 @@
 import PostBox, { UpdateArea } from "../../components/posts/posts";
 import { HiHeart } from "react-icons/hi2";
 import { BiHeart } from "react-icons/bi";
+import { AiOutlineComment } from "react-icons/ai";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { UserInfoContext } from "../../contexts/userInfo";
@@ -14,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import imageNotFound from "../../assets/images/imageNotFound.webp"
 
 export default function Post({ post, openModal, reloadPosts }) {
-  const { id: postId, ownerId, name: userName, picture_url: userImg, description, linkTitle, linkDescription, linkImg, url: link, likes} = post;
+  const { id: postId, ownerId, name: userName, picture_url: userImg, description, linkTitle, linkDescription, linkImg, url: link, likes, total_comments} = post;
   const { header, userInfo } = useContext(UserInfoContext);
   const URL = `${BASE_URL}/like`;
   const likeURL = `${BASE_URL}/like/post/${postId}`;
@@ -138,28 +139,34 @@ export default function Post({ post, openModal, reloadPosts }) {
 
   return (
     <PostBox linkImg={linkImg}>
-      <div className="imageAndLikes">
+      <div className="imageAndActivity">
         <div className="userImage">
           <img src={userImg} alt="userImage" />
         </div>
 
-        {!liked ? (
-          <BiHeart color="white" cursor={"pointer"} size={23} onClick={changeLike} />
-        ) : (
-          <HiHeart color="red" cursor={"pointer"} size={23} onClick={changeLike} />
-        )}
-
-        {
-          likes.includes(userInfo.name) ? (
-            <LikeTooltip title={personsWhoLiked} arrow>
-              <p>{!liked ? likes.length - 1 : likes.length} likes</p>
-            </LikeTooltip>
+        <div className="activity">
+          {!liked ? (
+            <BiHeart color="white" cursor={"pointer"} size={23} onClick={changeLike} />
           ) : (
-            <LikeTooltip title={personsWhoLiked} arrow>
-              <p>{!liked ? likes.length : likes.length + 1} likes</p>
-            </LikeTooltip>
-          )
-        }
+            <HiHeart color="red" cursor={"pointer"} size={23} onClick={changeLike} />
+          )}
+
+          {
+            likes.includes(userInfo.name) ? (
+              <LikeTooltip title={personsWhoLiked} arrow>
+                <p>{!liked ? likes.length - 1 : likes.length} likes</p>
+              </LikeTooltip>
+            ) : (
+              <LikeTooltip title={personsWhoLiked} arrow>
+                <p>{!liked ? likes.length : likes.length + 1} likes</p>
+              </LikeTooltip>
+            )
+          }
+
+          <AiOutlineComment color="white" cursor={"pointer"} size={23} /* onClick={} */ />
+
+          <p>{total_comments} comment{total_comments != 1 && "s"}</p>
+        </div>
       </div>
       <div className="postInformations">
 
