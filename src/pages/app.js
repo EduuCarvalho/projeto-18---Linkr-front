@@ -8,6 +8,7 @@ import UserInfoProvider from "../contexts/userInfo";
 import Home from "./home/home";
 import HashtagPage from "./HashtagPage/HashtagPage";
 import UserPosts from "./UserPosts/UserPosts";
+import PostsProvider from "../contexts/postsContext";
 
 export default function App() {
   return (
@@ -15,13 +16,15 @@ export default function App() {
       <GlobalStyle />
       <BrowserRouter>
         <UserInfoProvider>
-          <Routes>
-            <Route path="/" element={<SignIn />} />
-            <Route path="/sign-up" element={<SignUp />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/hashtag/:hashtag" element={<HashtagPage />} />
-            <Route path="/users/:id" element={<UserPosts />} />
-          </Routes>
+          <PostsProvider>
+            <Routes>
+              <Route path="/" element={<SignIn />} />
+              <Route path="/sign-up" element={<SignUp />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/hashtag/:hashtag" element={<HashtagPage />} />
+              <Route path="/users/:id" element={<UserPosts />} />
+            </Routes>
+          </PostsProvider>
         </UserInfoProvider>
       </BrowserRouter>
     </>

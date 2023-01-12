@@ -6,10 +6,13 @@ import { BASE_URL } from "../../constants/urls";
 import swal from "sweetalert";
 import LoadingData from "../LoadingData/LoadingData";
 import axios from "axios";
+import { reloadPosts } from "../timeline/functions";
+import { postsContext } from "../../contexts/postsContext";
 
-export default function DeleteConfirmation({ setIsOpen, postIdClicked, reloadPosts }) {
+export default function DeleteConfirmation({ setIsOpen, postIdClicked }) {
   const [isLoading, setLoading] = useState(false);
   const { header } = useContext(UserInfoContext);
+  const {setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded, URL, source} = useContext(postsContext);
   function deletePost() {
     setLoading(true);
     axios
@@ -18,7 +21,7 @@ export default function DeleteConfirmation({ setIsOpen, postIdClicked, reloadPos
         swal(response.data.message);
         setIsOpen(false);
         setLoading(false);
-        reloadPosts(false);
+        reloadPosts(false, setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded,  URL, header, source);
       })
       .catch((err) => {
         setLoading(false);
