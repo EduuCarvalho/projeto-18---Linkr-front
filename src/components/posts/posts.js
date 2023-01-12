@@ -9,6 +9,7 @@ const PostBox = styled.div`
     display: flex;
     margin-top: 1.6rem;
     padding: 1.6rem 1.8rem 1.6rem 1.8rem;
+    position: relative;
 
     .imageAndActivity{
         display: flex;
@@ -201,3 +202,36 @@ export const UpdateArea = styled.textarea`
     color: #4c4c4c;
     box-sizing: border-box;
 `
+
+export const CommentsBox = styled.div`
+    background-color: red;
+    margin-top: -16px;
+    padding-top: 16px;
+`;
+
+export const Comment = styled.div`
+    display: flex;
+    height: 75px;
+    line-heigth: 17px;
+    border-bottom: 1px solid #353535;
+
+    img {
+        border-radius: 100%;
+        height: 4rem;
+        //margin: 1.5rem;
+        overflow: hidden;
+        width: 4rem;
+    }
+
+    span:nth-child(1) {
+        color: var(--white);
+    }
+
+    span:nth-child(2) {
+        color: #565656;
+    }
+
+    span {
+        color: #acacac;
+    }
+`;

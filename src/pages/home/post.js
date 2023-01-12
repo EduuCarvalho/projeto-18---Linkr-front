@@ -1,4 +1,5 @@
-import PostBox, { UpdateArea } from "../../components/posts/posts";
+import PostBox, { Comment, 
+  CommentsBox, UpdateArea } from "../../components/posts/posts";
 import { HiHeart } from "react-icons/hi2";
 import { BiHeart } from "react-icons/bi";
 import { AiOutlineComment } from "react-icons/ai";
@@ -19,7 +20,7 @@ import { postsContext } from "../../contexts/postsContext";
 
 
 export default function Post({ post, shares, openModal }) {
-  const { id: postId, ownerId, name: userName, picture_url: userImg, description, linkTitle, linkDescription, linkImg, url: link, likes, total_comments} = post;
+  const { id: postId, ownerId, name: userName, picture_url: userImg, description, linkTitle, linkDescription, linkImg, url: link, likes, total_comments, comments} = post;
   const { header, userInfo } = useContext(UserInfoContext);
   const {setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded, POST_URL, source} = useContext(postsContext);
   const URL = `${BASE_URL}/like`;
@@ -144,77 +145,94 @@ export default function Post({ post, shares, openModal }) {
   }
 
   return (
-    <PostBox linkImg={linkImg}>
-      <div className="imageAndActivity">
-        <div className="userImage">
-          <img src={userImg} alt="userImage" />
-        </div>
+    <>
+      <PostBox linkImg={linkImg}>
+        <>
+        <div className="imageAndActivity">
+          <div className="userImage">
+            <img src={userImg} alt="userImage" />
+          </div>
 
-        <div className="activity">
-          {!liked ? (
-            <BiHeart color="white" cursor={"pointer"} size={23} onClick={changeLike} />
-          ) : (
-            <HiHeart color="red" cursor={"pointer"} size={23} onClick={changeLike} />
-          )}
+          <div className="activity">
+            {!liked ? (
+              <BiHeart color="white" cursor={"pointer"} size={23} onClick={changeLike} />
+            ) : (
+              <HiHeart color="red" cursor={"pointer"} size={23} onClick={changeLike} />
+            )}
+
+            {
+              likes.includes(userInfo.name) ? (
+                <LikeTooltip title={personsWhoLiked} arrow>
+                  <p>{!liked ? likes.length - 1 : likes.length} likes</p>
+                </LikeTooltip>
+              ) : (
+                <LikeTooltip title={personsWhoLiked} arrow>
+                  <p>{!liked ? likes.length : likes.length + 1} likes</p>
+                </LikeTooltip>
+              )
+            }
+
+            <AiOutlineComment color="white" cursor={"pointer"} size={23} /* onClick={} */ />
+
+            <p>{total_comments} comment{total_comments !== "1" && "s"}</p>
+
+            <FaRetweet color="white" cursor={"pointer"} size={23} />
+            <p>{shares} re-post{shares > 1 && "s"}</p>
+
+          </div>
+        </div>
+        </>
+        <div className="postInformations">
 
           {
-            likes.includes(userInfo.name) ? (
-              <LikeTooltip title={personsWhoLiked} arrow>
-                <p>{!liked ? likes.length - 1 : likes.length} likes</p>
-              </LikeTooltip>
-            ) : (
-              <LikeTooltip title={personsWhoLiked} arrow>
-                <p>{!liked ? likes.length : likes.length + 1} likes</p>
-              </LikeTooltip>
-            )
+            ownerId === parseInt(userInfo.userId) ? (
+              <div className="editPost">
+                <img src={editIcon} alt="edit" onClick={() => setUpdate(!updatePost)} />
+                <ion-icon name="trash-outline" onClick={() => openModal(postId)} />
+              </div>
+            ) : null
           }
 
-          <AiOutlineComment color="white" cursor={"pointer"} size={23} /* onClick={} */ />
+          <h3 onClick={() => navigate(`/users/${ownerId}`)}>{userName}</h3>
 
-          <p>{total_comments} comment{total_comments != 1 && "s"}</p>
+          {!updatePost ? (
+            <ReactTagify colors="#ffffff" tagClicked={tag => tag[0] === "#" && navigate(`/hashtag/${tag.substring(1)}`)}>
+              <p>{description}</p>
+            </ReactTagify>
+          ) : (
+            <UpdateArea cols="70" onKeyDown={handleKeyDown} defaultValue={description} disabled={loading} autoFocus />
+          )}
 
-          <FaRetweet color="white" cursor={"pointer"} size={23} />
-          <p>{shares} re-post{shares > 1 && "s"}</p>
+          <a href={link} target={"_blank"}>
+            <div className="linkData">
+              <div className="linkInformations">
+                <p className="linkTitle">{linkTitle}</p>
 
+                <p className="linkDescription">{linkDescription}</p>
+
+                <p className="link">{link}</p>
+              </div>
+
+              <div className="linkImg">
+                <img src={linkImg === '' ? imageNotFound : linkImg} alt="Imagem do link" />
+              </div>
+            </div>
+          </a>
         </div>
-      </div>
-      <div className="postInformations">
-
-        {
-          ownerId === parseInt(userInfo.userId) ? (
-            <div className="editPost">
-              <img src={editIcon} alt="edit" onClick={() => setUpdate(!updatePost)} />
-              <ion-icon name="trash-outline" onClick={() => openModal(postId)} />
-            </div>
-          ) : null
-        }
-
-        <h3 onClick={() => navigate(`/users/${ownerId}`)}>{userName}</h3>
-
-        {!updatePost ? (
-          <ReactTagify colors="#ffffff" tagClicked={tag => tag[0] === "#" && navigate(`/hashtag/${tag.substring(1)}`)}>
-            <p>{description}</p>
-          </ReactTagify>
-        ) : (
-          <UpdateArea cols="70" onKeyDown={handleKeyDown} defaultValue={description} disabled={loading} autoFocus />
+      </PostBox>
+      <CommentsBox>
+        {comments.map(
+          comment =>
+            <Comment key={comment.comment_id}>
+              <img alt={`${comment.username}`} src={comment.user_picture_url} />
+              <p>
+                <span>{comment.user_name}</span> <span>{comment.author_post && " • post's author"}</span>
+                <br />
+                <span>{comment.comment}</span>
+              </p>
+            </Comment>
         )}
-
-        <a href={link} target={"_blank"}>
-          <div className="linkData">
-            <div className="linkInformations">
-              <p className="linkTitle">{linkTitle}</p>
-
-              <p className="linkDescription">{linkDescription}</p>
-
-              <p className="link">{link}</p>
-            </div>
-
-            <div className="linkImg">
-              <img src={linkImg === '' ? imageNotFound : linkImg} alt="Imagem do link" />
-            </div>
-          </div>
-        </a>
-      </div>
-    </PostBox>
+      </CommentsBox>
+    </>
   );
 }
