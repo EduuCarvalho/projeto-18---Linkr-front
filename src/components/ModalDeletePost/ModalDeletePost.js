@@ -18,7 +18,6 @@ const customStyles = {
 export function DeleteModal({
   setIsOpen,
   postIdClicked,
-  reloadPosts,
   modalIsOpen,
 }) {
   return (
@@ -30,8 +29,7 @@ export function DeleteModal({
     >
       <DeleteConfirmation
         setIsOpen={setIsOpen}
-        postIdClicked={postIdClicked}
-        reloadPosts={reloadPosts}
+        postIdClicked={postIdClicked}Z
       />
     </Modal>
   );

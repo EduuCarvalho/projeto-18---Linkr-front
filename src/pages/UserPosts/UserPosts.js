@@ -10,6 +10,10 @@ import { useParams } from "react-router-dom";
 import { DeleteModal } from "../../components/ModalDeletePost/ModalDeletePost";
 import Page from "../../components/timeline/page";
 import { hashRepostsNumber } from "../../utils/repostUtils";
+import UIInfiniteScroll from "../../components/infiniteScroll/infiniteScroll";
+import swal from "sweetalert";
+import LoadingSubtitle from "../../components/loading/loadingSubtitle";
+import { fetchMore } from "../../components/timeline/functions";
 
 export default function UserPosts() {
   const { header } = useContext(UserInfoContext);
@@ -21,6 +25,7 @@ export default function UserPosts() {
   const [postIdClicked, setClicked] = useState(null);
   const [switchReload, setReload] = useState(false);
   const [username, setUserName] = useState(undefined);
+  const source = axios.CancelToken.source();
   let hashReposts = {};
 
   function openModal(postId) {
@@ -39,7 +44,7 @@ export default function UserPosts() {
         setPosts([...response.data.posts]);
         setUserName(response.data.username);
         setLoaded(true);
-        hashReposts = {...hashRepostsNumber(response.data.posts)};
+        hashReposts = { ...hashRepostsNumber(response.data.posts) };
       })
       .catch((err) => {
         console.log(err)
@@ -49,28 +54,36 @@ export default function UserPosts() {
       });
   }, [header, URL, switchReload]);
 
+  async function callFetchMore(){
+    fetchMore(setLoaded, posts, setPosts, URL, header, source);
+  }
+
   return (
     <Page>
       <Header />
-      <DeleteModal
-        setIsOpen={setIsOpen}
-        postIdClicked={postIdClicked}
-        reloadPosts={reloadPosts}
-        modalIsOpen={modalIsOpen}
-      />
+      <DeleteModal setIsOpen={setIsOpen} postIdClicked={postIdClicked} reloadPosts={reloadPosts} modalIsOpen={modalIsOpen} />
       <main>
         <div id="timeline">
           <h1 id="title">{`${username}'s posts`}</h1>
 
-          {!loaded ? (
-            <Loading />
-          ) : posts.length > 0 ? (
-            posts.map((item, i) => (
-                <Post post={item} openModal={openModal} reloadPosts={reloadPosts} key={i} />
-            ))
-          ) : (
-            <h1 id="noPosts">There are no posts yet</h1>
-          )}
+          {posts.map((item, index) => (
+            <>
+              <Post post={item} openModal={openModal} reloadPosts={reloadPosts} key={item.id} />
+
+              {index === posts.length - 1 && (
+                <UIInfiniteScroll fetchMore={callFetchMore} />
+              )}
+            </>
+          ))}
+
+          {loaded && posts.length === 0 && <h1 id="noPosts">There are no posts yet</h1>}
+
+          {!loaded &&
+            (<>
+              <Loading />
+              {posts.length > 0 && <LoadingSubtitle />}
+            </>)
+          }
         </div>
 
         <TrendingBox posts={posts} />

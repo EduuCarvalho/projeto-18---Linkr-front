@@ -14,6 +14,10 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
+import LoadingSubtitle from "../../components/loading/loadingSubtitle.js";
+import UIInfiniteScroll from "../../components/infiniteScroll/infiniteScroll.js";
+import swal from "sweetalert";
+import { fetchMore } from "../../components/timeline/functions.js";
 
 export default function HashtagPage() {
     const { header } = useContext(UserInfoContext);
@@ -23,6 +27,7 @@ export default function HashtagPage() {
     const [postIdClicked, setClicked] = useState(null);
     const [posts, setPosts] = useState([]);
     const [switchReload, setReload] = useState(false);
+    const source = axios.CancelToken.source();
 
     function openModal(postId) {
         setIsOpen(true);
@@ -45,6 +50,10 @@ export default function HashtagPage() {
             });
     }, [header, hashtag, switchReload]);
 
+    async function callFetchMore(){
+        fetchMore(setLoaded, posts, setPosts, URL = `${BASE_URL}/hashtag/${hashtag}`, header, source);
+      }
+
     return (
         <HashtagPageContainer>
             <Header />
@@ -60,17 +69,24 @@ export default function HashtagPage() {
                 <div id="hashtag">
                     <h1 id="title"># {hashtag.toLowerCase()}</h1>
 
-                    {!loaded ? (
-                        <Loading />
-                    ) : (
-                        posts.length > 0 ? (
-                            posts.map((item) => (
-                                <Post post={item} openModal={openModal} reloadPosts={reloadPosts} key={item.id} />                             
-                            ))
-                        ) : (
-                            <h1 id="noPosts">There are no posts for this '#' yet</h1>
-                        )
-                    )}
+                    {posts.map((item, index) => (
+                        <>
+                            <Post post={item} openModal={openModal} reloadPosts={reloadPosts} key={item.id} />
+
+                            {index === posts.length - 1 && (
+                                <UIInfiniteScroll fetchMore={callFetchMore} />
+                            )}
+                        </>
+                    ))}
+
+                    {loaded && posts.length === 0 && <h1 id="noPosts">There are no posts for this '#' yet</h1>}
+
+                    {!loaded &&
+                        (<>
+                            <Loading />
+                            {posts.length > 0 && <LoadingSubtitle />}
+                        </>)
+                    }
 
                 </div>
 

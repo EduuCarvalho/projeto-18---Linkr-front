@@ -1,12 +1,13 @@
 import axios from "axios";
 import { useContext, useState } from "react";
 import CreatePostBox from "../../components/posts/createPost";
-import { BASE_URL } from "../../constants/urls";
+import { reloadPosts } from "../../components/timeline/functions";
+import { postsContext } from "../../contexts/postsContext";
 import { UserInfoContext } from "../../contexts/userInfo";
 
-export default function CreatePost({reloadPosts}) {
-    const URL = `${BASE_URL}/timeline`;
+export default function CreatePost() {
     const {userInfo, header} = useContext(UserInfoContext);
+    const {setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded,  URL, source} = useContext(postsContext);
     const [link, setLink] = useState('');
     const [description, setDescription] = useState('');
     const [loading, setLoading] = useState(false);
@@ -22,7 +23,7 @@ export default function CreatePost({reloadPosts}) {
                     setLoading(false);
                     setDescription('');
                     setLink('');
-                    reloadPosts(false)
+                    reloadPosts(false, setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded,  URL, header, source);
                 })
                 .catch(err => {
                     setLoading(false);
