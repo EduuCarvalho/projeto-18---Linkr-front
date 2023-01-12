@@ -24,7 +24,7 @@ export default function Home() {
   const [postIdClicked, setClicked] = useState(null);
   const [recentPosts, setRecentPosts] = useState(null);
   const [loadPostsPhrase, setLoadPostsPhrase] = useState('new posts, load more!');
-  let source = axios.CancelToken.source();
+  const source = axios.CancelToken.source();
 
   useEffect(() => {
     if (recentPosts > 0 || recentPosts === null) {
@@ -81,7 +81,6 @@ export default function Home() {
       .then((response) => {
         if (response.data !== 'limit rechead') {
           setPosts([...posts, ...response.data.posts]);
-          setRecentPosts(0);
         } else {
           swal('Limite atingido');
         }
