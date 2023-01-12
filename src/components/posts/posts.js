@@ -9,6 +9,7 @@ const PostBox = styled.div`
     display: flex;
     margin-top: 1.6rem;
     padding: 1.6rem 1.8rem 1.6rem 1.8rem;
+    z-index: 1;
 
     .imageAndActivity{
         display: flex;
@@ -200,4 +201,23 @@ export const UpdateArea = styled.textarea`
     font-size: 14px;
     color: #4c4c4c;
     box-sizing: border-box;
+`
+export const RepostInfo = styled.div`
+    width: 100%;
+    height: 55px;
+    margin-bottom: -40px;
+    margin-top: 20px;
+    padding: 5px 0 0 10px;
+    border-radius: 16px;
+    background-color : #1e1e1e;
+    z-index: 0;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    font-size: 11px;
+    font-weight: 400;
+    div{
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
 `
