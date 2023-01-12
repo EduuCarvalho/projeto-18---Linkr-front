@@ -14,10 +14,14 @@ import { BASE_URL } from "../../constants/urls";
 import { ReactTagify } from "react-tagify";
 import { useNavigate } from "react-router-dom";
 import imageNotFound from "../../assets/images/imageNotFound.webp"
+import { reloadPosts } from "../../components/timeline/functions";
+import { postsContext } from "../../contexts/postsContext";
 
-export default function Post({ post, shares, openModal, reloadPosts }) {
+
+export default function Post({ post, shares, openModal }) {
   const { id: postId, ownerId, name: userName, picture_url: userImg, description, linkTitle, linkDescription, linkImg, url: link, likes, total_comments} = post;
   const { header, userInfo } = useContext(UserInfoContext);
+  const {setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded, POST_URL, source} = useContext(postsContext);
   const URL = `${BASE_URL}/like`;
   const likeURL = `${BASE_URL}/like/post/${postId}`;
   const [liked, setLiked] = useState('');
@@ -128,11 +132,12 @@ export default function Post({ post, shares, openModal, reloadPosts }) {
         )
         .then((response) => {
           setLoading(false);
-          reloadPosts();
+
+          reloadPosts(false, setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded,  POST_URL, header, source);
           setUpdate(!updatePost);
         })
         .catch((err) => {
-          swal(err.response.data.message);
+          swal(err.response.data);
           setLoading(false);
         });
     }
