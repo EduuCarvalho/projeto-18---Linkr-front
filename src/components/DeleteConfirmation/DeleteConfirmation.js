@@ -18,7 +18,7 @@ export default function DeleteConfirmation({ setIsOpen, postIdClicked, reloadPos
         swal(response.data.message);
         setIsOpen(false);
         setLoading(false);
-        reloadPosts();
+        reloadPosts(false);
       })
       .catch((err) => {
         setLoading(false);

@@ -22,7 +22,7 @@ export default function CreatePost({reloadPosts}) {
                     setLoading(false);
                     setDescription('');
                     setLink('');
-                    reloadPosts()
+                    reloadPosts(false)
                 })
                 .catch(err => {
                     setLoading(false);

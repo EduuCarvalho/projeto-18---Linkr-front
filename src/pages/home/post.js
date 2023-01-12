@@ -28,7 +28,7 @@ export default function Post({ post, openModal, reloadPosts }) {
   useEffect(() => {
     setLiked(likes.includes(userInfo.name));
     getLikes(likes.includes(userInfo.name));
-  }, [liked, likes]);
+  }, [liked]);
 
   function getLikes(liked) {
     const likesArr = [];
@@ -127,7 +127,7 @@ export default function Post({ post, openModal, reloadPosts }) {
         )
         .then((response) => {
           setLoading(false);
-          reloadPosts();
+          reloadPosts(false);
           setUpdate(!updatePost);
         })
         .catch((err) => {
