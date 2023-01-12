@@ -23,7 +23,7 @@ export default function Home() {
 
   useEffect(() => {
     if (recentPosts > 0 || recentPosts === null) {
-      reloadPosts(false, setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded,  URL, header, source);
+      reloadPosts(false, setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded,  URL, header, source, setHashReposts);
     }
   }, []);
 
@@ -52,7 +52,7 @@ export default function Home() {
           <CreatePost />
 
           {recentPosts > 0 && (
-            <div id="recentPosts" onClick={() => reloadPosts(true, setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded,  URL, header, source)}>
+            <div id="recentPosts" onClick={() => reloadPosts(true, setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded,  URL, header, source, setHashReposts)}>
               <p>{recentPosts === 0.5 ? '' : recentPosts} {loadPostsPhrase}</p>
               <TfiReload />
             </div>

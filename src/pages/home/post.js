@@ -29,7 +29,7 @@ export default function Post({ post, shares, openModal }) {
   const [updatePost, setUpdate] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
+  
   useEffect(() => {
     setLiked(likes.includes(userInfo.name));
     getLikes(likes.includes(userInfo.name));

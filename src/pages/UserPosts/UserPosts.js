@@ -9,7 +9,6 @@ import { BASE_URL } from "../../constants/urls";
 import { useParams } from "react-router-dom";
 import { DeleteModal } from "../../components/ModalDeletePost/ModalDeletePost";
 import Page from "../../components/timeline/page";
-import { hashRepostsNumber } from "../../utils/repostUtils";
 import UIInfiniteScroll from "../../components/infiniteScroll/infiniteScroll";
 import swal from "sweetalert";
 import LoadingSubtitle from "../../components/loading/loadingSubtitle";
@@ -25,7 +24,7 @@ export default function UserPosts() {
   const [postIdClicked, setClicked] = useState(null);
   const [switchReload, setReload] = useState(false);
   const [username, setUserName] = useState(undefined);
-  const [hashReposts, setHashReposts] = useState(null);
+  const [hashReposts, setHashReposts] = useState({});
   const source = axios.CancelToken.source();
 
   function openModal(postId) {
@@ -68,7 +67,7 @@ export default function UserPosts() {
 
           {posts.map((item, index) => (
             <>
-              <Post post={item} shares={hashReposts[item.id]} openModal={openModal} reloadPosts={reloadPosts} key={item.id} />
+              <Post post={item} shares={hashReposts[item.id] ?? 0} openModal={openModal} reloadPosts={reloadPosts} key={item.id} />
 
               {index === posts.length - 1 && (
                 <UIInfiniteScroll fetchMore={callFetchMore} />
