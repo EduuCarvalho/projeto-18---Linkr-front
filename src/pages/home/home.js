@@ -14,6 +14,7 @@ import { TfiReload } from "react-icons/tfi";
 import UIInfiniteScroll from "../../components/infiniteScroll/infiniteScroll";
 import swal from "sweetalert";
 import LoadingSubtitle from "../../components/loading/loadingSubtitle";
+import { fetchMore } from "../../components/timeline/functions";
 
 export default function Home() {
   const { header } = useContext(UserInfoContext);
@@ -73,24 +74,8 @@ export default function Home() {
       });
   }
 
-  async function fetchMore() {
-    setLoaded(false);
-    const ref = posts[posts.length - 1].id;
-
-    await axios.get(`${URL}?ref=${ref}`, header, { cancelToken: source.token })
-      .then((response) => {
-        if (response.data !== 'limit rechead') {
-          setPosts([...posts, ...response.data.posts]);
-        } else {
-          swal('Limite atingido');
-        }
-        setLoaded(true);
-      })
-      .catch((err) => {
-        alert(
-          "An error occured while trying to fetch the posts, please refresh the page"
-        );
-      });
+  async function callFetchMore(){
+    fetchMore(setLoaded, posts, setPosts, URL, header, source);
   }
 
   return (
@@ -115,7 +100,7 @@ export default function Home() {
               <Post post={item} openModal={openModal} reloadPosts={reloadPosts} key={item.id} />
 
               {index === posts.length - 1 && (
-                <UIInfiniteScroll fetchMore={fetchMore} />
+                <UIInfiniteScroll fetchMore={callFetchMore} />
               )}
             </>
           ))}

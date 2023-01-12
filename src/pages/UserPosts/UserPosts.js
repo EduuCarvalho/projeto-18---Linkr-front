@@ -13,6 +13,7 @@ import { hashRepostsNumber } from "../../utils/repostUtils";
 import UIInfiniteScroll from "../../components/infiniteScroll/infiniteScroll";
 import swal from "sweetalert";
 import LoadingSubtitle from "../../components/loading/loadingSubtitle";
+import { fetchMore } from "../../components/timeline/functions";
 
 export default function UserPosts() {
   const { header } = useContext(UserInfoContext);
@@ -53,35 +54,14 @@ export default function UserPosts() {
       });
   }, [header, URL, switchReload]);
 
-  async function fetchMore() {
-    setLoaded(false);
-    const ref = posts[posts.length - 1].id;
-
-    await axios.get(`${URL}?ref=${ref}`, header, { cancelToken: source.token })
-      .then((response) => {
-        if (response.data !== 'limit rechead') {
-          setPosts([...posts, ...response.data.posts]);
-        } else {
-          swal('Limite atingido');
-        }
-        setLoaded(true);
-      })
-      .catch((err) => {
-        alert(
-          "An error occured while trying to fetch the posts, please refresh the page"
-        );
-      });
+  async function callFetchMore(){
+    fetchMore(setLoaded, posts, setPosts, URL, header, source);
   }
 
   return (
     <Page>
       <Header />
-      <DeleteModal
-        setIsOpen={setIsOpen}
-        postIdClicked={postIdClicked}
-        reloadPosts={reloadPosts}
-        modalIsOpen={modalIsOpen}
-      />
+      <DeleteModal setIsOpen={setIsOpen} postIdClicked={postIdClicked} reloadPosts={reloadPosts} modalIsOpen={modalIsOpen} />
       <main>
         <div id="timeline">
           <h1 id="title">{`${username}'s posts`}</h1>
@@ -91,7 +71,7 @@ export default function UserPosts() {
               <Post post={item} openModal={openModal} reloadPosts={reloadPosts} key={item.id} />
 
               {index === posts.length - 1 && (
-                <UIInfiniteScroll fetchMore={fetchMore} />
+                <UIInfiniteScroll fetchMore={callFetchMore} />
               )}
             </>
           ))}
