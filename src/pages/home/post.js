@@ -1,4 +1,4 @@
-import PostBox, { UpdateArea } from "../../components/posts/posts";
+import PostBox, { RepostInfo, UpdateArea } from "../../components/posts/posts";
 import { HiHeart } from "react-icons/hi2";
 import { BiHeart } from "react-icons/bi";
 import { AiOutlineComment } from "react-icons/ai";
@@ -19,7 +19,7 @@ import { postsContext } from "../../contexts/postsContext";
 
 
 export default function Post({ post, shares, openModal }) {
-  const { id: postId, ownerId, name: userName, picture_url: userImg, description, linkTitle, linkDescription, linkImg, url: link, likes, total_comments} = post;
+  const { id: postId, ownerId, name: userName, picture_url: userImg, description, linkTitle, linkDescription, linkImg, url: link, likes, total_comments, who_shared_name} = post;
   const { header, userInfo } = useContext(UserInfoContext);
   const {setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded, POST_URL, source} = useContext(postsContext);
   const URL = `${BASE_URL}/like`;
@@ -144,7 +144,16 @@ export default function Post({ post, shares, openModal }) {
   }
 
   return (
-    <PostBox linkImg={linkImg}>
+    <>
+      {who_shared_name && (
+        <RepostInfo>
+          <div>
+            <FaRetweet color="white" cursor={"pointer"} size={23} />
+            <p>Re-posted by <strong>{who_shared_name === userName ? "you" : who_shared_name}</strong></p>
+          </div>     
+        </RepostInfo>
+      )}
+      <PostBox linkImg={linkImg}>
       <div className="imageAndActivity">
         <div className="userImage">
           <img src={userImg} alt="userImage" />
@@ -152,51 +161,78 @@ export default function Post({ post, shares, openModal }) {
 
         <div className="activity">
           {!liked ? (
-            <BiHeart color="white" cursor={"pointer"} size={23} onClick={changeLike} />
+            <BiHeart
+              color="white"
+              cursor={"pointer"}
+              size={23}
+              onClick={changeLike}
+            />
           ) : (
-            <HiHeart color="red" cursor={"pointer"} size={23} onClick={changeLike} />
+            <HiHeart
+              color="red"
+              cursor={"pointer"}
+              size={23}
+              onClick={changeLike}
+            />
           )}
 
-          {
-            likes.includes(userInfo.name) ? (
-              <LikeTooltip title={personsWhoLiked} arrow>
-                <p>{!liked ? likes.length - 1 : likes.length} likes</p>
-              </LikeTooltip>
-            ) : (
-              <LikeTooltip title={personsWhoLiked} arrow>
-                <p>{!liked ? likes.length : likes.length + 1} likes</p>
-              </LikeTooltip>
-            )
-          }
+          {likes.includes(userInfo.name) ? (
+            <LikeTooltip title={personsWhoLiked} arrow>
+              <p>{!liked ? likes.length - 1 : likes.length} likes</p>
+            </LikeTooltip>
+          ) : (
+            <LikeTooltip title={personsWhoLiked} arrow>
+              <p>{!liked ? likes.length : likes.length + 1} likes</p>
+            </LikeTooltip>
+          )}
 
-          <AiOutlineComment color="white" cursor={"pointer"} size={23} /* onClick={} */ />
+          <AiOutlineComment
+            color="white"
+            cursor={"pointer"}
+            size={23} /* onClick={} */
+          />
 
-          <p>{total_comments} comment{total_comments != 1 && "s"}</p>
+          <p>
+            {total_comments} comment{total_comments != 1 && "s"}
+          </p>
 
           <FaRetweet color="white" cursor={"pointer"} size={23} />
-          <p>{shares} re-post{shares > 1 && "s"}</p>
-
+          <p>
+            {shares} re-post{shares > 1 && "s"}
+          </p>
         </div>
       </div>
       <div className="postInformations">
-
-        {
-          ownerId === parseInt(userInfo.userId) ? (
-            <div className="editPost">
-              <img src={editIcon} alt="edit" onClick={() => setUpdate(!updatePost)} />
-              <ion-icon name="trash-outline" onClick={() => openModal(postId)} />
-            </div>
-          ) : null
-        }
+        {ownerId === parseInt(userInfo.userId) ? (
+          <div className="editPost">
+            <img
+              src={editIcon}
+              alt="edit"
+              onClick={() => setUpdate(!updatePost)}
+            />
+            <ion-icon name="trash-outline" onClick={() => openModal(postId)} />
+          </div>
+        ) : null}
 
         <h3 onClick={() => navigate(`/users/${ownerId}`)}>{userName}</h3>
 
         {!updatePost ? (
-          <ReactTagify colors="#ffffff" tagClicked={tag => tag[0] === "#" && navigate(`/hashtag/${tag.substring(1)}`)}>
+          <ReactTagify
+            colors="#ffffff"
+            tagClicked={(tag) =>
+              tag[0] === "#" && navigate(`/hashtag/${tag.substring(1)}`)
+            }
+          >
             <p>{description}</p>
           </ReactTagify>
         ) : (
-          <UpdateArea cols="70" onKeyDown={handleKeyDown} defaultValue={description} disabled={loading} autoFocus />
+          <UpdateArea
+            cols="70"
+            onKeyDown={handleKeyDown}
+            defaultValue={description}
+            disabled={loading}
+            autoFocus
+          />
         )}
 
         <a href={link} target={"_blank"}>
@@ -210,11 +246,17 @@ export default function Post({ post, shares, openModal }) {
             </div>
 
             <div className="linkImg">
-              <img src={linkImg === '' ? imageNotFound : linkImg} alt="Imagem do link" />
+              <img
+                src={linkImg === "" ? imageNotFound : linkImg}
+                alt="Imagem do link"
+              />
             </div>
           </div>
         </a>
       </div>
     </PostBox>
+    </>
+
+    
   );
 }
