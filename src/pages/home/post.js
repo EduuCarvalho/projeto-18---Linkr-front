@@ -144,10 +144,6 @@ export default function Post({ post, shares, openModal }) {
     }
   }
 
-  function handleCommentsClick() {
-    setOpenComments(!openComments);
-  }
-
   return (
     <>
       {who_shared_name && (
@@ -191,7 +187,8 @@ export default function Post({ post, shares, openModal }) {
             </LikeTooltip>
           )}
 
-            <AiOutlineComment color="white" cursor={"pointer"} size={23} onClick={handleCommentsClick} />
+          <AiOutlineComment color="white" cursor={"pointer"} size={23} onClick={() => setOpenComments(!openComments)} />
+
           <p>
             {total_comments} comment{total_comments != 1 && "s"}
           </p>
@@ -235,15 +232,15 @@ export default function Post({ post, shares, openModal }) {
           />
         )}
 
-          <a href={link} target={"_blank"}>
-            <div className="linkData">
-              <div className="linkInformations">
-                <p className="linkTitle">{linkTitle}</p>
+        <a href={link} target={"_blank"}>
+          <div className="linkData">
+            <div className="linkInformations">
+              <p className="linkTitle">{linkTitle}</p>
 
-                <p className="linkDescription">{linkDescription}</p>
+              <p className="linkDescription">{linkDescription}</p>
 
-                <p className="link">{link}</p>
-              </div>
+              <p className="link">{link}</p>
+            </div>
 
             <div className="linkImg">
               <img
@@ -251,9 +248,9 @@ export default function Post({ post, shares, openModal }) {
                 alt="Imagem do link"
               />
             </div>
-            </div>
-          </a>
-        </div>
+          </div>
+        </a>
+      </div>
       </PostBox>
       <CommentsBox openComments={openComments}>
         {comments.map(
