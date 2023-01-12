@@ -40,7 +40,6 @@ export default function UserPosts() {
         setUserName(response.data.username);
         setLoaded(true);
         hashReposts = {...hashRepostsNumber(response.data.posts)};
-        console.log(hashReposts);
       })
       .catch((err) => {
         console.log(err)
