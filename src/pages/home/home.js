@@ -25,6 +25,7 @@ export default function Home() {
   const [recentPosts, setRecentPosts] = useState(null);
   const [loadPostsPhrase, setLoadPostsPhrase] = useState('new posts, load more!');
   let source = axios.CancelToken.source();
+  const [hashReposts, setHashReposts] = useState({});
 
   useEffect(() => {
     if (recentPosts > 0 || recentPosts === null) {
@@ -62,9 +63,10 @@ export default function Home() {
     await axios.get(URL, header, { cancelToken: source.token })
       .then((response) => {
         setPosts([...response.data.posts]);
-        setLoaded(true);
+        setHashReposts({...response.data.sharesHash});
         setLoadPostsPhrase('new posts, load more!');
         setRecentPosts(0);
+        setLoaded(true);
       })
       .catch((err) => {
         alert(
@@ -113,7 +115,7 @@ export default function Home() {
 
           {posts.map((item, index) => (
             <>
-              <Post post={item} openModal={openModal} reloadPosts={reloadPosts} key={item.id} />
+              <Post post={item} shares={hashReposts[item.id]} openModal={openModal} reloadPosts={reloadPosts} key={item.id} />
 
               {index === posts.length - 1 && (
                 <UIInfiniteScroll fetchMore={fetchMore} />

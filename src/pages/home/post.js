@@ -2,6 +2,7 @@ import PostBox, { UpdateArea } from "../../components/posts/posts";
 import { HiHeart } from "react-icons/hi2";
 import { BiHeart } from "react-icons/bi";
 import { AiOutlineComment } from "react-icons/ai";
+import { FaRetweet } from "react-icons/fa";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { UserInfoContext } from "../../contexts/userInfo";
@@ -14,7 +15,7 @@ import { ReactTagify } from "react-tagify";
 import { useNavigate } from "react-router-dom";
 import imageNotFound from "../../assets/images/imageNotFound.webp"
 
-export default function Post({ post, openModal, reloadPosts }) {
+export default function Post({ post, shares, openModal, reloadPosts }) {
   const { id: postId, ownerId, name: userName, picture_url: userImg, description, linkTitle, linkDescription, linkImg, url: link, likes, total_comments} = post;
   const { header, userInfo } = useContext(UserInfoContext);
   const URL = `${BASE_URL}/like`;
@@ -127,7 +128,7 @@ export default function Post({ post, openModal, reloadPosts }) {
         )
         .then((response) => {
           setLoading(false);
-          reloadPosts(false);
+          reloadPosts();
           setUpdate(!updatePost);
         })
         .catch((err) => {
@@ -166,6 +167,10 @@ export default function Post({ post, openModal, reloadPosts }) {
           <AiOutlineComment color="white" cursor={"pointer"} size={23} /* onClick={} */ />
 
           <p>{total_comments} comment{total_comments != 1 && "s"}</p>
+
+          <FaRetweet color="white" cursor={"pointer"} size={23} />
+          <p>{shares} re-post{shares > 1 && "s"}</p>
+
         </div>
       </div>
       <div className="postInformations">
