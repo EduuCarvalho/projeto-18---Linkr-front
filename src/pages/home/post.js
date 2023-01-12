@@ -2,6 +2,7 @@ import PostBox, { UpdateArea } from "../../components/posts/posts";
 import { HiHeart } from "react-icons/hi2";
 import { BiHeart } from "react-icons/bi";
 import { AiOutlineComment } from "react-icons/ai";
+import { FaRetweet } from "react-icons/fa";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { UserInfoContext } from "../../contexts/userInfo";
@@ -16,7 +17,8 @@ import imageNotFound from "../../assets/images/imageNotFound.webp"
 import { reloadPosts } from "../../components/timeline/functions";
 import { postsContext } from "../../contexts/postsContext";
 
-export default function Post({ post, openModal }) {
+
+export default function Post({ post, shares, openModal }) {
   const { id: postId, ownerId, name: userName, picture_url: userImg, description, linkTitle, linkDescription, linkImg, url: link, likes, total_comments} = post;
   const { header, userInfo } = useContext(UserInfoContext);
   const {setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded, POST_URL, source} = useContext(postsContext);
@@ -27,7 +29,7 @@ export default function Post({ post, openModal }) {
   const [updatePost, setUpdate] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
+  
   useEffect(() => {
     setLiked(likes.includes(userInfo.name));
     getLikes(likes.includes(userInfo.name));
@@ -130,6 +132,7 @@ export default function Post({ post, openModal }) {
         )
         .then((response) => {
           setLoading(false);
+
           reloadPosts(false, setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded,  POST_URL, header, source);
           setUpdate(!updatePost);
         })
@@ -169,6 +172,10 @@ export default function Post({ post, openModal }) {
           <AiOutlineComment color="white" cursor={"pointer"} size={23} /* onClick={} */ />
 
           <p>{total_comments} comment{total_comments != 1 && "s"}</p>
+
+          <FaRetweet color="white" cursor={"pointer"} size={23} />
+          <p>{shares} re-post{shares > 1 && "s"}</p>
+
         </div>
       </div>
       <div className="postInformations">

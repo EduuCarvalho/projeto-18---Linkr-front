@@ -19,10 +19,11 @@ export default function Home() {
   const { posts, setPosts, loaded, setLoaded, recentPosts, setRecentPosts, loadPostsPhrase, setLoadPostsPhrase, URL, source } = useContext(postsContext);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [postIdClicked, setClicked] = useState(null);
+  const [hashReposts, setHashReposts] = useState({});
 
   useEffect(() => {
     if (recentPosts > 0 || recentPosts === null) {
-      reloadPosts(false, setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded,  URL, header, source);
+      reloadPosts(false, setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded,  URL, header, source, setHashReposts);
     }
   }, []);
 
@@ -34,6 +35,7 @@ export default function Home() {
     setIsOpen(true);
     setClicked(postId);
   }
+
 
   async function callFetchMore() {
     fetchMore(setLoaded, posts, setPosts, URL, header, source);
@@ -50,7 +52,7 @@ export default function Home() {
           <CreatePost />
 
           {recentPosts > 0 && (
-            <div id="recentPosts" onClick={() => reloadPosts(true, setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded,  URL, header, source)}>
+            <div id="recentPosts" onClick={() => reloadPosts(true, setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded,  URL, header, source, setHashReposts)}>
               <p>{recentPosts === 0.5 ? '' : recentPosts} {loadPostsPhrase}</p>
               <TfiReload />
             </div>
@@ -58,7 +60,8 @@ export default function Home() {
 
           {posts.map((item, index) => (
             <>
-              <Post post={item} openModal={openModal} key={item.id} />
+
+              <Post post={item} shares={hashReposts[item.id]} openModal={openModal} key={item.id} />
 
               {index === posts.length - 1 && (
                 <UIInfiniteScroll fetchMore={callFetchMore} />

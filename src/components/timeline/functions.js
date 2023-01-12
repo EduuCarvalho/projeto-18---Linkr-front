@@ -37,13 +37,14 @@ export function verifyRecentPosts(loaded, posts, setRecentPosts, URL, header, so
   }
 }
 
-export async function reloadPosts(recentPosts = false, setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded,  URL, header, source) {
+export async function reloadPosts(recentPosts = false, setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded,  URL, header, source, setHashReposts) {
   setLoadPostsPhrase('Loading...');
   if (recentPosts) setRecentPosts(0.5);
 
   await axios.get(URL, header, { cancelToken: source.token })
     .then((response) => {
       setPosts([...response.data.posts]);
+      setHashReposts({...response.data.sharesHash});
       setLoaded(true);
       setLoadPostsPhrase('new posts, load more!');
       setRecentPosts(0);
