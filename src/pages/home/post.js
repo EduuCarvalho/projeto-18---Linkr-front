@@ -14,14 +14,13 @@ import { BASE_URL } from "../../constants/urls";
 import { ReactTagify } from "react-tagify";
 import { useNavigate } from "react-router-dom";
 import imageNotFound from "../../assets/images/imageNotFound.webp"
-import { reloadPosts } from "../../components/timeline/functions";
 import { postsContext } from "../../contexts/postsContext";
-
+import { getTrendings } from "../../components/timeline/functions";
 
 export default function Post({ post, shares, openModal }) {
-  const { id: postId, ownerId, name: userName, picture_url: userImg, description, linkTitle, linkDescription, linkImg, url: link, likes, total_comments, who_shared_name} = post;
+  const { id: postId, ownerId, name: userName, picture_url: userImg, linkTitle, linkDescription, linkImg, url: link, likes, total_comments, who_shared_name} = post;
   const { header, userInfo } = useContext(UserInfoContext);
-  const {setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded, POST_URL, source} = useContext(postsContext);
+  const { setTrending } = useContext(postsContext);
   const URL = `${BASE_URL}/like`;
   const likeURL = `${BASE_URL}/like/post/${postId}`;
   const [liked, setLiked] = useState('');
@@ -29,7 +28,8 @@ export default function Post({ post, shares, openModal }) {
   const [updatePost, setUpdate] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  
+  const [description, setDescription] = useState(post.description);
+
   useEffect(() => {
     setLiked(likes.includes(userInfo.name));
     getLikes(likes.includes(userInfo.name));
@@ -132,9 +132,9 @@ export default function Post({ post, shares, openModal }) {
         )
         .then((response) => {
           setLoading(false);
-
-          reloadPosts(false, setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded,  POST_URL, header, source);
+          setDescription(e.target.value);
           setUpdate(!updatePost);
+          getTrendings(header, setTrending);
         })
         .catch((err) => {
           swal(err.response.data);

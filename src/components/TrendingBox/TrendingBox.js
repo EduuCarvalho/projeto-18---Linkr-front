@@ -1,18 +1,17 @@
 import Loading from "../../components/loading/loading";
 
 import { mainFont, titleFont } from "../../constants/fonts.js";
-import { BASE_URL } from "../../constants/urls.js";
 import { UserInfoContext } from "../../contexts/userInfo.js";
 
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import styled from "styled-components";
+import { postsContext } from "../../contexts/postsContext";
+import { getTrendings } from "../timeline/functions";
 
 export function TrendingBox({ posts }) {
     const { header } = useContext(UserInfoContext);
-    
-    const [trending, setTrending] = useState(undefined);
+    const { trending, setTrending } = useContext(postsContext);
 
     function handleTrending() {
         if (!trending) {
@@ -34,18 +33,7 @@ export function TrendingBox({ posts }) {
     }
 
     useEffect(() => {
-        axios
-            .get(`${BASE_URL}/trending`, header)
-            .then(
-                res => setTrending(res.data)
-            )
-            .catch(
-                err => {
-                    console.error(
-                        err.response.data.message || err.response.data
-                    );
-                }
-            );
+        getTrendings(header, setTrending);
     }, [header, posts]);
 
     return (
@@ -55,7 +43,7 @@ export function TrendingBox({ posts }) {
             </TrendingBoxTitle>
 
             <TrendingBoxLine />
-            
+
             <TrendingBoxList>
                 {handleTrending()}
             </TrendingBoxList>

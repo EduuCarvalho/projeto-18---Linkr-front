@@ -1,5 +1,6 @@
 import axios from "axios";
 import swal from "sweetalert";
+import { BASE_URL } from "../../constants/urls";
 
 export async function fetchMore(setLoaded, posts, setPosts, URL, header, source) {
   setLoaded(false);
@@ -37,14 +38,14 @@ export function verifyRecentPosts(loaded, posts, setRecentPosts, URL, header, so
   }
 }
 
-export async function reloadPosts(recentPosts = false, setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded,  URL, header, source, setHashReposts) {
+export async function reloadPosts(recentPosts = false, setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded, URL, header, source, setHashReposts) {
   setLoadPostsPhrase('Loading...');
   if (recentPosts) setRecentPosts(0.5);
 
   await axios.get(URL, header, { cancelToken: source.token })
     .then((response) => {
       setPosts([...response.data.posts]);
-      setHashReposts({...response.data.sharesHash});
+      setHashReposts({ ...response.data.sharesHash });
       setLoaded(true);
       setLoadPostsPhrase('new posts, load more!');
       setRecentPosts(0);
@@ -52,4 +53,19 @@ export async function reloadPosts(recentPosts = false, setLoadPostsPhrase, setRe
     .catch((err) => {
       swal("An error occured while trying to fetch the posts, please refresh the page");
     });
+}
+
+export async function getTrendings(header, setTrending) {
+  axios
+    .get(`${BASE_URL}/trending`, header)
+    .then(
+      res => setTrending(res.data)
+    )
+    .catch(
+      err => {
+        console.error(
+          err.response.data.message || err.response.data
+        );
+      }
+    );
 }
