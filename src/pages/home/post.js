@@ -14,10 +14,13 @@ import { BASE_URL } from "../../constants/urls";
 import { ReactTagify } from "react-tagify";
 import { useNavigate } from "react-router-dom";
 import imageNotFound from "../../assets/images/imageNotFound.webp"
+import { postsContext } from "../../contexts/postsContext";
+import { getTrendings } from "../../components/timeline/functions";
 
 export default function Post({ post, shares, openModal }) {
-  const { id: postId, ownerId, name: userName, picture_url: userImg, linkDescription, linkTitle, linkImg, url: link, likes, total_comments, setHashReposts} = post;
+  const { id: postId, ownerId, name: userName, picture_url: userImg, linkDescription, linkTitle, linkImg, url: link, likes, total_comments } = post;
   const { header, userInfo } = useContext(UserInfoContext);
+  const { setTrending } = useContext(postsContext);
   const URL = `${BASE_URL}/like`;
   const likeURL = `${BASE_URL}/like/post/${postId}`;
   const [liked, setLiked] = useState('');
@@ -26,7 +29,7 @@ export default function Post({ post, shares, openModal }) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [description, setDescription] = useState(post.description);
-  
+
   useEffect(() => {
     setLiked(likes.includes(userInfo.name));
     getLikes(likes.includes(userInfo.name));
@@ -131,6 +134,7 @@ export default function Post({ post, shares, openModal }) {
           setLoading(false);
           setDescription(e.target.value);
           setUpdate(!updatePost);
+          getTrendings(header, setTrending);
         })
         .catch((err) => {
           swal(err.response.data);
