@@ -13,6 +13,8 @@ import Loading from "../../components/loading/loading";
 import useInterval from "use-interval";
 import { TfiReload } from "react-icons/tfi";
 import UIInfiniteScroll from "../../components/infiniteScroll/infiniteScroll";
+import swal from "sweetalert";
+import LoadingSubtitle from "../../components/loading/loadingSubtitle";
 
 export default function Home({ isMyPage }) {
   const { header } = useContext(UserInfoContext);
@@ -78,13 +80,18 @@ export default function Home({ isMyPage }) {
   }
 
   async function fetchMore() {
-    console.log("calma...");
+    setLoaded(false);
     const ref = posts[posts.length - 1].id;
 
     await axios.get(`${URL}?ref=${ref}`, header, { cancelToken: source.token })
       .then((response) => {
-        setPosts([...posts, ...response.data.posts]);
-        setRecentPosts(0);
+        if (response.data !== 'limit rechead') {
+          setPosts([...posts, ...response.data.posts]);
+          setRecentPosts(0);
+        } else {
+          swal('Limite atingido');
+        }
+        setLoaded(true);
       })
       .catch((err) => {
         alert(
@@ -103,26 +110,38 @@ export default function Home({ isMyPage }) {
 
           {isMyPage && <CreatePost reloadPosts={reloadPosts} />}
 
-          {!loaded ? (
-            <Loading />
-          ) : posts.length > 0 ? (
-            <>
-              {recentPosts > 0 && (
-                <div id="recentPosts" onClick={reloadPosts}>
-                  <p>{recentPosts === 0.5 ? '' : recentPosts} {loadPostsPhrase}</p>
-                  <TfiReload />
-                </div>
-              )}
-
-              {posts.map((item) => (
-                <Post postId={item.id} ownerId={item.ownerId} userName={item.name} userImg={item.picture_url} description={item.description} linkTitle={item.linkTitle} linkDescription={item.linkDescription} linkImg={item.linkImg} link={item.url} likes={item.likes} openModal={openModal} reloadPosts={reloadPosts} key={item.id} />
-              ))}
-
-              <UIInfiniteScroll fetchMore={fetchMore} />
-            </>
-          ) : (
-            <h1 id="noPosts">There are no posts yet</h1>
+          {recentPosts > 0 && (
+            <div id="recentPosts" onClick={reloadPosts}>
+              <p>{recentPosts === 0.5 ? '' : recentPosts} {loadPostsPhrase}</p>
+              <TfiReload />
+            </div>
           )}
+
+          {posts.map((item, index) => (
+            <>
+              <Post post={item} openModal={openModal} reloadPosts={reloadPosts} key={item.id} />
+
+              {index === posts.length - 1 && (
+                <UIInfiniteScroll fetchMore={fetchMore} />
+              )}
+            </>
+          ))}
+
+          {loaded && posts.length === 0 && <h1 id="noPosts">There are no posts yet</h1>}
+
+          {!loaded &&
+            (<>
+              {posts.length > 0 ?
+                (<>
+                  <Loading />
+                  <LoadingSubtitle />
+                </>)
+                :
+                <Loading />
+              }
+            </>)
+          }
+
         </div>
 
         <TrendingBox posts={posts} />
