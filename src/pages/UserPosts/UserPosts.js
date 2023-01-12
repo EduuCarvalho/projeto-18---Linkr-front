@@ -100,14 +100,8 @@ export default function UserPosts() {
 
           {!loaded &&
             (<>
-              {posts.length > 0 ?
-                (<>
-                  <Loading />
-                  <LoadingSubtitle />
-                </>)
-                :
-                <Loading />
-              }
+              <Loading />
+              {posts.length > 0 && <LoadingSubtitle />}
             </>)
           }
         </div>

@@ -14,6 +14,9 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
+import LoadingSubtitle from "../../components/loading/loadingSubtitle.js";
+import UIInfiniteScroll from "../../components/infiniteScroll/infiniteScroll.js";
+import swal from "sweetalert";
 
 export default function HashtagPage() {
     const { header } = useContext(UserInfoContext);
@@ -23,6 +26,7 @@ export default function HashtagPage() {
     const [postIdClicked, setClicked] = useState(null);
     const [posts, setPosts] = useState([]);
     const [switchReload, setReload] = useState(false);
+    const source = axios.CancelToken.source();
 
     function openModal(postId) {
         setIsOpen(true);
@@ -45,6 +49,26 @@ export default function HashtagPage() {
             });
     }, [header, hashtag, switchReload]);
 
+    async function fetchMore() {
+        setLoaded(false);
+        const ref = posts[posts.length - 1].id;
+
+        await axios.get(`${BASE_URL}/hashtag/${hashtag}?ref=${ref}`, header, { cancelToken: source.token })
+            .then((response) => {
+                if (response.data !== 'limit rechead') {
+                    setPosts([...posts, ...response.data.posts]);
+                } else {
+                    swal('Limite atingido');
+                }
+                setLoaded(true);
+            })
+            .catch((err) => {
+                alert(
+                    "An error occured while trying to fetch the posts, please refresh the page"
+                );
+            });
+    }
+
     return (
         <HashtagPageContainer>
             <Header />
@@ -60,17 +84,24 @@ export default function HashtagPage() {
                 <div id="hashtag">
                     <h1 id="title"># {hashtag.toLowerCase()}</h1>
 
-                    {!loaded ? (
-                        <Loading />
-                    ) : (
-                        posts.length > 0 ? (
-                            posts.map((item) => (
-                                <Post post={item} openModal={openModal} reloadPosts={reloadPosts} key={item.id} />                             
-                            ))
-                        ) : (
-                            <h1 id="noPosts">There are no posts for this '#' yet</h1>
-                        )
-                    )}
+                    {posts.map((item, index) => (
+                        <>
+                            <Post post={item} openModal={openModal} reloadPosts={reloadPosts} key={item.id} />
+
+                            {index === posts.length - 1 && (
+                                <UIInfiniteScroll fetchMore={fetchMore} />
+                            )}
+                        </>
+                    ))}
+
+                    {loaded && posts.length === 0 && <h1 id="noPosts">There are no posts for this '#' yet</h1>}
+
+                    {!loaded &&
+                        (<>
+                            <Loading />
+                            {posts.length > 0 && <LoadingSubtitle />}
+                        </>)
+                    }
 
                 </div>
 
