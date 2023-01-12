@@ -16,10 +16,9 @@ import { postsContext } from "../../contexts/postsContext";
 
 export default function Home() {
   const { header } = useContext(UserInfoContext);
-  const { posts, setPosts, loaded, setLoaded, recentPosts, setRecentPosts, loadPostsPhrase, setLoadPostsPhrase, URL, source } = useContext(postsContext);
+  const { posts, setPosts, loaded, setLoaded, recentPosts, setRecentPosts, loadPostsPhrase, setLoadPostsPhrase, URL, source, hashReposts, setHashReposts } = useContext(postsContext);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [postIdClicked, setClicked] = useState(null);
-  const [hashReposts, setHashReposts] = useState({});
 
   useEffect(() => {
     if (recentPosts > 0 || recentPosts === null) {
@@ -60,7 +59,6 @@ export default function Home() {
 
           {posts.map((item, index) => (
             <>
-
               <Post post={item} shares={hashReposts[item.id]} openModal={openModal} key={item.id} />
 
               {index === posts.length - 1 && (

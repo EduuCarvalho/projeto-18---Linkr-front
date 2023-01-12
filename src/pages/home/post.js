@@ -1,5 +1,4 @@
-import PostBox, { Comment, 
-  CommentsBox, UpdateArea } from "../../components/posts/posts";
+import PostBox, { Comment, CommentsBox, RepostInfo, UpdateArea } from "../../components/posts/posts";
 import { HiHeart } from "react-icons/hi2";
 import { BiHeart } from "react-icons/bi";
 import { AiOutlineComment } from "react-icons/ai";
@@ -15,14 +14,13 @@ import { BASE_URL } from "../../constants/urls";
 import { ReactTagify } from "react-tagify";
 import { useNavigate } from "react-router-dom";
 import imageNotFound from "../../assets/images/imageNotFound.webp"
-import { reloadPosts } from "../../components/timeline/functions";
 import { postsContext } from "../../contexts/postsContext";
-
+import { getTrendings } from "../../components/timeline/functions";
 
 export default function Post({ post, shares, openModal }) {
-  const { id: postId, ownerId, name: userName, picture_url: userImg, description, linkTitle, linkDescription, linkImg, url: link, likes, total_comments, comments} = post;
+  const { id: postId, ownerId, name: userName, picture_url: userImg, linkTitle, linkDescription, linkImg, url: link, likes, total_comments, comments, who_shared_name} = post;
   const { header, userInfo } = useContext(UserInfoContext);
-  const {setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded, POST_URL, source} = useContext(postsContext);
+  const { setTrending } = useContext(postsContext);
   const URL = `${BASE_URL}/like`;
   const likeURL = `${BASE_URL}/like/post/${postId}`;
   const [liked, setLiked] = useState('');
@@ -31,7 +29,8 @@ export default function Post({ post, shares, openModal }) {
   const [loading, setLoading] = useState(false);
   const [openComments, setOpenComments] = useState(false);
   const navigate = useNavigate();
-  
+  const [description, setDescription] = useState(post.description);
+
   useEffect(() => {
     setLiked(likes.includes(userInfo.name));
     getLikes(likes.includes(userInfo.name));
@@ -134,9 +133,9 @@ export default function Post({ post, shares, openModal }) {
         )
         .then((response) => {
           setLoading(false);
-
-          reloadPosts(false, setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded,  POST_URL, header, source);
+          setDescription(e.target.value);
           setUpdate(!updatePost);
+          getTrendings(header, setTrending);
         })
         .catch((err) => {
           swal(err.response.data);
@@ -151,62 +150,90 @@ export default function Post({ post, shares, openModal }) {
 
   return (
     <>
+      {who_shared_name && (
+        <RepostInfo>
+          <div>
+            <FaRetweet color="white" cursor={"pointer"} size={23} />
+            <p>Re-posted by <strong>{who_shared_name === userName ? "you" : who_shared_name}</strong></p>
+          </div>     
+        </RepostInfo>
+      )}
       <PostBox linkImg={linkImg}>
-        <>
-        <div className="imageAndActivity">
-          <div className="userImage">
-            <img src={userImg} alt="userImage" />
-          </div>
+      <div className="imageAndActivity">
+        <div className="userImage">
+          <img src={userImg} alt="userImage" />
+        </div>
 
-          <div className="activity">
-            {!liked ? (
-              <BiHeart color="white" cursor={"pointer"} size={23} onClick={changeLike} />
-            ) : (
-              <HiHeart color="red" cursor={"pointer"} size={23} onClick={changeLike} />
-            )}
+        <div className="activity">
+          {!liked ? (
+            <BiHeart
+              color="white"
+              cursor={"pointer"}
+              size={23}
+              onClick={changeLike}
+            />
+          ) : (
+            <HiHeart
+              color="red"
+              cursor={"pointer"}
+              size={23}
+              onClick={changeLike}
+            />
+          )}
 
-            {
-              likes.includes(userInfo.name) ? (
-                <LikeTooltip title={personsWhoLiked} arrow>
-                  <p>{!liked ? likes.length - 1 : likes.length} likes</p>
-                </LikeTooltip>
-              ) : (
-                <LikeTooltip title={personsWhoLiked} arrow>
-                  <p>{!liked ? likes.length : likes.length + 1} likes</p>
-                </LikeTooltip>
-              )
-            }
+          {likes.includes(userInfo.name) ? (
+            <LikeTooltip title={personsWhoLiked} arrow>
+              <p>{!liked ? likes.length - 1 : likes.length} likes</p>
+            </LikeTooltip>
+          ) : (
+            <LikeTooltip title={personsWhoLiked} arrow>
+              <p>{!liked ? likes.length : likes.length + 1} likes</p>
+            </LikeTooltip>
+          )}
 
             <AiOutlineComment color="white" cursor={"pointer"} size={23} onClick={handleCommentsClick} />
+          <p>
+            {total_comments} comment{total_comments != 1 && "s"}
+          </p>
 
-            <p>{total_comments} comment{total_comments !== "1" && "s"}</p>
-
-            <FaRetweet color="white" cursor={"pointer"} size={23} />
-            <p>{shares} re-post{shares > 1 && "s"}</p>
-
-          </div>
+          <FaRetweet color="white" cursor={"pointer"} size={23} />
+          <p>
+            {shares} re-post{shares > 1 && "s"}
+          </p>
         </div>
-        </>
-        <div className="postInformations">
+      </div>
+      <div className="postInformations">
+        {ownerId === parseInt(userInfo.userId) ? (
+          <div className="editPost">
+            <img
+              src={editIcon}
+              alt="edit"
+              onClick={() => setUpdate(!updatePost)}
+            />
+            <ion-icon name="trash-outline" onClick={() => openModal(postId)} />
+          </div>
+        ) : null}
 
-          {
-            ownerId === parseInt(userInfo.userId) ? (
-              <div className="editPost">
-                <img src={editIcon} alt="edit" onClick={() => setUpdate(!updatePost)} />
-                <ion-icon name="trash-outline" onClick={() => openModal(postId)} />
-              </div>
-            ) : null
-          }
+        <h3 onClick={() => navigate(`/users/${ownerId}`)}>{userName}</h3>
 
-          <h3 onClick={() => navigate(`/users/${ownerId}`)}>{userName}</h3>
-
-          {!updatePost ? (
-            <ReactTagify colors="#ffffff" tagClicked={tag => tag[0] === "#" && navigate(`/hashtag/${tag.substring(1)}`)}>
-              <p>{description}</p>
-            </ReactTagify>
-          ) : (
-            <UpdateArea cols="70" onKeyDown={handleKeyDown} defaultValue={description} disabled={loading} autoFocus />
-          )}
+        {!updatePost ? (
+          <ReactTagify
+            colors="#ffffff"
+            tagClicked={(tag) =>
+              tag[0] === "#" && navigate(`/hashtag/${tag.substring(1)}`)
+            }
+          >
+            <p>{description}</p>
+          </ReactTagify>
+        ) : (
+          <UpdateArea
+            cols="70"
+            onKeyDown={handleKeyDown}
+            defaultValue={description}
+            disabled={loading}
+            autoFocus
+          />
+        )}
 
           <a href={link} target={"_blank"}>
             <div className="linkData">
@@ -218,9 +245,12 @@ export default function Post({ post, shares, openModal }) {
                 <p className="link">{link}</p>
               </div>
 
-              <div className="linkImg">
-                <img src={linkImg === '' ? imageNotFound : linkImg} alt="Imagem do link" />
-              </div>
+            <div className="linkImg">
+              <img
+                src={linkImg === "" ? imageNotFound : linkImg}
+                alt="Imagem do link"
+              />
+            </div>
             </div>
           </a>
         </div>

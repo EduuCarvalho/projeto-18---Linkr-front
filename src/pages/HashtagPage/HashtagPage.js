@@ -61,7 +61,6 @@ export default function HashtagPage() {
             <DeleteModal
                 setIsOpen={setIsOpen}
                 postIdClicked={postIdClicked}
-                reloadPosts={reloadPosts}
                 modalIsOpen={modalIsOpen}
             />
 
