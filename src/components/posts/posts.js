@@ -204,21 +204,23 @@ export const UpdateArea = styled.textarea`
 `
 
 export const CommentsBox = styled.div`
-    background-color: red;
+    background-color: #1e1e1e;
+    border-radius: 0 0 16px 16px;
     margin-top: -16px;
-    padding-top: 16px;
+    padding: 16px 2rem 0 2rem;
 `;
 
 export const Comment = styled.div`
+    align-items: center;
+    border-bottom: 1px solid #353535;
     display: flex;
     height: 75px;
     line-heigth: 17px;
-    border-bottom: 1px solid #353535;
 
     img {
         border-radius: 100%;
         height: 4rem;
-        //margin: 1.5rem;
+        margin: 0 2rem 0 1rem;
         overflow: hidden;
         width: 4rem;
     }
