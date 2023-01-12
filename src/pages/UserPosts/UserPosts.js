@@ -39,7 +39,6 @@ export default function UserPosts() {
         setHashReposts({...response.data.sharesHash});
         setUserName(response.data.username);
         setLoaded(true);
-        console.log(response.data.sharesHash)
       })
       .catch((err) => {
         console.log(err)
