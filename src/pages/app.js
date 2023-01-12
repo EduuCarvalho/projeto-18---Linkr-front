@@ -7,6 +7,7 @@ import SignUp from "./Login/sign-up.js"
 import UserInfoProvider from "../contexts/userInfo";
 import Home from "./home/home";
 import HashtagPage from "./HashtagPage/HashtagPage";
+import UserPosts from "./UserPosts/UserPosts";
 
 export default function App() {
   return (
@@ -17,9 +18,9 @@ export default function App() {
           <Routes>
             <Route path="/" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
-            <Route path="/home" element={<Home isMyPage={true} />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/hashtag/:hashtag" element={<HashtagPage />} />
-            <Route path="/users/:id" element={<Home isMyPage={false} />} />
+            <Route path="/users/:id" element={<UserPosts />} />
           </Routes>
         </UserInfoProvider>
       </BrowserRouter>
