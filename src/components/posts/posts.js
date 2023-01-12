@@ -206,6 +206,7 @@ export const UpdateArea = styled.textarea`
 export const CommentsBox = styled.div`
     background-color: #1e1e1e;
     border-radius: 0 0 16px 16px;
+    display: ${({ openComments }) => openComments ? "" : "none"};
     margin-top: -16px;
     padding: 16px 2rem 0 2rem;
 `;

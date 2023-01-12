@@ -29,6 +29,7 @@ export default function Post({ post, shares, openModal }) {
   const [personsWhoLiked, setPersonsWhoLiked] = useState("");
   const [updatePost, setUpdate] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [openComments, setOpenComments] = useState(false);
   const navigate = useNavigate();
   
   useEffect(() => {
@@ -144,6 +145,10 @@ export default function Post({ post, shares, openModal }) {
     }
   }
 
+  function handleCommentsClick() {
+    setOpenComments(!openComments);
+  }
+
   return (
     <>
       <PostBox linkImg={linkImg}>
@@ -172,7 +177,7 @@ export default function Post({ post, shares, openModal }) {
               )
             }
 
-            <AiOutlineComment color="white" cursor={"pointer"} size={23} /* onClick={} */ />
+            <AiOutlineComment color="white" cursor={"pointer"} size={23} onClick={handleCommentsClick} />
 
             <p>{total_comments} comment{total_comments !== "1" && "s"}</p>
 
@@ -220,7 +225,7 @@ export default function Post({ post, shares, openModal }) {
           </a>
         </div>
       </PostBox>
-      <CommentsBox>
+      <CommentsBox openComments={openComments}>
         {comments.map(
           comment =>
             <Comment key={comment.comment_id}>
