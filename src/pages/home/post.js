@@ -1,4 +1,4 @@
-import PostBox, { RepostInfo, UpdateArea } from "../../components/posts/posts";
+import PostBox, { Comment, CommentsBox, RepostInfo, UpdateArea } from "../../components/posts/posts";
 import { HiHeart } from "react-icons/hi2";
 import { BiHeart } from "react-icons/bi";
 import { AiOutlineComment } from "react-icons/ai";
@@ -18,7 +18,7 @@ import { postsContext } from "../../contexts/postsContext";
 import { getTrendings } from "../../components/timeline/functions";
 
 export default function Post({ post, shares, openModal }) {
-  const { id: postId, ownerId, name: userName, picture_url: userImg, linkTitle, linkDescription, linkImg, url: link, likes, total_comments, who_shared_name } = post;
+  const { id: postId, ownerId, name: userName, picture_url: userImg, linkTitle, linkDescription, linkImg, url: link, likes, total_comments, comments, who_shared_name } = post;
   const { header, userInfo } = useContext(UserInfoContext);
   const { setTrending } = useContext(postsContext);
   const URL = `${BASE_URL}/like`;
@@ -27,6 +27,7 @@ export default function Post({ post, shares, openModal }) {
   const [personsWhoLiked, setPersonsWhoLiked] = useState("");
   const [updatePost, setUpdate] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [openComments, setOpenComments] = useState(false);
   const navigate = useNavigate();
   const [description, setDescription] = useState(post.description);
   const isRepost = who_shared_name !== null;
@@ -190,7 +191,8 @@ export default function Post({ post, shares, openModal }) {
             <AiOutlineComment
               color="white"
               cursor={"pointer"}
-              size={23} /* onClick={} */
+              size={23}
+              onClick={() => !isRepost && setOpenComments(!openComments)}
             />
 
             <p>
@@ -252,8 +254,19 @@ export default function Post({ post, shares, openModal }) {
           </a>
         </div>
       </PostBox>
+      <CommentsBox openComments={openComments}>
+        {comments.map(
+          comment =>
+            <Comment key={comment.comment_id}>
+              <img alt={`${comment.username}`} src={comment.user_picture_url} />
+              <p>
+                <span>{comment.user_name}</span> <span>{comment.author_post && " • post's author"}</span>
+                <br />
+                <span>{comment.comment}</span>
+              </p>
+            </Comment>
+        )}
+      </CommentsBox>
     </>
-
-
   );
 }

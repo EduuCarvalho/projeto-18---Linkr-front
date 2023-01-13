@@ -9,6 +9,7 @@ const PostBox = styled.div`
     display: flex;
     margin-top: 1.6rem;
     padding: 1.6rem 1.8rem 1.6rem 1.8rem;
+    position: relative;
     z-index: 1;
 
     .imageAndActivity{
@@ -222,6 +223,42 @@ export const UpdateArea = styled.textarea`
     color: #4c4c4c;
     box-sizing: border-box;
 `
+
+export const CommentsBox = styled.div`
+    background-color: #1e1e1e;
+    border-radius: 0 0 16px 16px;
+    display: ${({ openComments }) => openComments ? "" : "none"};
+    margin-top: -16px;
+    padding: 16px 2rem 0 2rem;
+`;
+
+export const Comment = styled.div`
+    align-items: center;
+    border-bottom: 1px solid #353535;
+    display: flex;
+    height: 75px;
+    line-heigth: 17px;
+
+    img {
+        border-radius: 100%;
+        height: 4rem;
+        margin: 0 2rem 0 1rem;
+        overflow: hidden;
+        width: 4rem;
+    }
+
+    span:nth-child(1) {
+        color: var(--white);
+    }
+
+    span:nth-child(2) {
+        color: #565656;
+    }
+
+    span {
+        color: #acacac;
+    }
+`;
 export const RepostInfo = styled.div`
     width: 100%;
     height: 55px;
