@@ -312,8 +312,8 @@ export const RepostInfo = styled.div`
 export const FollowButtonStyle = styled.button`
     width: 112px;
     height: 31px;
-    background-color: #1877F2;
-    color: #ffffff;
+    background-color: ${({isFollowing}) => isFollowing ? "#1877F2" : "#FFFFFF"};
+    color: ${({isFollowing}) => isFollowing ? "#FFFFFF" : "#1877F2"};
     position: absolute;
     top: 141px;
     right: 262px;
