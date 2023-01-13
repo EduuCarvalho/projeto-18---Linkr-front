@@ -13,6 +13,7 @@ import UIInfiniteScroll from "../../components/infiniteScroll/infiniteScroll";
 import LoadingSubtitle from "../../components/loading/loadingSubtitle";
 import { fetchMore } from "../../components/timeline/functions";
 import { FollowButtonStyle } from "../../components/posts/posts";
+import swal from "sweetalert";
 
 export default function UserPosts() {
   const { header, userInfo } = useContext(UserInfoContext);
@@ -26,6 +27,7 @@ export default function UserPosts() {
   const [username, setUserName] = useState(undefined);
   const [hashReposts, setHashReposts] = useState({});
   const [isFollowing, setIsFollowing] = useState(false);
+  const [loadingFollowRequest, setFollowLoading] = useState(false);
   const source = axios.CancelToken.source();
 
   function openModal(postId, modalType) {
@@ -38,16 +40,24 @@ export default function UserPosts() {
   }
 
   function followUser() {
+    setFollowLoading(true);
     axios
       .post(`${BASE_URL}/follow/${id}`, {}, header)
-      .then(() => setIsFollowing(true))
-      .catch((err) => console.log(err));
+      .then(() => {
+        setIsFollowing(true);
+        setFollowLoading(false);
+      })
+      .catch((err) => swal(err.response.data.message));
   }
 
   function unfollowUser() {
+    setFollowLoading(true);
     axios
       .delete(`${BASE_URL}/follow/${id}`, header)
-      .then(() => setIsFollowing(false))
+      .then(() => {
+        setIsFollowing(false);
+        setFollowLoading(false);
+      })
       .catch((err) => console.log(err));
   }
 
@@ -80,6 +90,7 @@ export default function UserPosts() {
         <FollowButtonStyle
           isFollowing={isFollowing}
           onClick={() => (isFollowing ? unfollowUser() : followUser())}
+          disabled={loadingFollowRequest}
         >
           {isFollowing ? "Unfollow" : "Follow"}
         </FollowButtonStyle>
