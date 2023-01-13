@@ -73,6 +73,9 @@ export const ResultSearchDiv = styled.div`
     p{
       cursor: pointer;
     }
+    span{
+      color: #c5c5c5;
+    }
   }
   @media (max-width: 700px) {
     min-width: 93.3vw;
