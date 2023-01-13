@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { UserInfoContext } from "../../contexts/userInfo";
 import Header from "../../components/Header/Header";
-import { DeleteModal } from "../../components/ModalDeletePost/ModalDeletePost";
+import { ActionModal } from "../../components/ActionModalPost/ActionModalPost";
 import Page from "../../components/timeline/page";
 import CreatePost from "./createPost";
 import Post from "./post";
@@ -30,8 +30,8 @@ export default function Home() {
     verifyRecentPosts(loaded, posts, setRecentPosts, URL, header, source);
   }, 15000);
 
-  function openModal(postId) {
-    setIsOpen(true);
+  function openModal(postId, modalType) {
+    setIsOpen(modalType);
     setClicked(postId);
   }
 
@@ -43,7 +43,7 @@ export default function Home() {
   return (
     <Page>
       <Header />
-      <DeleteModal setIsOpen={setIsOpen} postIdClicked={postIdClicked} modalIsOpen={modalIsOpen} />
+      <ActionModal setIsOpen={setIsOpen} postIdClicked={postIdClicked} modalIsOpen={modalIsOpen} />
       <main>
         <div id="timeline">
           <h1 id="title">timeline</h1>

@@ -7,7 +7,7 @@ import { TrendingBox } from "../../components/TrendingBox/TrendingBox";
 import Loading from "../../components/loading/loading";
 import { BASE_URL } from "../../constants/urls";
 import { useParams } from "react-router-dom";
-import { DeleteModal } from "../../components/ModalDeletePost/ModalDeletePost";
+import { ActionModal } from "../../components/ActionModalPost/ActionModalPost";
 import Page from "../../components/timeline/page";
 import UIInfiniteScroll from "../../components/infiniteScroll/infiniteScroll";
 import swal from "sweetalert";
@@ -27,8 +27,8 @@ export default function UserPosts() {
   const [hashReposts, setHashReposts] = useState({});
   const source = axios.CancelToken.source();
 
-  function openModal(postId) {
-    setIsOpen(true);
+  function openModal(postId, modalType) {
+    setIsOpen(modalType);
     setClicked(postId);
   }
 
@@ -60,7 +60,7 @@ export default function UserPosts() {
   return (
     <Page>
       <Header />
-      <DeleteModal setIsOpen={setIsOpen} postIdClicked={postIdClicked} reloadPosts={reloadPosts} modalIsOpen={modalIsOpen} />
+      <ActionModal setIsOpen={setIsOpen} postIdClicked={postIdClicked} reloadPosts={reloadPosts} modalIsOpen={modalIsOpen} />
       <main>
         <div id="timeline">
           <h1 id="title">{`${username}'s posts`}</h1>

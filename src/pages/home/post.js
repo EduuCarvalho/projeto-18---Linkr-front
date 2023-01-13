@@ -29,6 +29,7 @@ export default function Post({ post, shares, openModal }) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [description, setDescription] = useState(post.description);
+  const isRepost = who_shared_name !== null;
 
   useEffect(() => {
     getLikes(liked);
@@ -165,14 +166,14 @@ export default function Post({ post, shares, openModal }) {
                 color="white"
                 cursor={"pointer"}
                 size={23}
-                onClick={changeLike}
+                onClick={() => !isRepost && changeLike()}
               />
             ) : (
               <HiHeart
                 color="red"
                 cursor={"pointer"}
                 size={23}
-                onClick={changeLike}
+                onClick={() => !isRepost && changeLike()}
               />
             )}
 
@@ -196,7 +197,7 @@ export default function Post({ post, shares, openModal }) {
               {total_comments} comment{total_comments != 1 && "s"}
             </p>
 
-            <FaRetweet color="white" cursor={"pointer"} size={23} />
+            <FaRetweet color="white" cursor={"pointer"} size={23} onClick={() => !isRepost && openModal(postId, "repost")} />
             <p>
               {shares} re-post{shares > 1 && "s"}
             </p>
@@ -211,7 +212,7 @@ export default function Post({ post, shares, openModal }) {
                 alt="edit"
                 onClick={() => setUpdate(!updatePost)}
               />
-              <ion-icon name="trash-outline" onClick={() => openModal(postId)} />
+              <ion-icon name="trash-outline" onClick={() => openModal(postId, "delete")} />
             </div>
           ) : null}
 
