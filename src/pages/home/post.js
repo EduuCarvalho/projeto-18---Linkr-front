@@ -282,7 +282,7 @@ export default function Post({ post, shares, openModal }) {
             <Comment key={comment.comment_id}>
               <img alt={`${comment.username}`} src={comment.user_picture_url} />
               <p>
-                <span>{comment.user_name}</span> <span>{comment.author_post && " • post's author"}</span>
+                <span>{comment.user_name}</span> <span>{comment.author_post && " • post's author"} {comment.is_following && " • following"}</span>
                 <br />
                 <span>{comment.comment}</span>
               </p>
