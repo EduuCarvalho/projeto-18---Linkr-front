@@ -188,11 +188,6 @@ const PostBox = styled.div`
                 font-size: 15px;
             }
 
-            .description{
-                max-height: 3rem;
-                overflow-y: scroll;
-            }
-
             .editPost{
                 display: none;
             }
@@ -203,6 +198,7 @@ const PostBox = styled.div`
 
                 .linkInformations{
                     width: 65%;
+                    max-height: 100%;
                     word-break: break-all;
 
                     .linkDescription, .link{
@@ -235,15 +231,7 @@ export const CommentsBox = styled.div`
     border-radius: 0 0 16px 16px;
     display: ${({ openComments }) => openComments ? "" : "none"};
     margin-top: -16px;
-    padding: 16px 2rem 0 2rem;
-`;
-
-export const Comment = styled.div`
-    align-items: center;
-    border-bottom: 1px solid #353535;
-    display: flex;
-    height: 75px;
-    line-heigth: 17px;
+    padding: 16px 2rem 1rem 2rem;
 
     img {
         border-radius: 100%;
@@ -252,6 +240,14 @@ export const Comment = styled.div`
         overflow: hidden;
         width: 4rem;
     }
+`;
+
+export const Comment = styled.div`
+    align-items: center;
+    border-bottom: 1px solid #353535;
+    display: flex;
+    height: 75px;
+    line-heigth: 17px;
 
     span:nth-child(1) {
         color: var(--white);
@@ -265,6 +261,35 @@ export const Comment = styled.div`
         color: #acacac;
     }
 `;
+
+export const CommentInsert = styled.form`
+    align-items: center;
+    display: flex;
+    height: 75px;
+    position: relative;
+
+    button {
+        background: none;
+        border: none;
+        position: absolute;
+        right: 1.5rem;
+    }
+
+    input {
+        background-color: #252525;
+        border: none;
+        border-radius: 8px;
+        color: #575757;
+        font-family: inherit;
+        font-size: 14px;
+        font-style: italic;
+        height: 4rem;
+        letter-spacing: 0.05em;
+        padding: 0 1rem;
+        width: calc(100% - 7rem);
+    }
+`;
+
 export const RepostInfo = styled.div`
     width: 100%;
     height: 55px;
@@ -283,4 +308,20 @@ export const RepostInfo = styled.div`
         align-items: center;
         gap: 5px;
     }
+`
+
+export const FollowButtonStyle = styled.button`
+    width: 112px;
+    height: 31px;
+    background-color: ${({isFollowing}) => isFollowing ? "#1877F2" : "#FFFFFF"};
+    color: ${({isFollowing}) => isFollowing ? "#FFFFFF" : "#1877F2"};
+    position: absolute;
+    top: 141px;
+    right: 262px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+;
 `

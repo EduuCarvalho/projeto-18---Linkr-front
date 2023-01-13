@@ -26,6 +26,7 @@ export default function HashtagPage() {
     const [postIdClicked, setClicked] = useState(null);
     const [posts, setPosts] = useState([]);
     const [switchReload, setReload] = useState(false);
+    const [hashReposts] = useState({});
     const source = axios.CancelToken.source();
 
     function openModal(postId, modalType) {
@@ -46,7 +47,7 @@ export default function HashtagPage() {
             })
             .catch(err => {
                 alert('An error occured while trying to fetch the posts, please refresh the page');
-                console.log(err.response.data.message);
+                console.log(err.response.data.message || err.response.data);
             });
     }, [header, hashtag, switchReload, posts]);
 
@@ -70,7 +71,7 @@ export default function HashtagPage() {
 
                     {posts.map((item, index) => (
                         <>
-                            <Post post={item} openModal={openModal} reloadPosts={reloadPosts} key={item.id} />
+                            <Post post={item} shares={hashReposts[item.id] ?? 0} openModal={openModal} reloadPosts={reloadPosts} key={item.id} isHome={false} />
 
                             {index === posts.length - 1 &&  index >= 10 && (
                                 <UIInfiniteScroll fetchMore={callFetchMore} />

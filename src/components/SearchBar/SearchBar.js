@@ -48,7 +48,7 @@ export default function SearchBar() {
             }}
           >
             <img src={user.picture_url} alt="avatar" />
-            <p>{user.name}</p>
+            <p>{user.name} {user.is_following && <span> • following</span>}</p>
           </div>
         ))}
       </ResultSearchDiv>

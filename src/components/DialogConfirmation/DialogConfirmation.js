@@ -27,6 +27,7 @@ export default function DialogConfirmation({
   }
 
   function requestError(err) {
+    swal(err.response.data.message);
     setLoading(false);
     setIsOpen(false);
     console.log(err);

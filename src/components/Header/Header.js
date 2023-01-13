@@ -18,10 +18,17 @@ export default function Header() {
     localStorage.removeItem("picture_url ");
     localStorage.removeItem("user_id");
     navigate("/");
+    window.location.reload();
   }
+
+  function logoClick() {
+    navigate("/home");
+    window.location.reload();
+  }
+
   return (
     <HeaderStyle>
-      <h1 onClick={() => navigate("/home")}>linkr</h1>
+      <h1 onClick={logoClick}>linkr</h1>
       <SearchBar />
       <ProfileStyle>
         <ion-icon

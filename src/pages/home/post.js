@@ -1,8 +1,9 @@
-import PostBox, { Comment, CommentsBox, RepostInfo, UpdateArea } from "../../components/posts/posts";
+import PostBox, { Comment, CommentInsert, CommentsBox, RepostInfo, UpdateArea } from "../../components/posts/posts";
 import { HiHeart } from "react-icons/hi2";
 import { BiHeart } from "react-icons/bi";
 import { AiOutlineComment } from "react-icons/ai";
 import { FaRetweet } from "react-icons/fa";
+import { IoPaperPlaneOutline } from "react-icons/io5";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { UserInfoContext } from "../../contexts/userInfo";
@@ -17,8 +18,8 @@ import imageNotFound from "../../assets/images/imageNotFound.webp"
 import { postsContext } from "../../contexts/postsContext";
 import { getTrendings } from "../../components/timeline/functions";
 
-export default function Post({ post, shares, openModal }) {
-  const { id: postId, ownerId, name: userName, picture_url: userImg, linkTitle, linkDescription, linkImg, url: link, likes, total_comments, comments, who_shared_name } = post;
+export default function Post({ post, shares, openModal, isHome }) {
+  const { id: postId, ownerId, name: userName, picture_url: userImg, linkTitle, linkDescription, linkImg, url: link, likes, who_shared_name } = post;
   const { header, userInfo } = useContext(UserInfoContext);
   const { setTrending } = useContext(postsContext);
   const URL = `${BASE_URL}/like`;
@@ -31,10 +32,20 @@ export default function Post({ post, shares, openModal }) {
   const navigate = useNavigate();
   const [description, setDescription] = useState(post.description);
   const isRepost = who_shared_name !== null;
+  const [newComment, setNewComment] = useState("");
+  const [postComments, setPostComments] = useState([]);
+  const [reloadComments, setReloadComments] = useState(false);
 
   useEffect(() => {
     getLikes(liked);
   }, [liked]);
+
+  useEffect(() => {
+    axios
+      .get(`${BASE_URL}/comments/${postId}`, header)
+      .then((res) => setPostComments(res.data))
+      .catch(err => console.log(err));
+  }, [reloadComments, header, postId]);
 
   function getLikes(liked) {
     const likesArr = [];
@@ -144,13 +155,24 @@ export default function Post({ post, shares, openModal }) {
     }
   }
 
+  function handleComment(e) {
+    e.preventDefault();
+
+    axios
+      .post(`${BASE_URL}/comment`, { post_id: postId, user_id: Number(userInfo.userId), comment: newComment }, header)
+      .then(() => {
+        setNewComment("");
+        setReloadComments(!reloadComments);
+      })
+      .catch(err => console.log(err));
+  }
   return (
     <>
       {who_shared_name && (
         <RepostInfo>
           <div>
             <FaRetweet color="white" cursor={"pointer"} size={23} />
-            <p>Re-posted by <strong>{who_shared_name === userName ? "you" : who_shared_name}</strong></p>
+            <p>Re-posted by <strong>{who_shared_name === userInfo.name ? "you" : who_shared_name}</strong></p>
           </div>
         </RepostInfo>
       )}
@@ -167,14 +189,14 @@ export default function Post({ post, shares, openModal }) {
                 color="white"
                 cursor={"pointer"}
                 size={23}
-                onClick={() => !isRepost && changeLike()}
+                onClick={() => (!isRepost & isHome) && changeLike()}
               />
             ) : (
               <HiHeart
                 color="red"
                 cursor={"pointer"}
                 size={23}
-                onClick={() => !isRepost && changeLike()}
+                onClick={() => (!isRepost & isHome) && changeLike()}
               />
             )}
 
@@ -192,14 +214,14 @@ export default function Post({ post, shares, openModal }) {
               color="white"
               cursor={"pointer"}
               size={23}
-              onClick={() => !isRepost && setOpenComments(!openComments)}
+              onClick={() => (!isRepost & isHome) && setOpenComments(!openComments)}
             />
 
             <p>
-              {total_comments} comment{total_comments != 1 && "s"}
+              {postComments.length} comment{postComments.length != 1 && "s"}
             </p>
 
-            <FaRetweet color="white" cursor={"pointer"} size={23} onClick={() => !isRepost && openModal(postId, "repost")} />
+            <FaRetweet color="white" cursor={"pointer"} size={23} onClick={() => (!isRepost & isHome) && openModal(postId, "repost")} />
             <p>
               {shares} re-post{shares > 1 && "s"}
             </p>
@@ -255,17 +277,30 @@ export default function Post({ post, shares, openModal }) {
         </div>
       </PostBox>
       <CommentsBox openComments={openComments}>
-        {comments.map(
+        {postComments.map(
           comment =>
             <Comment key={comment.comment_id}>
               <img alt={`${comment.username}`} src={comment.user_picture_url} />
               <p>
-                <span>{comment.user_name}</span> <span>{comment.author_post && " • post's author"}</span>
+                <span>{comment.user_name}</span> <span>{comment.author_post && " • post's author"} {comment.is_following && " • following"}</span>
                 <br />
                 <span>{comment.comment}</span>
               </p>
             </Comment>
         )}
+        <CommentInsert onSubmit={handleComment}>
+          <img alt="userImage" src={userInfo.picture_url} />
+          <input
+            onChange={e => setNewComment(e.target.value)}
+            placeholder="write a comment..."
+            required
+            type="text"
+            value={newComment}
+          />
+          <button>
+            <IoPaperPlaneOutline color="white" cursor={"pointer"} size={16} />
+          </button>
+        </CommentInsert>
       </CommentsBox>
     </>
   );
