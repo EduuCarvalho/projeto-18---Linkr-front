@@ -188,6 +188,11 @@ const PostBox = styled.div`
                 font-size: 15px;
             }
 
+            .description{
+                max-height: 3rem;
+                overflow-y: scroll;
+            }
+
             .editPost{
                 display: none;
             }
