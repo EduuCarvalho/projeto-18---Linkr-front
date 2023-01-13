@@ -308,3 +308,19 @@ export const RepostInfo = styled.div`
         gap: 5px;
     }
 `
+
+export const FollowButtonStyle = styled.button`
+    width: 112px;
+    height: 31px;
+    background-color: #1877F2;
+    color: #ffffff;
+    position: absolute;
+    top: 141px;
+    right: 262px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+;
+`

@@ -13,6 +13,7 @@ import UIInfiniteScroll from "../../components/infiniteScroll/infiniteScroll";
 import swal from "sweetalert";
 import LoadingSubtitle from "../../components/loading/loadingSubtitle";
 import { fetchMore } from "../../components/timeline/functions";
+import { FollowButtonStyle } from "../../components/posts/posts";
 
 export default function UserPosts() {
   const { header } = useContext(UserInfoContext);
@@ -60,6 +61,7 @@ export default function UserPosts() {
   return (
     <Page>
       <Header />
+      <FollowButtonStyle>Follow</FollowButtonStyle>
       <ActionModal setIsOpen={setIsOpen} postIdClicked={postIdClicked} reloadPosts={reloadPosts} modalIsOpen={modalIsOpen} />
       <main>
         <div id="timeline">
