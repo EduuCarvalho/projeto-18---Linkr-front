@@ -19,7 +19,7 @@ import { postsContext } from "../../contexts/postsContext";
 import { getTrendings } from "../../components/timeline/functions";
 
 export default function Post({ post, shares, openModal }) {
-  const { id: postId, ownerId, name: userName, picture_url: userImg, linkTitle, linkDescription, linkImg, url: link, likes, total_comments, comments, who_shared_name } = post;
+  const { id: postId, ownerId, name: userName, picture_url: userImg, linkTitle, linkDescription, linkImg, url: link, likes, who_shared_name } = post;
   const { header, userInfo } = useContext(UserInfoContext);
   const { setTrending } = useContext(postsContext);
   const URL = `${BASE_URL}/like`;
@@ -33,10 +33,19 @@ export default function Post({ post, shares, openModal }) {
   const [description, setDescription] = useState(post.description);
   const isRepost = who_shared_name !== null;
   const [newComment, setNewComment] = useState("");
+  const [postComments, setPostComments] = useState([]);
+  const [reloadComments, setReloadComments] = useState(false);
 
   useEffect(() => {
     getLikes(liked);
   }, [liked]);
+
+  useEffect(() => {
+    axios
+      .get(`${BASE_URL}/comments/${postId}`, header)
+      .then((res) => setPostComments(res.data))
+      .catch(err => console.log(err));
+  }, [reloadComments, header, postId]);
 
   function getLikes(liked) {
     const likesArr = [];
@@ -151,7 +160,10 @@ export default function Post({ post, shares, openModal }) {
 
     axios
       .post(`${BASE_URL}/comment`, { post_id: postId, user_id: Number(userInfo.userId), comment: newComment }, header)
-      .then(() => setNewComment(""))
+      .then(() => {
+        setNewComment("");
+        setReloadComments(!reloadComments);
+      })
       .catch(err => console.log(err));
   }
   return (
@@ -206,7 +218,7 @@ export default function Post({ post, shares, openModal }) {
             />
 
             <p>
-              {total_comments} comment{total_comments != 1 && "s"}
+              {postComments.length} comment{postComments.length != 1 && "s"}
             </p>
 
             <FaRetweet color="white" cursor={"pointer"} size={23} onClick={() => !isRepost && openModal(postId, "repost")} />
@@ -265,12 +277,12 @@ export default function Post({ post, shares, openModal }) {
         </div>
       </PostBox>
       <CommentsBox openComments={openComments}>
-        {comments.map(
+        {postComments.map(
           comment =>
             <Comment key={comment.comment_id}>
               <img alt={`${comment.username}`} src={comment.user_picture_url} />
               <p>
-                <span>{comment.user_name}</span> <span>{comment.author_post && " • post's author"}</span>
+                <span>{comment.user_name}</span> <span>{comment.author_post && " • post's author"} {comment.is_following && " • following"}</span>
                 <br />
                 <span>{comment.comment}</span>
               </p>
