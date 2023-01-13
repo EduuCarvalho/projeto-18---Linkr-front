@@ -18,6 +18,7 @@ export default function Header() {
     localStorage.removeItem("picture_url ");
     localStorage.removeItem("user_id");
     navigate("/");
+    window.location.reload();
   }
   return (
     <HeaderStyle>
