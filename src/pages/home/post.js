@@ -168,7 +168,7 @@ export default function Post({ post, shares, openModal, isHome }) {
   }
   return (
     <>
-      {who_shared_name && (
+      {(who_shared_name && isHome) && (
         <RepostInfo>
           <div>
             <FaRetweet color="white" cursor={"pointer"} size={23} />
@@ -189,14 +189,14 @@ export default function Post({ post, shares, openModal, isHome }) {
                 color="white"
                 cursor={"pointer"}
                 size={23}
-                onClick={() => (!isRepost & isHome) && changeLike()}
+                onClick={() => (!isRepost || !isHome) && changeLike()}
               />
             ) : (
               <HiHeart
                 color="red"
                 cursor={"pointer"}
                 size={23}
-                onClick={() => (!isRepost & isHome) && changeLike()}
+                onClick={() => (!isRepost || !isHome) && changeLike()}
               />
             )}
 
@@ -214,14 +214,14 @@ export default function Post({ post, shares, openModal, isHome }) {
               color="white"
               cursor={"pointer"}
               size={23}
-              onClick={() => (!isRepost & isHome) && setOpenComments(!openComments)}
+              onClick={() => (!isRepost || !isHome) && setOpenComments(!openComments)}
             />
 
             <p>
               {postComments.length} comment{postComments.length != 1 && "s"}
             </p>
 
-            <FaRetweet color="white" cursor={"pointer"} size={23} onClick={() => (!isRepost & isHome) && openModal(postId, "repost")} />
+            <FaRetweet color="white" cursor={"pointer"} size={23} onClick={() => (!isRepost || !isHome) && openModal(postId, "repost")} />
             <p>
               {shares} re-post{shares > 1 && "s"}
             </p>
