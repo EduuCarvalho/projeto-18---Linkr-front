@@ -45,7 +45,7 @@ export async function reloadPosts(recentPosts = false, setLoadPostsPhrase, setRe
   await axios.get(URL, header, { cancelToken: source.token })
     .then((response) => {
       setPosts([...response.data.posts]);
-      setHashReposts({ ...response.data.sharesHash });
+      setHashReposts && setHashReposts({ ...response.data.sharesHash });
       setLoaded(true);
       setLoadPostsPhrase('new posts, load more!');
       setRecentPosts(0);
