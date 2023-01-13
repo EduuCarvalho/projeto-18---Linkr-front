@@ -20,9 +20,15 @@ export default function Header() {
     navigate("/");
     window.location.reload();
   }
+
+  function logoClick() {
+    navigate("/home");
+    window.location.reload();
+  }
+
   return (
     <HeaderStyle>
-      <h1 onClick={() => navigate("/home")}>linkr</h1>
+      <h1 onClick={logoClick}>linkr</h1>
       <SearchBar />
       <ProfileStyle>
         <ion-icon
