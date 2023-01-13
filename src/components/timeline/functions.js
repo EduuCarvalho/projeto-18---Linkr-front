@@ -2,13 +2,14 @@ import axios from "axios";
 import swal from "sweetalert";
 import { BASE_URL } from "../../constants/urls";
 
-export async function fetchMore(setLoaded, posts, setPosts, URL, header, source) {
+export async function fetchMore(setLoaded, posts, setPosts, URL, header, source, setFollowingCount) {
   setLoaded(false);
   const ref = posts[posts.length - 1].id;
 
   await axios.get(`${URL}?ref=${ref}`, header, { cancelToken: source.token })
     .then((response) => {
       if (response.data !== 'limit rechead') {
+        setFollowingCount(response.data.followingCount)
         setPosts([...posts, ...response.data.posts]);
       } else {
         swal('Limite atingido');
@@ -38,12 +39,13 @@ export function verifyRecentPosts(loaded, posts, setRecentPosts, URL, header, so
   }
 }
 
-export async function reloadPosts(recentPosts = false, setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded, URL, header, source, setHashReposts) {
+export async function reloadPosts(recentPosts = false, setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded, URL, header, source, setHashReposts, setFollowingCount) {
   setLoadPostsPhrase('Loading...');
   if (recentPosts) setRecentPosts(0.5);
 
   await axios.get(URL, header, { cancelToken: source.token })
     .then((response) => {
+      setFollowingCount(response.data.followingCount)
       setPosts([...response.data.posts]);
       setHashReposts && setHashReposts({ ...response.data.sharesHash });
       setLoaded(true);

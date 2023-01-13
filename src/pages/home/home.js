@@ -16,13 +16,13 @@ import { postsContext } from "../../contexts/postsContext";
 
 export default function Home() {
   const { header } = useContext(UserInfoContext);
-  const { posts, setPosts, loaded, setLoaded, recentPosts, setRecentPosts, loadPostsPhrase, setLoadPostsPhrase, URL, source, hashReposts, setHashReposts } = useContext(postsContext);
+  const { posts, setPosts, loaded, setLoaded, recentPosts, setRecentPosts, loadPostsPhrase, setLoadPostsPhrase, URL, source, hashReposts, setHashReposts, followingCount, setFollowingCount } = useContext(postsContext);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [postIdClicked, setClicked] = useState(null);
 
   useEffect(() => {
     if (recentPosts > 0 || recentPosts === null) {
-      reloadPosts(false, setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded,  URL, header, source, setHashReposts);
+      reloadPosts(false, setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded,  URL, header, source, setHashReposts, setFollowingCount);
     }
   }, []);
 
@@ -37,7 +37,7 @@ export default function Home() {
 
 
   async function callFetchMore() {
-    fetchMore(setLoaded, posts, setPosts, URL, header, source);
+    fetchMore(setLoaded, posts, setPosts, URL, header, source, setFollowingCount);
   }
 
   return (
@@ -67,7 +67,9 @@ export default function Home() {
             </>
           ))}
 
-          {loaded && posts.length === 0 && <h1 id="noPosts">There are no posts yet</h1>}
+          {
+            loaded && posts.length === 0 && (followingCount > 0 ? <h1 id="noPosts">No posts found from your friends</h1> : <h1 id="noPosts">You don't follow anyone yet. Search for new friends!</h1>)
+          }
 
           {!loaded &&
             (<>

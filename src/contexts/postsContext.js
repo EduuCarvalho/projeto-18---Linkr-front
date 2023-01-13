@@ -13,9 +13,10 @@ function PostsProvider({ children }) {
     const source = axios.CancelToken.source();
     const URL = `${BASE_URL}/timeline`;
     const [trending, setTrending] = useState(undefined);
+    const [followingCount, setFollowingCount] = useState(undefined);
 
     return (
-        <postsContext.Provider value={{ posts, setPosts, loaded, setLoaded, recentPosts, setRecentPosts, loadPostsPhrase, setLoadPostsPhrase, URL, source, hashReposts, setHashReposts, trending, setTrending }}>
+        <postsContext.Provider value={{ posts, setPosts, loaded, setLoaded, recentPosts, setRecentPosts, loadPostsPhrase, setLoadPostsPhrase, URL, source, hashReposts, setHashReposts, trending, setTrending, followingCount, setFollowingCount }}>
             {children}
         </postsContext.Provider>
     );
