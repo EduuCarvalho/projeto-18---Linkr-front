@@ -16,30 +16,14 @@ export default function DialogConfirmation({
 }) {
   const [isLoading, setLoading] = useState(false);
   const { header } = useContext(UserInfoContext);
-  const {
-    setLoadPostsPhrase,
-    setRecentPosts,
-    setPosts,
-    setLoaded,
-    URL,
-    source,
-  } = useContext(postsContext);
+  const { setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded, URL, source } = useContext(postsContext);
   const itsDelete = typeModal === "delete";
 
   function successfulRequest(response) {
     swal(response.data.message);
     setIsOpen(false);
     setLoading(false);
-    reloadPosts(
-      false,
-      setLoadPostsPhrase,
-      setRecentPosts,
-      setPosts,
-      setLoaded,
-      URL,
-      header,
-      source
-    );
+    reloadPosts( false, setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded, URL, header, source );
   }
 
   function requestError(err) {

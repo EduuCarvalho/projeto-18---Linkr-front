@@ -16,7 +16,6 @@ import axios from "axios";
 import styled from "styled-components";
 import LoadingSubtitle from "../../components/loading/loadingSubtitle.js";
 import UIInfiniteScroll from "../../components/infiniteScroll/infiniteScroll.js";
-import swal from "sweetalert";
 import { fetchMore } from "../../components/timeline/functions.js";
 
 export default function HashtagPage() {
@@ -29,9 +28,10 @@ export default function HashtagPage() {
     const [switchReload, setReload] = useState(false);
     const source = axios.CancelToken.source();
 
-    function openModal(postId) {
-        setIsOpen(true);
+    function openModal(postId, modalType) {
+        setIsOpen(modalType);
         setClicked(postId);
+
     }
 
     function reloadPosts() {
@@ -48,11 +48,11 @@ export default function HashtagPage() {
                 alert('An error occured while trying to fetch the posts, please refresh the page');
                 console.log(err.response.data.message);
             });
-    }, [header, hashtag, switchReload]);
+    }, [header, hashtag, switchReload, posts]);
 
-    async function callFetchMore(){
+    async function callFetchMore() {
         fetchMore(setLoaded, posts, setPosts, URL = `${BASE_URL}/hashtag/${hashtag}`, header, source);
-      }
+    }
 
     return (
         <HashtagPageContainer>
@@ -72,7 +72,7 @@ export default function HashtagPage() {
                         <>
                             <Post post={item} openModal={openModal} reloadPosts={reloadPosts} key={item.id} />
 
-                            {index === posts.length - 1 && (
+                            {index === posts.length - 1 &&  index >= 10 && (
                                 <UIInfiniteScroll fetchMore={callFetchMore} />
                             )}
                         </>
