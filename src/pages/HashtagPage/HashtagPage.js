@@ -5,7 +5,7 @@ import { UserInfoContext } from "../../contexts/userInfo";
 
 import Header from "../../components/Header/Header";
 import Loading from "../../components/loading/loading";
-import { DeleteModal } from "../../components/ModalDeletePost/ModalDeletePost";
+import { ActionModal } from "../../components/ActionModalPost/ActionModalPost.js";
 import { TrendingBox } from "../../components/TrendingBox/TrendingBox";
 
 import Post from "../home/post";
@@ -58,7 +58,7 @@ export default function HashtagPage() {
         <HashtagPageContainer>
             <Header />
 
-            <DeleteModal
+            <ActionModal
                 setIsOpen={setIsOpen}
                 postIdClicked={postIdClicked}
                 modalIsOpen={modalIsOpen}
