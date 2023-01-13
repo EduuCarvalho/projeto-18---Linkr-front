@@ -9,35 +9,70 @@ import axios from "axios";
 import { reloadPosts } from "../timeline/functions";
 import { postsContext } from "../../contexts/postsContext";
 
-export default function DeleteConfirmation({ setIsOpen, postIdClicked }) {
+export default function DialogConfirmation({
+  setIsOpen,
+  postIdClicked,
+  typeModal,
+}) {
   const [isLoading, setLoading] = useState(false);
   const { header } = useContext(UserInfoContext);
-  const {setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded, URL, source} = useContext(postsContext);
+  const {
+    setLoadPostsPhrase,
+    setRecentPosts,
+    setPosts,
+    setLoaded,
+    URL,
+    source,
+  } = useContext(postsContext);
+  const itsDelete = typeModal === "delete";
+
+  function successfulRequest(response) {
+    swal(response.data.message);
+    setIsOpen(false);
+    setLoading(false);
+    reloadPosts(
+      false,
+      setLoadPostsPhrase,
+      setRecentPosts,
+      setPosts,
+      setLoaded,
+      URL,
+      header,
+      source
+    );
+  }
+
+  function requestError(err) {
+    setLoading(false);
+    setIsOpen(false);
+    console.log(err);
+  }
+
   function deletePost() {
     setLoading(true);
     axios
       .delete(`${BASE_URL}/timeline/${postIdClicked}`, header)
-      .then((response) => {
-        swal(response.data.message);
-        setIsOpen(false);
-        setLoading(false);
-        reloadPosts(false, setLoadPostsPhrase, setRecentPosts, setPosts, setLoaded,  URL, header, source);
-      })
-      .catch((err) => {
-        setLoading(false);
-        setIsOpen(false);
-        swal(err.response.data.message);
-      });
+      .then(successfulRequest)
+      .catch(requestError);
   }
-  if(isLoading){
-    return <LoadingData />
+
+  function sharePost() {
+    setLoading(true);
+    axios
+      .post(`${BASE_URL}/share/${postIdClicked}`, {}, header)
+      .then(successfulRequest)
+      .catch(requestError);
+  }
+
+  if (isLoading) {
+    return <LoadingData />;
   }
   return (
     <ConfirmationContainer>
       <p>
-        Are you sure you want
+        {itsDelete ? "Are you sure you want" : "Do you want to re-post"}
         <br />
-        to delete this post?
+        {itsDelete ? "to delete this post?" : "this link?"}
       </p>
       <div>
         <ButtonStyle
@@ -45,14 +80,14 @@ export default function DeleteConfirmation({ setIsOpen, postIdClicked }) {
           background="#ffffff"
           onClick={() => setIsOpen(false)}
         >
-          No, go back
+          {itsDelete ? "No, go back" : "No, cancel"}
         </ButtonStyle>
         <ButtonStyle
           color="#ffffff"
           background="#1877f2"
-          onClick={deletePost}
+          onClick={() => (itsDelete ? deletePost() : sharePost())}
         >
-          Yes, delete it
+          {itsDelete ? "Yes, delete it" : "Yes, share!"}
         </ButtonStyle>
       </div>
     </ConfirmationContainer>

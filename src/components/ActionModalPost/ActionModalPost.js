@@ -1,5 +1,5 @@
 import Modal from "react-modal";
-import DeleteConfirmation from "../DeleteConfirmation/DeleteConfirmation";
+import DialogConfirmation from "../DialogConfirmation/DialogConfirmation";
 Modal.setAppElement("#root");
 
 const customStyles = {
@@ -13,24 +13,28 @@ const customStyles = {
     border: "none",
     transform: "translate(-50%, -50%)",
   },
+  overlay: {zIndex: 1000}
 };
 
-export function DeleteModal({
+export function ActionModal({
   setIsOpen,
   postIdClicked,
-  modalIsOpen,
+  modalIsOpen
 }) {
   return (
     <Modal
-      isOpen={modalIsOpen}
+      isOpen={modalIsOpen === "delete" || modalIsOpen === "repost"}
       onRequestClose={() => setIsOpen(false)}
       style={customStyles}
       contentLabel="Example Modal"
     >
-      <DeleteConfirmation
+      <DialogConfirmation
         setIsOpen={setIsOpen}
-        postIdClicked={postIdClicked}Z
+        postIdClicked={postIdClicked}
+        typeModal={modalIsOpen}
       />
     </Modal>
   );
 }
+
+
