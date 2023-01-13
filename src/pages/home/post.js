@@ -154,14 +154,13 @@ export default function Post({ post, shares, openModal }) {
       .then(() => setNewComment(""))
       .catch(err => console.log(err));
   }
-
   return (
     <>
       {who_shared_name && (
         <RepostInfo>
           <div>
             <FaRetweet color="white" cursor={"pointer"} size={23} />
-            <p>Re-posted by <strong>{who_shared_name === userName ? "you" : who_shared_name}</strong></p>
+            <p>Re-posted by <strong>{who_shared_name === userInfo.name ? "you" : who_shared_name}</strong></p>
           </div>
         </RepostInfo>
       )}
