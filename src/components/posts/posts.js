@@ -198,6 +198,7 @@ const PostBox = styled.div`
 
                 .linkInformations{
                     width: 65%;
+                    max-height: 100%;
                     word-break: break-all;
 
                     .linkDescription, .link{
