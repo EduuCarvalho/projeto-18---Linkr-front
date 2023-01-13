@@ -71,7 +71,7 @@ export default function HashtagPage() {
 
                     {posts.map((item, index) => (
                         <>
-                            <Post post={item} shares={hashReposts[item.id] ?? 0} openModal={openModal} reloadPosts={reloadPosts} key={item.id} />
+                            <Post post={item} shares={hashReposts[item.id] ?? 0} openModal={openModal} reloadPosts={reloadPosts} key={item.id} isHome={false} />
 
                             {index === posts.length - 1 &&  index >= 10 && (
                                 <UIInfiniteScroll fetchMore={callFetchMore} />

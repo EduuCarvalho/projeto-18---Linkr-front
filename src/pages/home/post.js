@@ -18,7 +18,7 @@ import imageNotFound from "../../assets/images/imageNotFound.webp"
 import { postsContext } from "../../contexts/postsContext";
 import { getTrendings } from "../../components/timeline/functions";
 
-export default function Post({ post, shares, openModal }) {
+export default function Post({ post, shares, openModal, isHome }) {
   const { id: postId, ownerId, name: userName, picture_url: userImg, linkTitle, linkDescription, linkImg, url: link, likes, who_shared_name } = post;
   const { header, userInfo } = useContext(UserInfoContext);
   const { setTrending } = useContext(postsContext);
@@ -189,14 +189,14 @@ export default function Post({ post, shares, openModal }) {
                 color="white"
                 cursor={"pointer"}
                 size={23}
-                onClick={() => !isRepost && changeLike()}
+                onClick={() => (!isRepost & isHome) && changeLike()}
               />
             ) : (
               <HiHeart
                 color="red"
                 cursor={"pointer"}
                 size={23}
-                onClick={() => !isRepost && changeLike()}
+                onClick={() => (!isRepost & isHome) && changeLike()}
               />
             )}
 
@@ -214,14 +214,14 @@ export default function Post({ post, shares, openModal }) {
               color="white"
               cursor={"pointer"}
               size={23}
-              onClick={() => !isRepost && setOpenComments(!openComments)}
+              onClick={() => (!isRepost & isHome) && setOpenComments(!openComments)}
             />
 
             <p>
               {postComments.length} comment{postComments.length != 1 && "s"}
             </p>
 
-            <FaRetweet color="white" cursor={"pointer"} size={23} onClick={() => !isRepost && openModal(postId, "repost")} />
+            <FaRetweet color="white" cursor={"pointer"} size={23} onClick={() => (!isRepost & isHome) && openModal(postId, "repost")} />
             <p>
               {shares} re-post{shares > 1 && "s"}
             </p>

@@ -59,7 +59,7 @@ export default function Home() {
 
           {posts.map((item, index) => (
             <>
-              <Post post={item} shares={hashReposts[item.id]} openModal={openModal} key={index} />
+              <Post post={item} shares={hashReposts[item.id]} openModal={openModal} key={index} isHome={true} />
 
               {index === posts.length - 1 && (
                 <UIInfiniteScroll fetchMore={callFetchMore} />

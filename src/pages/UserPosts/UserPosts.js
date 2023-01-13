@@ -112,6 +112,7 @@ export default function UserPosts() {
                 shares={hashReposts[item.id] ?? 0}
                 openModal={openModal}
                 reloadPosts={reloadPosts}
+                isHome={false}
                 key={item.id}
               />
 
